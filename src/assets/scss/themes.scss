@@ -1,0 +1,13 @@
+$themes: (
+  light: (
+    img-processor-bg-content: #fff,
+    img-processor-bg-controls: blue
+  ),
+  dark: (
+    img-processor-bg-content: #272a30,
+    img-processor-bg-controls: #313439
+  )
+);
+
+$img-processor-bg-content: 'img-processor-bg-content';
+$img-processor-bg-controls: 'img-processor-bg-controls';
