@@ -1,13 +1,16 @@
 $themes: (
   light: (
+    text-color: #000,
     img-processor-bg-content: #fff,
-    img-processor-bg-controls: blue
+    img-processor-bg-controls: #f3f4f8
   ),
   dark: (
+    text-color: #fff,
     img-processor-bg-content: #272a30,
     img-processor-bg-controls: #313439
   )
 );
 
+$text-color: 'text-color';
 $img-processor-bg-content: 'img-processor-bg-content';
 $img-processor-bg-controls: 'img-processor-bg-controls';
