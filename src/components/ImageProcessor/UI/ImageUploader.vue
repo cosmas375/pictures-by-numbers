@@ -6,7 +6,7 @@
     :on-change="onChange"
     class="image-uploader"
   >
-    <i class="image-uploader__icon el-icon-upload"></i>
+    <UIIcon icon="el-icon-upload" class="image-uploader__icon" />
     <div class="image-uploader__text">
       {{ $t('image_processor.file_upload.text') }}
     </div>

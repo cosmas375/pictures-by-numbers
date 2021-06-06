@@ -60,6 +60,6 @@ html {
 .app {
   width: 100vw;
   height: 100vh;
-  min-width: 32rem;
+  min-width: 36rem;
 }
 </style>

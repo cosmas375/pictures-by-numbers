@@ -1,22 +1,30 @@
 <template>
   <div class="image-processor">
-    <div class="image-processor__content">
+    <div class="image-processor__block image-processor__block_content">
       <div
         class="image-processor__content-row image-processor__content-row_logo"
       >
         <Logo />
       </div>
-      <div class="image-processor__content-row">
-        <canvas ref="canvas" class="image-processor__canvas"></canvas>
+      <div
+        class="image-processor__content-row image-processor__content-row_preview"
+      >
+        <ResultPreview :image="sourceImg" @done="setProcessingDone(true)" />
+      </div>
+      <div
+        v-if="isProcessingDone"
+        class="image-processor__content-row image-processor__content-row_reset"
+      >
+        <UIIcon
+          icon="el-icon-close"
+          class="image-processor__reset-btn"
+          @click="resetImage"
+        />
       </div>
     </div>
-    <div class="image-processor__controls">
+    <div class="image-processor__block image-processor__block_controls">
       <div class="image-processor__top-controls">
-        <div
-          class="image-processor__controls-row image-processor__controls-row_upload"
-        >
-          <ImageUploader @file-ready="onFileReady" />
-        </div>
+        <ImageUploader @file-ready="onFileReady" />
       </div>
       <div class="image-processor__bottom-controls">
         <LangSelect
@@ -40,6 +48,7 @@ import Logo from '@/components/common/Logo';
 import LangSelect from '@/components/common/LangSelect';
 import ThemeSwitch from '@/components/common/ThemeSwitch';
 import ImageUploader from '@/components/ImageProcessor/UI/ImageUploader';
+import ResultPreview from '@/components/ImageProcessor/UI/ResultPreview';
 
 export default {
   name: 'ImageProcessor',
@@ -52,20 +61,30 @@ export default {
     'set-lang': null,
     'switch-theme': null
   },
+  data() {
+    return {
+      sourceImg: null,
+      isProcessingDone: false
+    };
+  },
   methods: {
     onFileReady(img) {
-      const canvas = this.$refs.canvas;
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
+      this.sourceImg = img;
+      this.setProcessingDone(false);
+    },
+    setProcessingDone(value) {
+      this.isProcessingDone = value;
+    },
+    resetImage() {
+      this.sourceImg = null;
     }
   },
   components: {
     Logo,
     LangSelect,
     ThemeSwitch,
-    ImageUploader
+    ImageUploader,
+    ResultPreview
   }
 };
 </script>
@@ -79,11 +98,30 @@ export default {
   display: flex;
   position: relative;
 
-  &__content {
-    flex: 2;
-    padding: 3rem 5%;
-    @include themed() {
-      background: t($img-processor-bg-content);
+  &__block {
+    box-sizing: border-box;
+    height: 100%;
+    position: relative;
+
+    &_content {
+      flex: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 3rem 5% 12rem;
+      @include themed() {
+        background: t($img-processor-bg-content);
+      }
+    }
+
+    &_controls {
+      flex: 1;
+      padding: 12rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      @include themed() {
+        background: t($img-processor-bg-controls);
+      }
     }
   }
 
@@ -91,28 +129,24 @@ export default {
     &_logo {
       margin-bottom: 3.5rem;
     }
-  }
 
-  &__canvas {
-    width: 100%;
-    height: 100%;
-    @include themed() {
-      background-color: t($canvas-bg);
+    &_preview {
+      flex: 1;
     }
-  }
 
-  &__controls {
-    flex: 1;
-    padding: 12rem 2rem 4rem;
-    display: flex;
-    flex-direction: column;
-    @include themed() {
-      background: t($img-processor-bg-controls);
+    &_reset {
+      position: absolute;
+      bottom: 6rem;
+      left: 50%;
     }
   }
 
   &__top-controls {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 4rem;
   }
 
   &__bottom-controls {
@@ -121,11 +155,11 @@ export default {
     justify-content: space-between;
   }
 
-  &__controls-row {
-    &_upload {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  &__reset-btn {
+    font-size: 2.4em;
+    cursor: pointer;
+    @include themed() {
+      color: t($text-color-red);
     }
   }
 }
@@ -134,7 +168,7 @@ export default {
   .image-processor {
     flex-direction: column;
 
-    &__controls {
+    &__block_controls {
       padding: 4rem 4rem;
     }
   }
@@ -143,6 +177,7 @@ export default {
   .image-processor {
     &__bottom-controls {
       flex-direction: column;
+      align-items: center;
     }
 
     &__theme-switch {
