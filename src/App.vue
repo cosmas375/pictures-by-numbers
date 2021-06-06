@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ImageProcessor from '@/components/ImageProcessor.vue';
+import ImageProcessor from '@/components//ImageProcessor/ImageProcessor';
 import { THEMES, saveTheme, getSavedTheme } from '@/helpers/themesHelper';
 import { LANGS, saveLang, getSavedLang } from '@/helpers/langsHelper';
 

@@ -3,13 +3,15 @@ import UIIcon from '@/components/UI/UIIcon';
 import UISwitch from '@/components/UI/UISwitch';
 import UISelect from '@/components/UI/UISelect';
 import UIOption from '@/components/UI/UIOption';
+import UIFileUpload from '@/components/UI/UIFileUpload';
 
 const components = {
   UIButton,
   UIIcon,
   UISwitch,
   UISelect,
-  UIOption
+  UIOption,
+  UIFileUpload
 };
 
 export default {
