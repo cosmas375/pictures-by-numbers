@@ -93,8 +93,7 @@ export default {
 @import '@/assets/scss/theming';
 
 .image-processor {
-  width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   position: relative;
 
@@ -104,21 +103,26 @@ export default {
     position: relative;
 
     &_content {
-      flex: 2;
+      width: 67%;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 3rem 5% 12rem;
+      padding: 3rem 5% 8rem;
       @include themed() {
         background: t($img-processor-bg-content);
       }
     }
 
     &_controls {
-      flex: 1;
-      padding: 12rem 2rem 2rem;
+      padding: 3rem 2rem 2rem;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      width: 33%;
+      height: 100vh;
+      position: fixed;
+      right: 0;
+      top: 0;
       @include themed() {
         background: t($img-processor-bg-controls);
       }
@@ -147,6 +151,7 @@ export default {
     flex-direction: column;
     align-items: center;
     padding-bottom: 4rem;
+    overflow: auto;
   }
 
   &__bottom-controls {
@@ -164,12 +169,23 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1024px) {
   .image-processor {
     flex-direction: column;
 
-    &__block_controls {
-      padding: 4rem 4rem;
+    &__block {
+      width: 100%;
+
+      &_content {
+        padding-bottom: 4rem;
+        min-height: auto;
+      }
+
+      &_controls {
+        position: relative;
+        height: auto;
+        padding: 4rem 4rem;
+      }
     }
   }
 }

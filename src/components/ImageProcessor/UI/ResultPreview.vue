@@ -12,11 +12,7 @@
         $t('image_processor.preview.loader')
       }}</span>
     </div>
-    <ResultComparison
-      v-show="isResultReady"
-      :image="image"
-      class="result-preview__compare"
-    />
+    <ResultComparison :image="image" class="result-preview__compare" />
   </div>
 </template>
 
@@ -61,7 +57,6 @@ export default {
 
 .result-preview {
   width: 100%;
-  height: 100%;
   @include themed() {
     background-color: t($canvas-bg);
   }
@@ -74,6 +69,7 @@ export default {
 
   &__placeholder {
     width: 100%;
+    min-height: 40rem;
     height: 100%;
     display: flex;
     align-items: center;

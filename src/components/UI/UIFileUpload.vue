@@ -5,7 +5,6 @@
       :auto-upload="autoUpload"
       :drag="drag"
       :show-file-list="showFileList"
-      :before-upload="beforeUpload"
       :on-change="onChange"
     >
       <slot></slot>
@@ -25,7 +24,6 @@ export default {
     showFileList: Boolean,
     drag: Boolean,
     limit: Number,
-    beforeUpload: Function,
     onSuccess: Function,
     onChange: Function
   }

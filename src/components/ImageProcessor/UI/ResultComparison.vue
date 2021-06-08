@@ -1,21 +1,29 @@
 <template>
-  <div class="result-comparison">
-    <div class="result-comparison__img">
-      <canvas ref="canvas" class="result-comparison__canvas"></canvas>
-    </div>
-    <div ref="slider" class="result-comparison__slider">
-      <UIIcon icon="el-icon-d-caret" class="result-comparison__slider-icon" />
-    </div>
-    <div
-      ref="overlay"
-      class="result-comparison__img result-comparison__img_overlay"
-    >
-      <img
-        ref="source"
-        :src="imageSrc"
-        alt="source"
-        class="result-comparison__source"
-      />
+  <div
+    ref="root"
+    class="result-comparison"
+    :class="{ 'result-comparison_resizing': isResizing }"
+    :style="{ height: `${this.height}px` }"
+  >
+    <div v-show="image" class="result-comparison__wrap">
+      <div class="result-comparison__img">
+        <canvas ref="canvas" class="result-comparison__canvas"></canvas>
+      </div>
+      <div ref="slider" class="result-comparison__slider">
+        <UIIcon icon="el-icon-d-caret" class="result-comparison__slider-icon" />
+      </div>
+      <div
+        ref="overlay"
+        class="result-comparison__img result-comparison__img_overlay"
+      >
+        <img
+          ref="source"
+          :src="imageSrc"
+          :style="{ width: `${width}px` }"
+          alt="source"
+          class="result-comparison__source"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -28,30 +36,48 @@ export default {
   },
   data() {
     return {
-      width: 0
+      width: 0,
+      height: 0,
+      scalingFactor: 1,
+      sliderPosition: null,
+      resizeDebounceTimeout: null,
+      isResizing: false
     };
   },
   computed: {
     imageSrc() {
       return this.image ? this.image.src : null;
+    },
+    sizeStyleString() {
+      return {};
     }
   },
   methods: {
-    updateImage(img) {
+    updateResponsiveImageSize() {
+      if (!this.image) {
+        this.width = 0;
+        this.height = 0;
+        this.scalingFactor = 1;
+        return;
+      }
+      this.width = this.$refs.root.offsetWidth;
+      this.scalingFactor = this.width / this.image.width;
+      this.height = this.image.height * this.scalingFactor;
+    },
+    updateImage() {
       const canvas = this.$refs.canvas;
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = this.width;
+      canvas.height = this.height;
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 123, 456);
+      ctx.setTransform(this.scalingFactor, 0, 0, this.scalingFactor, 0, 0);
+      ctx.drawImage(this.image, 123, 456); // TODO: replace w (..., 0, 0)
     },
     updateOverlay() {
-      const overlay = this.$refs.overlay;
-      this.width = overlay.clientWidth;
-      const height = overlay.clientWidth;
-      overlay.style.width = `${this.width / 2}px`;
+      const startupSliderPosition = this.getStartupSliderPosition();
+      this.$refs.overlay.style.width = `${startupSliderPosition}px`;
       const slider = this.$refs.slider;
-      slider.style.top = `${height / 2 - slider.offsetHeight / 2}px`;
-      slider.style.left = `${this.width / 2 - slider.offsetWidth / 2}px`;
+      slider.style.top = `${this.height / 2 - slider.offsetHeight / 2}px`;
+      slider.style.left = `${startupSliderPosition - slider.offsetWidth / 2}px`;
       slider.addEventListener('mousedown', this.onSliderMousedown);
       slider.addEventListener('touchstart', this.onSliderMousedown);
       window.addEventListener('mouseup', this.onSliderMouseup);
@@ -74,6 +100,7 @@ export default {
         pos = this.width;
       }
       this.slide(pos);
+      this.saveSliderPosition(pos);
     },
     getCursorPosition(e) {
       const overlayRect = this.$refs.overlay.getBoundingClientRect();
@@ -84,13 +111,44 @@ export default {
       const overlay = this.$refs.overlay;
       overlay.style.width = `${x}px`;
       slider.style.left = `${overlay.offsetWidth - slider.offsetWidth / 2}px`;
+    },
+
+    saveSliderPosition(x) {
+      this.sliderPosition = x / this.width;
+    },
+    getStartupSliderPosition() {
+      return this.sliderPosition === null
+        ? this.width / 2
+        : this.sliderPosition * this.width;
+    },
+
+    onResize() {
+      if (!this.image) {
+        return;
+      }
+      if (this.resizeDebounceTimeout) {
+        clearTimeout(this.resizeDebounceTimeout);
+      } else {
+        this.isResizing = true;
+      }
+      this.resizeDebounceTimeout = setTimeout(() => {
+        this.updateResponsiveImageSize();
+        this.updateImage();
+        this.updateOverlay();
+        this.isResizing = false;
+        this.resizeDebounceTimeout = null;
+      }, 500);
     }
   },
   watch: {
-    image(v) {
-      this.updateImage(v);
+    image() {
+      this.updateResponsiveImageSize();
+      this.updateImage();
       this.$refs.source.onload = this.updateOverlay;
     }
+  },
+  mounted() {
+    window.addEventListener('resize', this.onResize);
   },
   beforeUnmount() {
     const slider = this.$refs.slider;
@@ -100,6 +158,8 @@ export default {
     window.removeEventListener('touchend', this.onSliderMouseup);
     window.removeEventListener('mousemove', this.onMousemove);
     window.removeEventListener('touchmove', this.onMousemove);
+
+    window.removeEventListener('resize', this.onResize);
   }
 };
 </script>
@@ -108,6 +168,14 @@ export default {
 @import '@/assets/scss/theming';
 
 .result-comparison {
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.2s;
+
+  &_resizing {
+    opacity: 0;
+  }
+
   &__img {
     position: absolute;
     width: auto;

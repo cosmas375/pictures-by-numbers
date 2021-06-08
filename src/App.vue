@@ -6,7 +6,6 @@
       :langs="langs"
       @switch-theme="switchTheme"
       @set-lang="setLang"
-      class="app"
     />
   </div>
 </template>
@@ -58,8 +57,7 @@ html {
 }
 
 .app {
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   min-width: 36rem;
 }
 </style>

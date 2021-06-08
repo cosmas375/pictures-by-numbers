@@ -2,7 +2,6 @@
   <UIFileUpload
     :drag="true"
     :show-file-list="false"
-    :before-upload="beforeUpload"
     :on-change="onChange"
     class="image-uploader"
   >
@@ -25,9 +24,6 @@ export default {
     'file-ready': null
   },
   methods: {
-    beforeUpload() {
-      console.log([...arguments]);
-    },
     onChange(file) {
       const img = new Image();
       img.src = URL.createObjectURL(file.raw);
