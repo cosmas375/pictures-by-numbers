@@ -9,9 +9,7 @@
       <div class="result-comparison__img">
         <canvas ref="canvas" class="result-comparison__canvas"></canvas>
       </div>
-      <div ref="slider" class="result-comparison__slider">
-        <UIIcon icon="el-icon-d-caret" class="result-comparison__slider-icon" />
-      </div>
+      <div ref="slider" class="result-comparison__slider"></div>
       <div
         ref="overlay"
         class="result-comparison__img result-comparison__img_overlay"
@@ -205,6 +203,29 @@ export default {
     }
     border-radius: 50%;
     cursor: ew-resize;
+
+    $arrow-offset: 0.1rem;
+    $arrow-size: 0.7rem;
+    &:after,
+    &:before {
+      content: '';
+      position: absolute;
+      top: calc(50% - #{$arrow-size});
+      display: block;
+      border: $arrow-size solid transparent;
+    }
+    &:before {
+      left: $arrow-offset;
+      @include themed() {
+        border-right: $arrow-size solid t($text-color-secondary);
+      }
+    }
+    &:after {
+      right: $arrow-offset;
+      @include themed() {
+        border-left: $arrow-size solid t($text-color-secondary);
+      }
+    }
   }
   &__slider-icon {
     position: absolute;
