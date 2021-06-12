@@ -6,7 +6,7 @@ export default {
       ru: 'Russian'
     }
   },
-  logo: 'Picturesque',
+  logo: 'Paint by numbers',
   image_processor: {
     file_upload: {
       text: 'Drop file here or click to upload',

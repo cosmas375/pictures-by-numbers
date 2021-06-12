@@ -10,7 +10,8 @@
         $theme-map: map-merge(
           $theme-map,
           (
-            $key: $value
+            $key: $value,
+            transition: all $theme-transition
           )
         ) !global;
       }

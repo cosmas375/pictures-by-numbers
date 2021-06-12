@@ -34,6 +34,7 @@ export default {
   .el-switch__label {
     @include themed() {
       color: t($text-color);
+      transition: color $theme-transition;
     }
   }
 }

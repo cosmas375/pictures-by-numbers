@@ -32,4 +32,12 @@ export default {
 
 <style lang="scss">
 @import '~element-plus/packages/theme-chalk/src/upload.scss';
+@import '@/assets/scss/theming';
+
+.el-upload-dragger {
+  @include themed() {
+    background-color: t($file-uploader-bg-color);
+    transition: background-color $theme-transition;
+  }
+}
 </style>

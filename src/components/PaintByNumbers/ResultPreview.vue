@@ -59,6 +59,7 @@ export default {
   width: 100%;
   @include themed() {
     background-color: t($canvas-bg);
+    transition: background-color $theme-transition;
   }
 
   &_loading {
@@ -80,12 +81,14 @@ export default {
     font-size: 4.8rem;
     @include themed() {
       color: t($text-color-secondary);
+      transition: color $theme-transition;
     }
   }
   &__placeholder-text {
     font-size: 1.4rem;
     @include themed() {
       color: t($text-color-secondary);
+      transition: color $theme-transition;
     }
   }
 
@@ -101,6 +104,7 @@ export default {
     font-size: 2.4rem;
     @include themed() {
       color: t($text-color-secondary);
+      transition: color $theme-transition;
     }
   }
   &__loader-text {
@@ -108,6 +112,7 @@ export default {
     font-size: 1.4rem;
     @include themed() {
       color: t($text-color-secondary);
+      transition: color $theme-transition;
     }
   }
 

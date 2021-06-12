@@ -183,6 +183,7 @@ export default {
     &_overlay {
       @include themed() {
         border-right: 0.2rem solid t($text-color-secondary);
+        transition: border-right-color $theme-transition;
       }
     }
 
@@ -200,6 +201,8 @@ export default {
     @include themed() {
       border: 0.2rem solid t($text-color-secondary);
       background-color: t($canvas-bg);
+      transition: border-color $theme-transition,
+        background-color $theme-transition;
     }
     border-radius: 50%;
     cursor: ew-resize;
@@ -218,12 +221,14 @@ export default {
       left: $arrow-offset;
       @include themed() {
         border-right: $arrow-size solid t($text-color-secondary);
+        transition: border-right-color $theme-transition;
       }
     }
     &:after {
       right: $arrow-offset;
       @include themed() {
         border-left: $arrow-size solid t($text-color-secondary);
+        transition: border-left-color $theme-transition;
       }
     }
   }
@@ -235,6 +240,7 @@ export default {
     font-size: 3.2rem;
     @include themed() {
       color: t($text-color-secondary);
+      transition: color $theme-transition;
     }
   }
 }

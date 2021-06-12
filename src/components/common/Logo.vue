@@ -14,6 +14,11 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/theming';
 
+@font-face {
+  font-family: 'Painting With Chocolate';
+  src: url('~@/assets/fonts/Painting_With_Chocolate.ttf') format('truetype');
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -24,15 +29,18 @@ export default {
     margin-right: 1rem;
     @include themed() {
       color: t($text-color);
+      transition: color $theme-transition;
     }
+    border-radius: 0.5rem;
   }
 
   &__content {
-    font-family: 'Brush Script MT', sans-serif;
+    font-family: 'Painting With Chocolate', 'Brush Script MT', sans-serif;
     font-size: 3.2rem;
 
     @include themed() {
       color: t($text-color);
+      transition: color $theme-transition;
     }
   }
 }

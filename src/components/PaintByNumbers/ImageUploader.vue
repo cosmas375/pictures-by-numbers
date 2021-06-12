@@ -41,6 +41,13 @@ export default {
     text-align: center;
     @include themed() {
       color: t($text-color);
+      transition: color $theme-transition;
+    }
+  }
+  &__text {
+    @include themed() {
+      color: t($text-color);
+      transition: color $theme-transition;
     }
   }
 }

@@ -1,8 +1,12 @@
+$theme-transition: 0.2s;
+
 $themes: (
   light: (
     text-color: #000,
     text-color-secondary: #979ba2,
     text-color-red: red,
+    file-uploader-bg-color: #fff,
+    file-uploader-border-color: #c0c4cc,
     img-processor-bg-content: #fff,
     img-processor-bg-controls: #f3f4f8,
     canvas-bg: #f3f4f8,
@@ -12,6 +16,8 @@ $themes: (
     text-color: #fff,
     text-color-secondary: #acb0b8,
     text-color-red: red,
+    file-uploader-bg-color: #313439,
+    file-uploader-border-color: #c0c4cc,
     img-processor-bg-content: #272a30,
     img-processor-bg-controls: #313439,
     canvas-bg: #313439,
@@ -22,6 +28,8 @@ $themes: (
 $text-color: 'text-color';
 $text-color-secondary: 'text-color-secondary';
 $text-color-red: 'text-color-red';
+$file-uploader-bg-color: 'file-uploader-bg-color';
+$file-uploader-border-color: 'file-uploader-border-color';
 $img-processor-bg-content: 'img-processor-bg-content';
 $img-processor-bg-controls: 'img-processor-bg-controls';
 $canvas-bg: 'canvas-bg';

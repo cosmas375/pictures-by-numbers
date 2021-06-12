@@ -109,7 +109,8 @@ export default {
       flex-direction: column;
       padding: 3rem 5% 8rem;
       @include themed() {
-        background: t($img-processor-bg-content);
+        background-color: t($img-processor-bg-content);
+        transition: background-color $theme-transition;
       }
     }
 
@@ -124,7 +125,8 @@ export default {
       right: 0;
       top: 0;
       @include themed() {
-        background: t($img-processor-bg-controls);
+        background-color: t($img-processor-bg-controls);
+        transition: background-color $theme-transition;
       }
     }
   }
@@ -165,6 +167,7 @@ export default {
     cursor: pointer;
     @include themed() {
       color: t($text-color-red);
+      transition: color $theme-transition;
     }
   }
 }
@@ -179,6 +182,7 @@ export default {
       &_content {
         padding-bottom: 4rem;
         min-height: auto;
+        flex: 1;
       }
 
       &_controls {
