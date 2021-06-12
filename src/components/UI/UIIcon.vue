@@ -13,4 +13,7 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+$--font-path: '~element-plus/packages/theme-chalk/src/fonts';
+@import '~element-plus/packages/theme-chalk/src/icon.scss';
+</style>

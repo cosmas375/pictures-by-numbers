@@ -3,7 +3,7 @@
     :value="isDarkThemeEnabled"
     :inactive-text="$t('common.dark_mode')"
     active-color="#ffffff"
-    @input="switchTheme"
+    @input="$emit('switch-theme')"
     class="theme-switch"
   />
 </template>
@@ -16,14 +16,12 @@ export default {
   props: {
     theme: { type: String, default: 'light' }
   },
+  emits: {
+    'switch-theme': null
+  },
   computed: {
     isDarkThemeEnabled() {
       return this.theme === THEMES.dark;
-    }
-  },
-  methods: {
-    switchTheme() {
-      this.$emit('switch-theme');
     }
   }
 };

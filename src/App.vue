@@ -44,7 +44,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/vendor/element-ui';
 @import '@/assets/scss/resets';
 
 html {

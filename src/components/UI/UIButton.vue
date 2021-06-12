@@ -11,8 +11,13 @@ export default {
   name: 'UIButton',
   props: {
     type: { type: String }
+  },
+  emits: {
+    click: null
   }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import '~element-plus/packages/theme-chalk/src/button.scss';
+</style>
