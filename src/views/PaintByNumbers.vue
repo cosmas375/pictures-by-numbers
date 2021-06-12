@@ -47,11 +47,11 @@
 import Logo from '@/components/common/Logo';
 import LangSelect from '@/components/common/LangSelect';
 import ThemeSwitch from '@/components/common/ThemeSwitch';
-import ImageUploader from '@/components/ImageProcessor/UI/ImageUploader';
-import ResultPreview from '@/components/ImageProcessor/UI/ResultPreview';
+import ImageUploader from '@/components/PaintByNumbers/ImageUploader';
+import ResultPreview from '@/components/PaintByNumbers/ResultPreview';
 
 export default {
-  name: 'ImageProcessor',
+  name: 'PaintByNumbers',
   props: {
     theme: { type: String, default: 'light' },
     lang: { type: String, default: 'en' },

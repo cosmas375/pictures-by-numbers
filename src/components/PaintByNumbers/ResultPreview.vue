@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import ResultComparison from '@/components/ImageProcessor/UI/ResultComparison';
+import ResultComparison from '@/components/PaintByNumbers/ResultComparison';
 export default {
   name: 'ResultPreview',
   props: {

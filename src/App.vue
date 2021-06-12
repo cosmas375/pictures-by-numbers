@@ -1,25 +1,21 @@
 <template>
   <div :class="`app app_${theme}`">
-    <ImageProcessor
+    <router-view
       :theme="theme"
       :lang="lang"
       :langs="langs"
       @switch-theme="switchTheme"
       @set-lang="setLang"
-    />
+    ></router-view>
   </div>
 </template>
 
 <script>
-import ImageProcessor from '@/components//ImageProcessor/ImageProcessor';
 import { THEMES, saveTheme, getSavedTheme } from '@/helpers/themesHelper';
 import { LANGS, saveLang, getSavedLang } from '@/helpers/langsHelper';
 
 export default {
   name: 'App',
-  components: {
-    ImageProcessor
-  },
   data() {
     return {
       theme: THEMES.light,
