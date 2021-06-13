@@ -5,7 +5,7 @@
     :class="{ 'result-comparison_resizing': isResizing }"
     :style="{ height: `${this.height}px` }"
   >
-    <div v-show="image" class="result-comparison__wrap">
+    <div class="result-comparison__wrap">
       <div class="result-comparison__img">
         <canvas ref="canvas" class="result-comparison__canvas"></canvas>
       </div>
@@ -16,7 +16,7 @@
       >
         <img
           ref="source"
-          :src="imageSrc"
+          :src="sourceImageUrl"
           :style="{ width: `${width}px` }"
           alt="source"
           class="result-comparison__source"
@@ -30,7 +30,8 @@
 export default {
   name: 'ResultComparison',
   props: {
-    image: { type: [File, Object] }
+    sourceImage: { type: [File, Object] },
+    processedImage: { type: [File, Object] }
   },
   data() {
     return {
@@ -43,32 +44,29 @@ export default {
     };
   },
   computed: {
-    imageSrc() {
-      return this.image ? this.image.src : null;
-    },
-    sizeStyleString() {
-      return {};
+    sourceImageUrl() {
+      return this.sourceImage ? this.sourceImage.src : null;
     }
   },
   methods: {
     updateResponsiveImageSize() {
-      if (!this.image) {
+      if (!this.sourceImage) {
         this.width = 0;
         this.height = 0;
         this.scalingFactor = 1;
         return;
       }
       this.width = this.$refs.root.offsetWidth;
-      this.scalingFactor = this.width / this.image.width;
-      this.height = this.image.height * this.scalingFactor;
+      this.scalingFactor = this.width / this.sourceImage.width;
+      this.height = this.sourceImage.height * this.scalingFactor;
     },
-    updateImage() {
+    async updateImage() {
       const canvas = this.$refs.canvas;
       canvas.width = this.width;
       canvas.height = this.height;
       const ctx = canvas.getContext('2d');
       ctx.setTransform(this.scalingFactor, 0, 0, this.scalingFactor, 0, 0);
-      ctx.drawImage(this.image, 123, 456); // TODO: replace w (..., 0, 0)
+      ctx.drawImage(this.processedImage, 0, 0);
     },
     updateOverlay() {
       const startupSliderPosition = this.getStartupSliderPosition();
@@ -121,7 +119,7 @@ export default {
     },
 
     onResize() {
-      if (!this.image) {
+      if (!this.processedImage) {
         return;
       }
       if (this.resizeDebounceTimeout) {
@@ -138,14 +136,10 @@ export default {
       }, 500);
     }
   },
-  watch: {
-    image() {
-      this.updateResponsiveImageSize();
-      this.updateImage();
-      this.$refs.source.onload = this.updateOverlay;
-    }
-  },
   mounted() {
+    this.updateResponsiveImageSize();
+    this.updateImage();
+    this.updateOverlay();
     window.addEventListener('resize', this.onResize);
   },
   beforeUnmount() {
@@ -156,7 +150,6 @@ export default {
     window.removeEventListener('touchend', this.onSliderMouseup);
     window.removeEventListener('mousemove', this.onMousemove);
     window.removeEventListener('touchmove', this.onMousemove);
-
     window.removeEventListener('resize', this.onResize);
   }
 };

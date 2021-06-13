@@ -9,17 +9,7 @@
       <div
         class="image-processor__content-row image-processor__content-row_preview"
       >
-        <ResultPreview :image="sourceImg" @done="setProcessingDone(true)" />
-      </div>
-      <div
-        v-if="isProcessingDone"
-        class="image-processor__content-row image-processor__content-row_reset"
-      >
-        <UIIcon
-          icon="el-icon-close"
-          class="image-processor__reset-btn"
-          @click="resetImage"
-        />
+        <ResultPreview :image="sourceImg" />
       </div>
     </div>
     <div class="image-processor__block image-processor__block_controls">
@@ -63,20 +53,12 @@ export default {
   },
   data() {
     return {
-      sourceImg: null,
-      isProcessingDone: false
+      sourceImg: null
     };
   },
   methods: {
     onFileReady(img) {
       this.sourceImg = img;
-      this.setProcessingDone(false);
-    },
-    setProcessingDone(value) {
-      this.isProcessingDone = value;
-    },
-    resetImage() {
-      this.sourceImg = null;
     }
   },
   components: {

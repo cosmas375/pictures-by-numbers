@@ -12,38 +12,57 @@
         $t('image_processor.preview.loader')
       }}</span>
     </div>
-    <ResultComparison :image="image" class="result-preview__compare" />
+    <ResultComparison
+      v-if="isResultReady"
+      :sourceImage="image"
+      :processedImage="processedImage"
+      class="result-preview__compare"
+    />
   </div>
 </template>
 
 <script>
 import ResultComparison from '@/components/PaintByNumbers/ResultComparison';
+import processImage from '@/helpers/processImage';
+import getImage from '@/helpers/getImage';
+
 export default {
   name: 'ResultPreview',
   props: {
     image: { type: [File, Object] }
   },
-  emits: {
-    done: null
-  },
   data() {
     return {
-      isLoadingStateEnabled: false
+      isLoadingStateEnabled: false,
+      isResultReady: false,
+      processedImageData: null
     };
-  },
-  computed: {
-    isResultReady() {
-      return this.image && !this.isLoadingStateEnabled;
-    }
   },
   methods: {
     setLoadingState(value) {
       this.isLoadingStateEnabled = value;
+    },
+    setResultReady(value) {
+      this.isResultReady = value;
+    },
+    async onReady(imgData) {
+      const image = await getImage(imgData);
+      this.processedImage = image;
+      this.setLoadingState(false);
+      this.setResultReady(true);
+    },
+    onError(error) {
+      console.log(error);
+      // this.$ui.alert(error);
     }
   },
   watch: {
-    image() {
-      // this.setLoadingState(true);
+    image(v) {
+      this.setResultReady(false);
+      this.setLoadingState(true);
+      processImage(v)
+        .then(this.onReady)
+        .catch(this.onError);
     }
   },
   components: {
@@ -54,6 +73,8 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/theming';
+
+$min-container-height: 40rem;
 
 .result-preview {
   width: 100%;
@@ -70,7 +91,7 @@ export default {
 
   &__placeholder {
     width: 100%;
-    min-height: 40rem;
+    min-height: $min-container-height;
     height: 100%;
     display: flex;
     align-items: center;
@@ -94,7 +115,7 @@ export default {
 
   &__loader {
     width: 100%;
-    height: 100%;
+    min-height: $min-container-height;
     display: flex;
     align-items: center;
     justify-content: center;
