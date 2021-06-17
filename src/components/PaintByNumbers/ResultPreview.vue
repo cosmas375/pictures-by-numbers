@@ -23,8 +23,7 @@
 
 <script>
 import ResultComparison from '@/components/PaintByNumbers/ResultComparison';
-import processImage from '@/helpers/processImage';
-import getImage from '@/helpers/getImage';
+import processImage from '@/utils/processImage';
 
 export default {
   name: 'ResultPreview',
@@ -35,7 +34,7 @@ export default {
     return {
       isLoadingStateEnabled: false,
       isResultReady: false,
-      processedImageData: null
+      processedImage: null
     };
   },
   methods: {
@@ -45,8 +44,7 @@ export default {
     setResultReady(value) {
       this.isResultReady = value;
     },
-    async onReady(imgData) {
-      const image = await getImage(imgData);
+    async onReady(image) {
       this.processedImage = image;
       this.setLoadingState(false);
       this.setResultReady(true);

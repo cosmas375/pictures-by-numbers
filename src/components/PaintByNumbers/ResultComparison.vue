@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { SMOOTHING_FACTOR } from '@/helpers/processing/smooth';
+
 export default {
   name: 'ResultComparison',
   props: {
@@ -66,7 +68,17 @@ export default {
       canvas.height = this.height;
       const ctx = canvas.getContext('2d');
       ctx.setTransform(this.scalingFactor, 0, 0, this.scalingFactor, 0, 0);
-      ctx.drawImage(this.processedImage, 0, 0);
+      ctx.drawImage(
+        this.processedImage,
+        SMOOTHING_FACTOR,
+        SMOOTHING_FACTOR,
+        this.processedImage.width,
+        this.processedImage.height,
+        0,
+        0,
+        this.processedImage.width,
+        this.processedImage.height
+      );
     },
     updateOverlay() {
       const startupSliderPosition = this.getStartupSliderPosition();

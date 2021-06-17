@@ -1,4 +1,4 @@
-export default function getImage(imgData) {
+export default function getImageFromImageData(imgData) {
   return new Promise(resolve => {
     const canvas = document.createElement('canvas');
     canvas.width = imgData.width;

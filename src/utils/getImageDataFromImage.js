@@ -1,4 +1,4 @@
-export default function getImgData(img) {
+export default function getImageDataFromImage(img) {
   const canvas = document.createElement('canvas');
   canvas.width = img.width;
   canvas.height = img.height;
