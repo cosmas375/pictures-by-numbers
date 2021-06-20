@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { SMOOTHING_FACTOR } from '@/helpers/processing/smooth';
+import { SMOOTHING_FACTOR } from '@/core/smooth';
 
 export default {
   name: 'ResultComparison',

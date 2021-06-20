@@ -23,7 +23,6 @@ export default function smooth(matrix) {
 }
 
 function getVicinVals(matrix, x, y, range) {
-  // range is how many pixels on each side to get
   var width = matrix[0].length;
   var height = matrix.length;
   var vicinVals = [];
