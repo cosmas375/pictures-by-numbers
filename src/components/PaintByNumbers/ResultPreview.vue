@@ -16,6 +16,7 @@
       v-if="isResultReady"
       :sourceImage="image"
       :processedImage="processedImage"
+      :labelsLocations="labelsLocations"
       class="result-preview__compare"
     />
   </div>
@@ -34,7 +35,8 @@ export default {
     return {
       isLoadingStateEnabled: false,
       isResultReady: false,
-      processedImage: null
+      processedImage: null,
+      labelsLocations: null
     };
   },
   methods: {
@@ -44,8 +46,9 @@ export default {
     setResultReady(value) {
       this.isResultReady = value;
     },
-    async onReady(image) {
-      this.processedImage = image;
+    async onReady({ outlined, labelsLocations }) {
+      this.processedImage = outlined;
+      this.labelsLocations = labelsLocations;
       this.setLoadingState(false);
       this.setResultReady(true);
     },

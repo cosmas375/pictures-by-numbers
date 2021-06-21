@@ -10,8 +10,14 @@ export default function processImage(img) {
       if (e.data.error) {
         reject(e.data.error);
       } else {
-        const imageData = e.data.value;
-        getImageFromImageData(imageData).then(img => resolve(img));
+        const imageData = e.data.value.outlined;
+        const labelsLocations = e.data.value.labelsLocations;
+        getImageFromImageData(imageData).then(img =>
+          resolve({
+            outlined: img,
+            labelsLocations
+          })
+        );
       }
     };
 

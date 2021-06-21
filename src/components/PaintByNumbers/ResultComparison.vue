@@ -33,7 +33,8 @@ export default {
   name: 'ResultComparison',
   props: {
     sourceImage: { type: [File, Object] },
-    processedImage: { type: [File, Object] }
+    processedImage: { type: [File, Object] },
+    labelsLocations: { type: [File, Object] }
   },
   data() {
     return {
@@ -79,6 +80,20 @@ export default {
         this.processedImage.width,
         this.processedImage.height
       );
+    },
+    async updateLabels() {
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext('2d');
+      ctx.font = '12px Georgia';
+      ctx.fillStyle = 'rgb(150, 150, 150)';
+      const len = this.labelsLocations.length;
+      for (var i = 0; i < len; i++) {
+        ctx.fillText(
+          JSON.stringify(this.labelsLocations[i].value),
+          this.labelsLocations[i].x - 3,
+          this.labelsLocations[i].y + 4
+        );
+      }
     },
     updateOverlay() {
       const startupSliderPosition = this.getStartupSliderPosition();
@@ -142,6 +157,7 @@ export default {
       this.resizeDebounceTimeout = setTimeout(() => {
         this.updateResponsiveImageSize();
         this.updateImage();
+        this.updateLabels();
         this.updateOverlay();
         this.isResizing = false;
         this.resizeDebounceTimeout = null;
@@ -151,6 +167,7 @@ export default {
   mounted() {
     this.updateResponsiveImageSize();
     this.updateImage();
+    this.updateLabels();
     this.updateOverlay();
     window.addEventListener('resize', this.onResize);
   },

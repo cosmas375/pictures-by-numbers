@@ -6,6 +6,7 @@ import alignColorsToPalette from '@/core/alignColorsToPalette';
 import colorsToMatrix from '@/core/colorsToMatrix';
 import smooth from '@/core/smooth';
 import outline from '@/core/outline';
+import getLabelLocations from '@/core/getLabelLocations';
 import matrixToColors from '@/core/matrixToColors';
 import RgbColorsToColors from '@/core/RgbColorsToColors';
 import getImageData from '@/core/getImageData';
@@ -43,6 +44,9 @@ onmessage = async e => {
   console.log('outlining...');
   const outlinedImage = outline(smoothedImage);
 
+  console.log('calculating labels locations...');
+  const labelsLocations = getLabelLocations(smoothedImage);
+
   console.log('transforming matrix to colors...');
   const processedRgbColors = matrixToColors(outlinedImage);
 
@@ -56,7 +60,14 @@ onmessage = async e => {
     height: imageData.height
   });
 
-  postMessage({ action: ACTIONS.result, value: result });
+  postMessage({
+    action: ACTIONS.result,
+    value: {
+      colorized: '',
+      outlined: result,
+      labelsLocations
+    }
+  });
 
   console.log('Done!');
 };
