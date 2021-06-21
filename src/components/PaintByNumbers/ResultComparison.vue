@@ -187,7 +187,8 @@ export default {
 
     &_overlay {
       @include themed() {
-        border-right: 0.2rem solid t($text-color-secondary);
+        border-right: 0.1rem solid t($text-color-secondary);
+        box-shadow: 0.1rem 0 0 0 t($text-color-secondary);
         transition: border-right-color $theme-transition;
       }
     }
@@ -235,17 +236,6 @@ export default {
         border-left: $arrow-size solid t($text-color-secondary);
         transition: border-left-color $theme-transition;
       }
-    }
-  }
-  &__slider-icon {
-    position: absolute;
-    left: 0.2rem;
-    top: 0.1rem;
-    transform: rotate(90deg);
-    font-size: 3.2rem;
-    @include themed() {
-      color: t($text-color-secondary);
-      transition: color $theme-transition;
     }
   }
 }

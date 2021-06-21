@@ -7,7 +7,9 @@ export default function outline(mat) {
   }
   for (var y = 0; y < height; y++) {
     for (var x = 0; x < width; x++) {
-      line[y][x] = neighborsSame(mat, x, y) ? 0 : 1;
+      line[y][x] = neighborsSame(mat, x, y)
+        ? { r: 255, g: 255, b: 255, a: 255 }
+        : { r: 0, g: 0, b: 0, a: 255 };
     }
   }
   return line;

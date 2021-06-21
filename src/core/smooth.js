@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export const SMOOTHING_FACTOR = 4;
+export const SMOOTHING_FACTOR = 8;
 
 export default function smooth(matrix) {
   var width = matrix[0].length;

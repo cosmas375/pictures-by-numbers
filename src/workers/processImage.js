@@ -5,6 +5,7 @@ import generatePalette from '@/core/generatePalette';
 import alignColorsToPalette from '@/core/alignColorsToPalette';
 import colorsToMatrix from '@/core/colorsToMatrix';
 import smooth from '@/core/smooth';
+import outline from '@/core/outline';
 import matrixToColors from '@/core/matrixToColors';
 import RgbColorsToColors from '@/core/RgbColorsToColors';
 import getImageData from '@/core/getImageData';
@@ -22,7 +23,6 @@ onmessage = async e => {
 
   console.log('converting rgba to rgb...');
   const rgbColors = colorsToRgbColors(colors);
-  console.log(rgbColors[0]);
 
   console.log('generating palette...');
   const palette = generatePalette(rgbColors);
@@ -40,8 +40,11 @@ onmessage = async e => {
   console.log('smoothing...');
   const smoothedImage = smooth(matrix);
 
+  console.log('outlining...');
+  const outlinedImage = outline(smoothedImage);
+
   console.log('transforming matrix to colors...');
-  const processedRgbColors = matrixToColors(smoothedImage);
+  const processedRgbColors = matrixToColors(outlinedImage);
 
   console.log('converting rgb to rgba...');
   const processedColors = RgbColorsToColors(processedRgbColors);
