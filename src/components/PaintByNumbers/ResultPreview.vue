@@ -190,7 +190,7 @@ export default {
     height: 4rem;
     @include themed() {
       border: 0.2rem solid t($text-color-secondary);
-      background-color: t($canvas-bg);
+      background-color: t($img-processor-bg-controls);
       transition: border-color $theme-transition,
         background-color $theme-transition;
     }

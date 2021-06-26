@@ -226,7 +226,7 @@ export default {
     display: flex;
     align-items: center;
     @include themed() {
-      background-color: t($canvas-bg);
+      background-color: t($img-processor-bg-controls);
       transition: background-color $theme-transition;
     }
   }
