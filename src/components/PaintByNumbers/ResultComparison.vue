@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { SMOOTHING_FACTOR } from '@/core/smooth';
+import { SMOOTHING_FACTOR } from '@/libs/processImage/config';
 
 export default {
   name: 'ResultComparison',
@@ -89,7 +89,7 @@ export default {
       const len = this.labelsLocations.length;
       for (var i = 0; i < len; i++) {
         ctx.fillText(
-          JSON.stringify(this.labelsLocations[i].value),
+          JSON.stringify(i),
           this.labelsLocations[i].x - 3,
           this.labelsLocations[i].y + 4
         );

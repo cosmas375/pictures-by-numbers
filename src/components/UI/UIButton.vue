@@ -1,9 +1,7 @@
 <template>
-  <div class="ui-button">
-    <el-button :type="type" @click="$emit('click', $event)">
-      <slot> </slot>
-    </el-button>
-  </div>
+  <el-button :type="type" @click="$emit('click', $event)" class="ui-button">
+    <slot> </slot>
+  </el-button>
 </template>
 
 <script>

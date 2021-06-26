@@ -1,15 +1,14 @@
-import { ACTIONS } from '@/core/vars';
-import imageDataToColors from '@/core/imageDataToColors';
-import colorsToRgbColors from '@/core/colorsToRgbColors';
-import generatePalette from '@/core/generatePalette';
-import alignColorsToPalette from '@/core/alignColorsToPalette';
-import colorsToMatrix from '@/core/colorsToMatrix';
-import smooth from '@/core/smooth';
-import outline from '@/core/outline';
-import getLabelLocations from '@/core/getLabelLocations';
-import matrixToColors from '@/core/matrixToColors';
-import RgbColorsToColors from '@/core/RgbColorsToColors';
-import getImageData from '@/core/getImageData';
+import imageDataToColors from './steps/imageDataToColors';
+import colorsToRgbColors from './steps/colorsToRgbColors';
+import generatePalette from './steps/generatePalette';
+import alignColorsToPalette from './steps/alignColorsToPalette';
+import colorsToMatrix from './steps/colorsToMatrix';
+import smooth from './steps/smooth';
+import outline from './steps/outline';
+import getLabelLocations from './steps/getLabelLocations';
+import matrixToColors from './steps/matrixToColors';
+import RgbColorsToColors from './steps/rgbColorsToColors';
+import getImageData from './steps/getImageData';
 
 onmessage = async e => {
   console.log(
@@ -61,7 +60,7 @@ onmessage = async e => {
   });
 
   postMessage({
-    action: ACTIONS.result,
+    action: 'result',
     value: {
       colorized: '',
       outlined: result,

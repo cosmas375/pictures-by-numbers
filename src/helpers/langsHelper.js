@@ -12,10 +12,9 @@ export function getSavedLang() {
     return lsData;
   }
 
-  const navLang = window.navigator.language;
-  const processedNavLang = navLang.toLowerCase().slice(0, 2);
-  if (LANGS.includes(processedNavLang)) {
-    return processedNavLang;
+  const navLang = window.navigator.language.toLowerCase().slice(0, 2);
+  if (LANGS.includes(navLang)) {
+    return navLang;
   }
 
   return LANGS[0];

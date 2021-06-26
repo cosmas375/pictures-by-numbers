@@ -1,4 +1,4 @@
-import { RGBA_CHANNELS_COUNT } from '@/helpers/colorTransformHelper';
+import { RGBA_CHANNELS_COUNT } from '../helpers/colorTransform';
 
 export default function imageDataToColors(imageData) {
   const len = imageData.length;

@@ -1,4 +1,4 @@
-import { RGBAtoRGB } from '@/helpers/colorTransformHelper';
+import { RGBAtoRGB } from '../helpers/colorTransform';
 
 export default function colorsToRgbColors(colors) {
   const len = colors.length;

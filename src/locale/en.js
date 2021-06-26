@@ -14,7 +14,8 @@ export default {
     },
     preview: {
       placeholder: "Here you'll see the result!",
-      loader: "Please wait a bit, we're generating your artwork..."
+      loader: "Please wait a bit, we're generating your artwork...",
+      download: 'Download PDF'
     }
   }
 };

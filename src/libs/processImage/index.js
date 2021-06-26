@@ -1,6 +1,6 @@
-import Worker from '@/workers/processImage.js';
-import getImageDataFromImage from '@/utils/getImageDataFromImage';
-import getImageFromImageData from '@/utils/getImageFromImageData';
+import Worker from './processor.worker.js';
+import getImageDataFromImage from './steps/getImageDataFromImage';
+import getImageFromImageData from './steps/getImageFromImageData';
 
 export default function processImage(img) {
   return new Promise((resolve, reject) => {

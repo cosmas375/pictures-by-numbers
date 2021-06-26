@@ -5,5 +5,6 @@ export default function getImageDataFromImage(img) {
   const ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0);
   const imgData = ctx.getImageData(0, 0, img.width, img.height);
+  canvas.remove();
   return imgData;
 }

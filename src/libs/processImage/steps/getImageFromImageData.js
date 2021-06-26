@@ -7,6 +7,7 @@ export default function getImageFromImageData(imgData) {
     ctx.putImageData(imgData, 0, 0);
     const img = document.createElement('img');
     img.src = canvas.toDataURL();
+    canvas.remove();
     img.onload = () => resolve(img);
   });
 }
