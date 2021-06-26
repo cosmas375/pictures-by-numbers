@@ -1,18 +1,15 @@
-import _ from 'lodash';
-
 export default function getLabelLocations(mat) {
-  var width = mat[0].length;
-  var height = mat.length;
-  var covered = [];
-  for (var i = 0; i < height; i++) {
-    covered[i] = new Array(width);
-    _.fill(covered[i], false);
+  const width = mat[0].length;
+  const height = mat.length;
+  const covered = [];
+  for (let i = 0; i < height; i++) {
+    covered[i] = new Array(width).fill(false);
   }
-  var labelLocs = [];
-  for (var y = 0; y < height; y++) {
-    for (var x = 0; x < width; x++) {
+  const labelLocs = [];
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
       if (covered[y][x] === false) {
-        var region = getRegion(mat, covered, x, y);
+        const region = getRegion(mat, covered, x, y);
         coverRegion(covered, region);
         if (region.x.length > 100) {
           labelLocs.push(getLabelLoc(mat, region));
@@ -26,20 +23,15 @@ export default function getLabelLocations(mat) {
 }
 
 function getRegion(mat, cov, x, y) {
-  var covered = _.cloneDeep(cov);
-  var region = { value: mat[y][x], x: [], y: [] };
-  var value = mat[y][x];
+  const covered = JSON.parse(JSON.stringify(cov));
+  const region = { value: mat[y][x], x: [], y: [] };
+  const value = mat[y][x];
 
-  var queue = [[x, y]];
+  const queue = [[x, y]];
   while (queue.length > 0) {
-    var coord = queue.shift();
+    const coord = queue.shift();
     const color = mat[coord[1]][coord[0]];
-    if (
-      covered[coord[1]][coord[0]] === false &&
-      color.r === value.r &&
-      color.g === value.g &&
-      color.b === value.b
-    ) {
+    if (covered[coord[1]][coord[0]] === false && color === value) {
       region.x.push(coord[0]);
       region.y.push(coord[1]);
       covered[coord[1]][coord[0]] = true;
@@ -62,16 +54,16 @@ function getRegion(mat, cov, x, y) {
 }
 
 function coverRegion(covered, region) {
-  for (var i = 0; i < region.x.length; i++) {
+  for (let i = 0; i < region.x.length; i++) {
     covered[region.y[i]][region.x[i]] = true;
   }
 }
 
 function getLabelLoc(mat, region) {
-  var bestI = 0;
-  var best = 0;
-  for (var i = 0; i < region.x.length; i++) {
-    var goodness =
+  let bestI = 0;
+  let best = 0;
+  for (let i = 0; i < region.x.length; i++) {
+    const goodness =
       sameCount(mat, region.x[i], region.y[i], -1, 0) *
       sameCount(mat, region.x[i], region.y[i], 1, 0) *
       sameCount(mat, region.x[i], region.y[i], 0, -1) *
@@ -88,16 +80,14 @@ function getLabelLoc(mat, region) {
   };
 }
 function sameCount(mat, x, y, incX, incY) {
-  var value = mat[y][x];
-  var count = -1;
+  const value = mat[y][x];
+  let count = -1;
   while (
     x >= 0 &&
     x < mat[0].length &&
     y >= 0 &&
     y < mat.length &&
-    mat[y][x].r === value.r &&
-    mat[y][x].g === value.g &&
-    mat[y][x].b === value.b
+    mat[y][x] === value
   ) {
     count++;
     x += incX;
@@ -111,18 +101,14 @@ function removeRegion(mat, region) {
   if (region.y[0] > 0) {
     newValue = mat[region.y[0] - 1][region.x[0]]; // assumes first pixel in list is topmost then leftmost of region.
   } else {
-    newValue = getBelowValue(mat, region);
+    const x = region.x[0];
+    let y = region.y[0];
+    while (mat[y][x] === region.value) {
+      y++;
+    }
+    newValue = mat[y][x];
   }
-  for (var i = 0; i < region.x.length; i++) {
+  for (let i = 0; i < region.x.length; i++) {
     mat[region.y[i]][region.x[i]] = newValue;
   }
-}
-
-function getBelowValue(mat, region) {
-  var x = region.x[0];
-  var y = region.y[0];
-  while (mat[y][x] === region.value) {
-    y++;
-  }
-  return mat[y][x];
 }

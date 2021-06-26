@@ -26,5 +26,5 @@ function getNearestColorFromPalette(color, palette) {
     }
   }
 
-  return palette[nearestColorIndex];
+  return nearestColorIndex;
 }

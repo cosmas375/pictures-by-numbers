@@ -7,8 +7,13 @@ import smooth from './steps/smooth';
 import outline from './steps/outline';
 import getLabelLocations from './steps/getLabelLocations';
 import matrixToColors from './steps/matrixToColors';
-import RgbColorsToColors from './steps/rgbColorsToColors';
+import rgbColorsToColors from './steps/rgbColorsToColors';
 import colorsToImageData from './steps/colorsToImageData';
+
+const OUTLINE_PALETTE = [
+  { r: 255, g: 255, b: 255, a: 255 },
+  { r: 0, g: 0, b: 0, a: 255 }
+];
 
 onmessage = async e => {
   console.log(
@@ -50,7 +55,10 @@ onmessage = async e => {
   const processedRgbColors = matrixToColors(outlinedImage);
 
   console.log('converting rgb to rgba...');
-  const processedColors = RgbColorsToColors(processedRgbColors);
+  const processedColors = rgbColorsToColors(
+    processedRgbColors,
+    OUTLINE_PALETTE
+  );
 
   console.log('creating imageData...');
   const result = colorsToImageData({
@@ -63,6 +71,11 @@ onmessage = async e => {
     action: 'result',
     value: {
       outline: result,
+      // outline: colorsToImageData({
+      //   colors: rgbColorsToColors(matrixToColors(smoothedImage), palette),
+      //   width: imageData.width,
+      //   height: imageData.height
+      // }),
       labelsLocations,
       palette
     }

@@ -7,16 +7,17 @@ export default function generatePdf(data) {
 
   const { image } = data;
 
+  const orientation = image.width > image.height ? 'landscape' : 'portrait';
   const sheetParams = {
     format: 'a4',
     unit: 'mm',
-    width: 210,
-    height: 297
+    width: orientation === 'landscape' ? 297 : 210,
+    height: orientation === 'landscape' ? 210 : 297
   };
 
-  const orientation = image.width > image.height ? 'landscape' : 'portrait';
-
-  const sheetAspectRatio = sheetParams.width / sheetParams.height;
+  const sheetAspectRatio =
+    (sheetParams.width / sheetParams.height) **
+    (orientation === 'portrait' ? 1 : -1);
   const aspectRatio = image.width / image.height;
   const mainDimension = aspectRatio > sheetAspectRatio ? 'width' : 'height';
   const secondaryDimension =
@@ -28,9 +29,10 @@ export default function generatePdf(data) {
       2) *
     0.8;
 
-  const mainDimensionMargin = 5;
+  const mainDimensionMargin = 10;
   const secondaryDimensionMargin =
-    (10 / image[mainDimension]) * image[secondaryDimension];
+    ((2 * mainDimensionMargin) / image[mainDimension]) *
+    image[secondaryDimension];
 
   const doc = new JSPDF({
     orientation,

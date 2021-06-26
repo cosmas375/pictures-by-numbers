@@ -11,7 +11,7 @@ export default function generateImage(imageData, labelsLocations) {
     const len = labelsLocations.length;
     for (var i = 0; i < len; i++) {
       ctx.fillText(
-        JSON.stringify(i),
+        labelsLocations[i].value,
         labelsLocations[i].x - 3,
         labelsLocations[i].y + 4
       );
