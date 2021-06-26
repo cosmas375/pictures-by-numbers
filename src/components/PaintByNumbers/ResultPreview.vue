@@ -1,141 +1,152 @@
 <template>
-  <div class="result-preview">
-    <div class="result-preview__container">
-      <div v-if="!image" class="result-preview__placeholder">
-        <UIIcon icon="el-icon-view" class="result-preview__placeholder-icon" />
-        <span class="result-preview__placeholder-text">
-          {{ $t('image_processor.preview.placeholder') }}
-        </span>
+  <div
+    ref="root"
+    class="result-comparison"
+    :class="{ 'result-comparison_resizing': isResizing }"
+    :style="{ height: `${this.height}px` }"
+  >
+    <div class="result-comparison__wrap">
+      <div class="result-comparison__img">
+        <img
+          ref="second"
+          :src="secondSrc"
+          :style="{ width: `${width}px` }"
+          alt="second"
+          class="result-comparison__second"
+        />
       </div>
-      <div v-if="isLoadingStateEnabled" class="result-preview__loader">
-        <UIIcon icon="el-icon-loading" class="result-preview__loader-icon" />
-        <span class="result-preview__loader-text">{{
-          $t('image_processor.preview.loader')
-        }}</span>
+      <div ref="slider" class="result-comparison__slider"></div>
+      <div
+        ref="overlay"
+        class="result-comparison__img result-comparison__img_overlay"
+      >
+        <img
+          ref="first"
+          :src="firstSrc"
+          :style="{ width: `${width}px` }"
+          alt="first"
+          class="result-comparison__first"
+        />
       </div>
-      <ResultComparison
-        v-if="isResultReady"
-        :sourceImage="image"
-        :processedImage="processedImage"
-        :labelsLocations="labelsLocations"
-        class="result-preview__compare"
-        ref="comparisonBlock"
-      />
     </div>
-    <UIButton
-      v-if="isResultReady"
-      @click="downloadPdf"
-      class="result-preview__download-btn"
-    >
-      {{ $t('image_processor.preview.download') }}
-    </UIButton>
   </div>
 </template>
 
 <script>
-import ResultComparison from '@/components/PaintByNumbers/ResultComparison';
-import processImage from '@/libs/processImage';
-import JSPDF from 'jspdf';
-
 export default {
-  name: 'ResultPreview',
+  name: 'ResultComparison',
   props: {
-    image: { type: [File, Object] }
+    first: { type: [File, Object] },
+    second: { type: [File, Object] }
   },
   data() {
     return {
-      isLoadingStateEnabled: false,
-      isResultReady: false,
-      processedImage: null,
-      labelsLocations: null
+      width: 0,
+      height: 0,
+      sliderPosition: null,
+      resizeDebounceTimeout: null,
+      isResizing: false
     };
   },
+  computed: {
+    firstSrc() {
+      return this.first ? this.first.src : null;
+    },
+    secondSrc() {
+      return this.second ? this.second.src : null;
+    }
+  },
   methods: {
-    setLoadingState(value) {
-      this.isLoadingStateEnabled = value;
+    updateResponsiveImageSize() {
+      if (!this.first) {
+        this.width = 0;
+        this.height = 0;
+        return;
+      }
+      this.width = this.$refs.root.offsetWidth;
+      this.height = (this.first.height * this.width) / this.first.width;
     },
-    setResultReady(value) {
-      this.isResultReady = value;
+    updateOverlay() {
+      const startupSliderPosition = this.getStartupSliderPosition();
+      this.$refs.overlay.style.width = `${startupSliderPosition}px`;
+      const slider = this.$refs.slider;
+      slider.style.top = `${this.height / 2 - slider.offsetHeight / 2}px`;
+      slider.style.left = `${startupSliderPosition - slider.offsetWidth / 2}px`;
+      slider.addEventListener('mousedown', this.onSliderMousedown);
+      slider.addEventListener('touchstart', this.onSliderMousedown);
+      window.addEventListener('mouseup', this.onSliderMouseup);
+      window.addEventListener('touchend', this.onSliderMouseup);
     },
-    async onReady({ outlined, labelsLocations }) {
-      this.processedImage = outlined;
-      this.labelsLocations = labelsLocations;
-      this.setLoadingState(false);
-      this.setResultReady(true);
+    onSliderMousedown(e) {
+      e.preventDefault();
+      window.addEventListener('mousemove', this.onMousemove);
+      window.addEventListener('touchmove', this.onMousemove);
     },
-    onError(error) {
-      console.log(error);
-      // this.$ui.alert(error);
+    onSliderMouseup() {
+      window.removeEventListener('mousemove', this.onMousemove);
+      window.removeEventListener('touchmove', this.onMousemove);
+    },
+    onMousemove(e) {
+      let pos = this.getCursorPosition(e);
+      if (pos < 0) {
+        pos = 0;
+      } else if (pos > this.width) {
+        pos = this.width;
+      }
+      this.slide(pos);
+      this.saveSliderPosition(pos);
+    },
+    getCursorPosition(e) {
+      const overlayRect = this.$refs.overlay.getBoundingClientRect();
+      return e.pageX - overlayRect.left - window.pageXOffset;
+    },
+    slide(x) {
+      const slider = this.$refs.slider;
+      const overlay = this.$refs.overlay;
+      overlay.style.width = `${x}px`;
+      slider.style.left = `${overlay.offsetWidth - slider.offsetWidth / 2}px`;
     },
 
-    downloadPdf() {
-      const sheetParams = {
-        format: 'a4',
-        unit: 'mm',
-        width: 210,
-        height: 297
-      };
+    saveSliderPosition(x) {
+      this.sliderPosition = x / this.width;
+    },
+    getStartupSliderPosition() {
+      return this.sliderPosition === null
+        ? this.width / 2
+        : this.sliderPosition * this.width;
+    },
 
-      const orientation =
-        this.processedImage.width > this.processedImage.height
-          ? 'landscape'
-          : 'portrait';
-
-      const sheetAspectRatio = sheetParams.width / sheetParams.height;
-      const aspectRatio =
-        this.processedImage.width / this.processedImage.height;
-      const mainDimension = aspectRatio > sheetAspectRatio ? 'width' : 'height';
-      const secondaryDimension =
-        aspectRatio > sheetAspectRatio ? 'height' : 'width';
-      const mmPerPx =
-        sheetParams[mainDimension] / this.processedImage[mainDimension];
-
-      const centeringMargin =
-        ((sheetParams[secondaryDimension] -
-          this.processedImage[secondaryDimension] * mmPerPx) /
-          2) *
-        0.8;
-
-      const mainDimensionMargin = 5;
-      const secondaryDimensionMargin =
-        (10 / this.processedImage[mainDimension]) *
-        this.processedImage[secondaryDimension];
-
-      const doc = new JSPDF({
-        orientation,
-        unit: 'mm',
-        format: sheetParams.format
-      });
-      doc.addImage(
-        this.$refs.comparisonBlock.$refs.canvas,
-        'JPEG', // TODO: to be replaced w PNG
-        secondaryDimension === 'width' ? centeringMargin : mainDimensionMargin,
-        secondaryDimension === 'height' ? centeringMargin : mainDimensionMargin,
-        mainDimension === 'width'
-          ? this.processedImage[mainDimension] * mmPerPx -
-              mainDimensionMargin * 2
-          : this.processedImage[secondaryDimension] * mmPerPx -
-              secondaryDimensionMargin * 2,
-        mainDimension === 'height'
-          ? this.processedImage[mainDimension] * mmPerPx -
-              mainDimensionMargin * 2
-          : this.processedImage[secondaryDimension] * mmPerPx -
-              secondaryDimensionMargin * 2
-      );
-      doc.save('My awesome artwork.pdf');
+    onResize() {
+      if (!this.second) {
+        return;
+      }
+      if (this.resizeDebounceTimeout) {
+        clearTimeout(this.resizeDebounceTimeout);
+      } else {
+        this.isResizing = true;
+      }
+      this.resizeDebounceTimeout = setTimeout(() => {
+        this.updateResponsiveImageSize();
+        this.updateOverlay();
+        this.isResizing = false;
+        this.resizeDebounceTimeout = null;
+      }, 500);
     }
   },
-  watch: {
-    image(v) {
-      this.setResultReady(false);
-      this.setLoadingState(true);
-      processImage(v)
-        .then(this.onReady)
-        .catch(this.onError);
-    }
+  mounted() {
+    this.updateResponsiveImageSize();
+    this.updateOverlay();
+    window.addEventListener('resize', this.onResize);
   },
-  components: {
-    ResultComparison
+  beforeUnmount() {
+    const slider = this.$refs.slider;
+    slider.removeEventListener('mousedown', this.onSliderMousedown);
+    slider.removeEventListener('touchstart', this.onSliderMousedown);
+    window.removeEventListener('mouseup', this.onSliderMouseup);
+    window.removeEventListener('touchend', this.onSliderMouseup);
+    window.removeEventListener('mousemove', this.onMousemove);
+    window.removeEventListener('touchmove', this.onMousemove);
+    window.removeEventListener('resize', this.onResize);
   }
 };
 </script>
@@ -143,82 +154,73 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/theming';
 
-$min-container-height: 40rem;
-
-.result-preview {
+.result-comparison {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 100%;
+  transition: opacity 0.2s;
 
-  &__container {
-    width: 100%;
+  &_resizing {
+    opacity: 0;
+  }
+
+  &__img {
+    position: absolute;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+
+    &_overlay {
+      @include themed() {
+        border-right: 0.1rem solid t($text-color-secondary);
+        box-shadow: 0.1rem 0 0 0 t($text-color-secondary);
+        transition: border-right-color $theme-transition;
+      }
+    }
+
+    & > * {
+      display: block;
+    }
+  }
+
+  &__slider {
+    position: absolute;
+    z-index: 9;
+
+    width: 4rem;
+    height: 4rem;
     @include themed() {
+      border: 0.2rem solid t($text-color-secondary);
       background-color: t($canvas-bg);
-      transition: background-color $theme-transition;
+      transition: border-color $theme-transition,
+        background-color $theme-transition;
     }
-  }
+    border-radius: 50%;
+    cursor: ew-resize;
 
-  &_loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__placeholder {
-    width: 100%;
-    min-height: $min-container-height;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  &__placeholder-icon {
-    font-size: 4.8rem;
-    @include themed() {
-      color: t($text-color-secondary);
-      transition: color $theme-transition;
+    $arrow-offset: 0.1rem;
+    $arrow-size: 0.7rem;
+    &:after,
+    &:before {
+      content: '';
+      position: absolute;
+      top: calc(50% - #{$arrow-size});
+      display: block;
+      border: $arrow-size solid transparent;
     }
-  }
-  &__placeholder-text {
-    font-size: 1.4rem;
-    @include themed() {
-      color: t($text-color-secondary);
-      transition: color $theme-transition;
+    &:before {
+      left: $arrow-offset;
+      @include themed() {
+        border-right: $arrow-size solid t($text-color-secondary);
+        transition: border-right-color $theme-transition;
+      }
     }
-  }
-
-  &__loader {
-    width: 100%;
-    min-height: $min-container-height;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  &__loader-icon {
-    font-size: 2.4rem;
-    @include themed() {
-      color: t($text-color-secondary);
-      transition: color $theme-transition;
+    &:after {
+      right: $arrow-offset;
+      @include themed() {
+        border-left: $arrow-size solid t($text-color-secondary);
+        transition: border-left-color $theme-transition;
+      }
     }
-  }
-  &__loader-text {
-    margin-top: 0.4rem;
-    font-size: 1.4rem;
-    @include themed() {
-      color: t($text-color-secondary);
-      transition: color $theme-transition;
-    }
-  }
-
-  &__compare {
-    position: relative;
-  }
-
-  &__download-btn {
-    margin-top: 2rem;
   }
 }
 </style>

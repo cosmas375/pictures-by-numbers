@@ -1,6 +1,6 @@
 import Worker from './processor.worker.js';
-import getImageDataFromImage from './steps/getImageDataFromImage';
-import getImageFromImageData from './steps/getImageFromImageData';
+import generateImage from './steps/generateImage';
+import getImageData from './steps/getImageData';
 
 export default function processImage(img) {
   return new Promise((resolve, reject) => {
@@ -10,18 +10,16 @@ export default function processImage(img) {
       if (e.data.error) {
         reject(e.data.error);
       } else {
-        const imageData = e.data.value.outlined;
-        const labelsLocations = e.data.value.labelsLocations;
-        getImageFromImageData(imageData).then(img =>
+        const { outline, palette, labelsLocations } = e.data.value;
+        generateImage(outline, labelsLocations).then(image =>
           resolve({
-            outlined: img,
-            labelsLocations
+            image,
+            palette
           })
         );
       }
     };
 
-    const imgData = getImageDataFromImage(img);
-    worker.postMessage(imgData);
+    worker.postMessage(getImageData(img));
   });
 }

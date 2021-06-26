@@ -1,14 +1,10 @@
-import { RGBA_CHANNELS_COUNT } from '../helpers/colorTransform';
-
-export default function getImageData({ colors, width, height }) {
-  const len = RGBA_CHANNELS_COUNT * colors.length;
-  const arr = new Uint8ClampedArray(len);
-  for (let i = 0; i < len; i += RGBA_CHANNELS_COUNT) {
-    const color = colors[Math.floor(i / RGBA_CHANNELS_COUNT)];
-    arr[i] = color.r;
-    arr[i + 1] = color.g;
-    arr[i + 2] = color.b;
-    arr[i + 3] = color.a;
-  }
-  return new ImageData(arr, width, height);
+export default function getImageData(img) {
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  const imgData = ctx.getImageData(0, 0, img.width, img.height);
+  canvas.remove();
+  return imgData;
 }

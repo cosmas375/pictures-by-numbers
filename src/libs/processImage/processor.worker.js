@@ -8,7 +8,7 @@ import outline from './steps/outline';
 import getLabelLocations from './steps/getLabelLocations';
 import matrixToColors from './steps/matrixToColors';
 import RgbColorsToColors from './steps/rgbColorsToColors';
-import getImageData from './steps/getImageData';
+import colorsToImageData from './steps/colorsToImageData';
 
 onmessage = async e => {
   console.log(
@@ -53,7 +53,7 @@ onmessage = async e => {
   const processedColors = RgbColorsToColors(processedRgbColors);
 
   console.log('creating imageData...');
-  const result = getImageData({
+  const result = colorsToImageData({
     colors: processedColors,
     width: imageData.width,
     height: imageData.height
@@ -62,9 +62,9 @@ onmessage = async e => {
   postMessage({
     action: 'result',
     value: {
-      colorized: '',
-      outlined: result,
-      labelsLocations
+      outline: result,
+      labelsLocations,
+      palette
     }
   });
 
