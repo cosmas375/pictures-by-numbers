@@ -6,7 +6,7 @@ export default function generateImage(imageData, labelsLocations) {
     const ctx = canvas.getContext('2d');
     ctx.putImageData(imageData, 0, 0);
 
-    ctx.font = '12px Georgia';
+    ctx.font = '10px Georgia';
     ctx.fillStyle = 'rgb(150, 150, 150)';
     const len = labelsLocations.length;
     for (var i = 0; i < len; i++) {

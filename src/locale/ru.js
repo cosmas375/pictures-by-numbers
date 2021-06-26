@@ -14,7 +14,7 @@ export default {
     preview: {
       placeholder: 'Здесь будет показан результат!',
       loader: 'Пожалуйста подождите, сейчас все будет готово...',
-      download: 'Скачать PDF'
+      download: 'Сгенерировать PDF'
     }
   }
 };

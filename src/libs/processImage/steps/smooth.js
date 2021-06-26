@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const SMOOTHING_FACTOR = 4;
 
 export default function smooth(matrix) {
@@ -11,12 +9,7 @@ export default function smooth(matrix) {
   }
   for (var y = 0; y < height; y++) {
     for (var x = 0; x < width; x++) {
-      var vicinVals = getVicinVals(matrix, x, y, SMOOTHING_FACTOR);
-      simp[y][x] = _.chain(vicinVals)
-        .toPairs()
-        .maxBy(_.last)
-        .last()
-        .value();
+      simp[y][x] = Math.max(...getVicinVals(matrix, x, y, SMOOTHING_FACTOR));
     }
   }
   return simp;
