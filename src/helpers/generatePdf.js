@@ -19,9 +19,16 @@ export default function generatePdf(data) {
     (sheetParams.width / sheetParams.height) **
     (orientation === 'portrait' ? 1 : -1);
   const aspectRatio = image.width / image.height;
-  const mainDimension = aspectRatio > sheetAspectRatio ? 'width' : 'height';
-  const secondaryDimension =
-    aspectRatio > sheetAspectRatio ? 'height' : 'width';
+
+  let mainDimension, secondaryDimension;
+  if (aspectRatio > sheetAspectRatio) {
+    mainDimension = 'width';
+    secondaryDimension = 'height';
+  } else {
+    mainDimension = 'height';
+    secondaryDimension = 'width';
+  }
+
   const mmPerPx = sheetParams[mainDimension] / image[mainDimension];
 
   const centeringMargin =
@@ -31,25 +38,25 @@ export default function generatePdf(data) {
 
   const mainDimensionMargin = 10;
   const secondaryDimensionMargin =
-    ((2 * mainDimensionMargin) / image[mainDimension]) *
-    image[secondaryDimension];
+    (mainDimensionMargin / image[mainDimension]) * image[secondaryDimension];
 
   const doc = new JSPDF({
     orientation,
     unit: 'mm',
     format: sheetParams.format
   });
+  const widthIsMain = mainDimension === 'width';
   doc.addImage(
     image.src,
     'JPEG', // TODO: to be replaced w PNG
-    secondaryDimension === 'width' ? centeringMargin : mainDimensionMargin,
-    secondaryDimension === 'height' ? centeringMargin : mainDimensionMargin,
-    mainDimension === 'width'
+    widthIsMain ? mainDimensionMargin : centeringMargin,
+    widthIsMain ? centeringMargin : mainDimensionMargin,
+    widthIsMain
       ? image[mainDimension] * mmPerPx - mainDimensionMargin * 2
       : image[secondaryDimension] * mmPerPx - secondaryDimensionMargin * 2,
-    mainDimension === 'height'
-      ? image[mainDimension] * mmPerPx - mainDimensionMargin * 2
-      : image[secondaryDimension] * mmPerPx - secondaryDimensionMargin * 2
+    widthIsMain
+      ? image[secondaryDimension] * mmPerPx - secondaryDimensionMargin * 2
+      : image[mainDimension] * mmPerPx - mainDimensionMargin * 2
   );
   doc.save('My awesome artwork.pdf');
 }
