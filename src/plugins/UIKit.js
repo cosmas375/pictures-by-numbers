@@ -4,6 +4,7 @@ import UISwitch from '@/components/UI/UISwitch';
 import UISelect from '@/components/UI/UISelect';
 import UIOption from '@/components/UI/UIOption';
 import UIFileUpload from '@/components/UI/UIFileUpload';
+import UINotification from '@/components/UI/UINotification';
 
 const components = {
   UIButton,
@@ -11,7 +12,8 @@ const components = {
   UISwitch,
   UISelect,
   UIOption,
-  UIFileUpload
+  UIFileUpload,
+  UINotification
 };
 
 export default {

@@ -1,4 +1,11 @@
-import { ElButton, ElSwitch, ElSelect, ElOption, ElUpload } from 'element-plus';
+import {
+  ElButton,
+  ElSwitch,
+  ElSelect,
+  ElOption,
+  ElUpload,
+  ElNotification
+} from 'element-plus';
 
 export default {
   install: function(app) {
@@ -7,5 +14,6 @@ export default {
     app.use(ElSelect);
     app.use(ElOption);
     app.use(ElUpload);
+    app.use(ElNotification);
   }
 };

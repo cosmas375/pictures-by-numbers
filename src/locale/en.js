@@ -16,6 +16,11 @@ export default {
       placeholder: "Here you'll see the result!",
       loader: "Please wait a bit, we're generating your artwork...",
       download: 'Generate PDF'
+    },
+    error: {
+      title: 'Error occurred ):',
+      message:
+        "Something went wrong during generation process. Please contact me via email provided in contacts section. I'll try to fix the problem in shortest time."
     }
   }
 };

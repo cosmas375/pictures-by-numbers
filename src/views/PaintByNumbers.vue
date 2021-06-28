@@ -107,9 +107,12 @@ export default {
       this.setLoadingState(false);
       this.setResultReady(true);
     },
-    onError(error) {
-      console.log(error);
-      // this.$ui.alert(error);
+    onError() {
+      this.$notify({
+        message: this.$t('image_processor.error.title'),
+        type: 'error',
+        duration: 5000
+      });
     },
 
     downloadPdf() {

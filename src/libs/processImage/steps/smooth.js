@@ -1,4 +1,4 @@
-const SMOOTHING_FACTOR = 4;
+const SMOOTHING_FACTOR = 2;
 
 export default function smooth(matrix) {
   var width = matrix[0].length;
