@@ -25,3 +25,13 @@ export function RGBtoRGBA(color) {
     a: 255
   };
 }
+
+export function RGBtoHEX({ r, g, b }) {
+  return `#${getHexFromRGBChannel(r)}${getHexFromRGBChannel(
+    g
+  )}${getHexFromRGBChannel(b)}`;
+}
+function getHexFromRGBChannel(c) {
+  const hex = c.toString(16);
+  return hex.length === 1 ? '0' + hex : hex;
+}

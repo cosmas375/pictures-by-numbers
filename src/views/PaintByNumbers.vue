@@ -16,6 +16,7 @@
               :second="processedImage"
               class="preview__compare"
             />
+            <Palette :colors="palette" class="preview__palette" />
             <UIButton @click="downloadPdf" class="preview__download-btn">
               {{ $t('image_processor.preview.download') }}
             </UIButton>
@@ -52,6 +53,7 @@ import ImageUploader from '@/components/PaintByNumbers/ImageUploader';
 import ProcessorPlaceholder from '@/components/PaintByNumbers/ProcessorPlaceholder';
 import ProcessorLoader from '@/components/PaintByNumbers/ProcessorLoader';
 import ResultPreview from '@/components/PaintByNumbers/ResultPreview';
+import Palette from '@/components/PaintByNumbers/Palette.vue';
 
 import processImage from '@/libs/processImage';
 import generatePdf from '@/helpers/generatePdf';
@@ -129,7 +131,8 @@ export default {
     ImageUploader,
     ProcessorPlaceholder,
     ProcessorLoader,
-    ResultPreview
+    ResultPreview,
+    Palette
   }
 };
 </script>
@@ -236,6 +239,10 @@ export default {
 
   &__compare {
     position: relative;
+  }
+
+  &__palette {
+    margin-top: 2rem;
   }
 
   &__download-btn {
