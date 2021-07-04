@@ -10,7 +10,7 @@
         <img
           ref="second"
           :src="secondSrc"
-          :style="{ width: `${width}px` }"
+          :style="{ width: styleWidth }"
           alt="second"
           class="result-comparison__second"
         />
@@ -23,7 +23,7 @@
         <img
           ref="first"
           :src="firstSrc"
-          :style="{ width: `${width}px` }"
+          :style="{ width: styleWidth }"
           alt="first"
           class="result-comparison__first"
         />
@@ -54,6 +54,9 @@ export default {
     },
     secondSrc() {
       return this.second ? this.second.src : null;
+    },
+    styleWidth() {
+      return `${this.width}px`;
     }
   },
   methods: {

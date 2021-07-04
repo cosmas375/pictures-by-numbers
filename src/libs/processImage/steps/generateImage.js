@@ -1,4 +1,4 @@
-export default function generateImage(imageData, labelsLocations) {
+export default function generateImage(imageData, labelsLocations = []) {
   return new Promise(resolve => {
     const canvas = document.createElement('canvas');
     canvas.width = imageData.width;
