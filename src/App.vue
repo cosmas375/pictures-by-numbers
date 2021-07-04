@@ -1,16 +1,17 @@
 <template>
   <div :class="`app app_${theme}`">
-    <router-view
+    <PaintByNumbers
       :theme="theme"
       :lang="lang"
       :langs="langs"
       @switch-theme="switchTheme"
       @set-lang="setLang"
-    ></router-view>
+    />
   </div>
 </template>
 
 <script>
+import PaintByNumbers from '@/views/PaintByNumbers';
 import { THEMES, saveTheme, getSavedTheme } from '@/helpers/themesHelper';
 import { LANGS, saveLang, getSavedLang } from '@/helpers/langsHelper';
 
@@ -39,7 +40,8 @@ export default {
   created() {
     this.theme = getSavedTheme();
     this.setLang(getSavedLang());
-  }
+  },
+  components: { PaintByNumbers }
 };
 </script>
 
