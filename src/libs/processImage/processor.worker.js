@@ -20,9 +20,14 @@ onmessage = async e => {
   console.log(new Date());
 
   const imageData = e.data;
+  const width = imageData.width;
+  const height = imageData.height;
+
+  console.log('smoothing...');
+  const smoothedImage = smooth(imageData);
 
   console.log('extracting colors...');
-  const colors = imageDataToColors(imageData.data);
+  const colors = imageDataToColors(smoothedImage.data);
 
   console.log('converting rgba to rgb...');
   const rgbColors = colorsToRgbColors(colors);
@@ -36,18 +41,15 @@ onmessage = async e => {
   console.log('transforming colors to matrix...');
   const matrix = colorsToMatrix({
     colors: alignedColors,
-    width: imageData.width,
-    height: imageData.height
+    width: width,
+    height: height
   });
 
-  console.log('smoothing...');
-  const smoothedImage = smooth(matrix);
-
   console.log('outlining...');
-  const outlinedImage = outline(smoothedImage);
+  const outlinedImage = outline(matrix);
 
   console.log('calculating labels locations...');
-  const labelsLocations = getLabelLocations(smoothedImage);
+  const labelsLocations = getLabelLocations(matrix);
 
   console.log('transforming matrix to colors...');
   const processedRgbColors = matrixToColors(outlinedImage);
@@ -61,8 +63,8 @@ onmessage = async e => {
   console.log('creating imageData...');
   const result = colorsToImageData({
     colors: processedColors,
-    width: imageData.width,
-    height: imageData.height
+    width: width,
+    height: height
   });
 
   postMessage({
@@ -72,9 +74,9 @@ onmessage = async e => {
       labelsLocations,
       palette,
       color: colorsToImageData({
-        colors: rgbColorsToColors(matrixToColors(smoothedImage), palette),
-        width: imageData.width,
-        height: imageData.height
+        colors: rgbColorsToColors(matrixToColors(matrix), palette),
+        width: width,
+        height: height
       })
     }
   });
