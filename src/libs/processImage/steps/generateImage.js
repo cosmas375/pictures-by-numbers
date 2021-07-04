@@ -8,15 +8,17 @@ export default function generateImage(imageData, labelsLocations = []) {
     const ctx = canvas.getContext('2d');
     ctx.putImageData(imageData, 0, 0);
 
-    ctx.font = '10px Georgia';
-    ctx.fillStyle = `rgb(${OUTLINE_COLOR.r}, ${OUTLINE_COLOR.g}, ${OUTLINE_COLOR.b})`;
     const len = labelsLocations.length;
-    for (var i = 0; i < len; i++) {
-      ctx.fillText(
-        labelsLocations[i].value,
-        labelsLocations[i].x - 3,
-        labelsLocations[i].y + 4
-      );
+    if (len) {
+      ctx.font = '10px Georgia';
+      ctx.fillStyle = `rgb(${OUTLINE_COLOR.r}, ${OUTLINE_COLOR.g}, ${OUTLINE_COLOR.b})`;
+      for (var i = 0; i < len; i++) {
+        ctx.fillText(
+          labelsLocations[i].value,
+          labelsLocations[i].x - 3,
+          labelsLocations[i].y + 4
+        );
+      }
     }
 
     const img = document.createElement('img');

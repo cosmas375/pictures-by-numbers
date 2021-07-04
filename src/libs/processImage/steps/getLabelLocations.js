@@ -75,8 +75,8 @@ function getLabelLoc(mat, region) {
   }
   return {
     value: region.value,
-    x: region.x[bestI],
-    y: region.y[bestI]
+    x: region.x[bestI] - 2,
+    y: region.y[bestI] - 2
   };
 }
 function sameCount(mat, x, y, incX, incY) {

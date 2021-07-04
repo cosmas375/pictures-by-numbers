@@ -1,18 +1,50 @@
 import JSPDF from 'jspdf';
+import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
+
+const FORMATS = {
+  a4: { width: 210, height: 297 }
+};
 
 export default function generatePdf(data) {
   if (!data) {
     return;
   }
 
-  const { image } = data;
+  const { outline, color, palette } = data;
 
+  const imgPage = getImagePageData(outline);
+  const imagePageParams = [
+    'PNG',
+    imgPage.x0,
+    imgPage.y0,
+    imgPage.x1,
+    imgPage.y1
+  ];
+
+  const doc = new JSPDF({
+    orientation: imgPage.orientation,
+    unit: 'mm',
+    format: imgPage.format
+  });
+
+  doc.addImage(outline.src, ...imagePageParams);
+
+  addPalettePage(doc, palette);
+
+  doc.addPage(imgPage.format, imgPage.orientation);
+  doc.addImage(color.src, ...imagePageParams);
+
+  doc.save('My awesome artwork.pdf');
+}
+
+function getImagePageData(image) {
+  const format = 'a4';
   const orientation = image.width > image.height ? 'landscape' : 'portrait';
   const sheetParams = {
-    format: 'a4',
+    format: format,
     unit: 'mm',
-    width: orientation === 'landscape' ? 297 : 210,
-    height: orientation === 'landscape' ? 210 : 297
+    width: FORMATS[format][orientation === 'landscape' ? 'height' : 'width'],
+    height: FORMATS[format][orientation === 'landscape' ? 'width' : 'height']
   };
 
   const sheetAspectRatio =
@@ -32,31 +64,74 @@ export default function generatePdf(data) {
   const mmPerPx = sheetParams[mainDimension] / image[mainDimension];
 
   const centeringMargin =
-    ((sheetParams[secondaryDimension] - image[secondaryDimension] * mmPerPx) /
-      2) *
-    0.8;
+    (sheetParams[secondaryDimension] - image[secondaryDimension] * mmPerPx) / 2;
 
   const mainDimensionMargin = 10;
   const secondaryDimensionMargin =
     (mainDimensionMargin / image[mainDimension]) * image[secondaryDimension];
 
-  const doc = new JSPDF({
-    orientation,
-    unit: 'mm',
-    format: sheetParams.format
-  });
   const widthIsMain = mainDimension === 'width';
-  doc.addImage(
-    image.src,
-    'JPEG', // TODO: to be replaced w PNG
-    widthIsMain ? mainDimensionMargin : centeringMargin,
-    widthIsMain ? centeringMargin : mainDimensionMargin,
-    widthIsMain
+
+  return {
+    format,
+    orientation,
+    x0: widthIsMain ? mainDimensionMargin : centeringMargin,
+    y0: widthIsMain ? centeringMargin : mainDimensionMargin,
+    x1: widthIsMain
       ? image[mainDimension] * mmPerPx - mainDimensionMargin * 2
       : image[secondaryDimension] * mmPerPx - secondaryDimensionMargin * 2,
-    widthIsMain
+    y1: widthIsMain
       ? image[secondaryDimension] * mmPerPx - secondaryDimensionMargin * 2
       : image[mainDimension] * mmPerPx - mainDimensionMargin * 2
-  );
-  doc.save('My awesome artwork.pdf');
+  };
+}
+
+function addPalettePage(doc, palette) {
+  doc.addPage('a4', 'portrait');
+  const topOffset = 5;
+  const leftMargin = 5;
+  const margin = 5;
+  const height = 10;
+  const width = 10;
+  const borderRadius = 2;
+  const itemsPerColumn = 19;
+  const indexWidth = 10;
+  const textWidth = 20;
+  const textMargin = 3;
+  const fontSize = 12;
+  doc.setLineWidth(0.2);
+  doc.setDrawColor(0, 0, 0);
+  doc.setFontSize(fontSize);
+  palette.forEach((color, i) => {
+    doc.text(
+      `${i + 1}.`,
+      leftMargin +
+        Math.floor(i / itemsPerColumn) *
+          (width + textMargin + textWidth + textMargin),
+      topOffset + (height + margin) * (i % itemsPerColumn) + fontSize / 2
+    );
+    doc.setFillColor(color.r, color.g, color.b);
+    doc.roundedRect(
+      leftMargin +
+        indexWidth +
+        Math.floor(i / itemsPerColumn) *
+          (width + textMargin + textWidth + textMargin),
+      topOffset + (height + margin) * (i % itemsPerColumn),
+      width,
+      height,
+      borderRadius,
+      borderRadius,
+      'DF'
+    );
+    doc.text(
+      RGBtoHEX(color),
+      leftMargin +
+        indexWidth +
+        Math.floor(i / itemsPerColumn) *
+          (width + textMargin + textWidth + textMargin) +
+        width +
+        textMargin,
+      topOffset + (height + margin) * (i % itemsPerColumn) + fontSize / 2
+    );
+  });
 }

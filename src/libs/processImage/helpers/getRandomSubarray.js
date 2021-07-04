@@ -1,5 +1,5 @@
 export default function getRandomSubarray(arr, size) {
-  const shuffled = arr.slice(0);
+  const shuffled = arr.slice();
   let i = arr.length;
   let temp, index;
 

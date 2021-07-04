@@ -70,7 +70,12 @@ onmessage = async e => {
     value: {
       outline: result,
       labelsLocations,
-      palette
+      palette,
+      color: colorsToImageData({
+        colors: rgbColorsToColors(matrixToColors(smoothedImage), palette),
+        width: imageData.width,
+        height: imageData.height
+      })
     }
   });
 

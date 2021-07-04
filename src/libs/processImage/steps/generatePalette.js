@@ -2,7 +2,7 @@ import { PALETTE_SIZE } from '@/libs/processImage/settings';
 import getRandomSubarray from '@/libs/processImage/helpers/getRandomSubarray';
 
 // https://curiousily.com/posts/color-palette-extraction-with-k-means-clustering/
-const MIN_DIFF = 100; // idk why
+const MIN_DIFF = 3; // idk what to set it
 
 export default function generatePalette(colors) {
   const result = fit(colors)

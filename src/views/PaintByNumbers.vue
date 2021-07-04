@@ -82,7 +82,10 @@ export default {
       return !this.sourceImage;
     },
     processedImage() {
-      return this.processingResult ? this.processingResult.image : null;
+      return this.processingResult ? this.processingResult.outline : null;
+    },
+    coloredImage() {
+      return this.processingResult ? this.processingResult.color : null;
     },
     palette() {
       return this.processingResult ? this.processingResult.palette : null;
@@ -119,7 +122,8 @@ export default {
 
     downloadPdf() {
       generatePdf({
-        image: this.processedImage,
+        outline: this.processedImage,
+        color: this.coloredImage,
         palette: this.palette
       });
     }

@@ -10,12 +10,15 @@ export default function processImage(img) {
       if (e.data.error) {
         reject(e.data.error);
       } else {
-        const { outline, palette, labelsLocations } = e.data.value;
-        generateImage(outline, labelsLocations).then(image =>
-          resolve({
-            image,
-            palette
-          })
+        const { outline, palette, labelsLocations, color } = e.data.value;
+        generateImage(outline, labelsLocations).then(processedOutline =>
+          generateImage(color, []).then(processedColor =>
+            resolve({
+              outline: processedOutline,
+              color: processedColor,
+              palette
+            })
+          )
         );
       }
     };
