@@ -9,11 +9,9 @@ import getLabelLocations from './steps/getLabelLocations';
 import matrixToColors from './steps/matrixToColors';
 import rgbColorsToColors from './steps/rgbColorsToColors';
 import colorsToImageData from './steps/colorsToImageData';
+import { OUTLINE_COLOR } from '@/libs/processImage/settings';
 
-const OUTLINE_PALETTE = [
-  { r: 255, g: 255, b: 255, a: 255 },
-  { r: 0, g: 0, b: 0, a: 255 }
-];
+const OUTLINE_PALETTE = [{ r: 255, g: 255, b: 255, a: 255 }, OUTLINE_COLOR];
 
 onmessage = async e => {
   console.log(

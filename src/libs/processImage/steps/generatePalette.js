@@ -1,5 +1,8 @@
-const PALETTE_SIZE = 12;
-const MIN_DIFF = 100;
+import { PALETTE_SIZE } from '@/libs/processImage/settings';
+import getRandomSubarray from '@/libs/processImage/helpers/getRandomSubarray';
+
+// https://curiousily.com/posts/color-palette-extraction-with-k-means-clustering/
+const MIN_DIFF = 100; // idk why
 
 export default function generatePalette(colors) {
   const result = fit(colors)
@@ -57,20 +60,6 @@ function assignPoints(clusters, points) {
     plists[idx].push(point);
   });
   return plists;
-}
-
-function getRandomSubarray(arr, size) {
-  const shuffled = arr.slice(0);
-  let i = arr.length;
-  let temp, index;
-
-  while (i--) {
-    index = Math.floor((i + 1) * Math.random());
-    temp = shuffled[index];
-    shuffled[index] = shuffled[i];
-    shuffled[i] = temp;
-  }
-  return shuffled.slice(0, size);
 }
 
 function calculateCenter(points) {

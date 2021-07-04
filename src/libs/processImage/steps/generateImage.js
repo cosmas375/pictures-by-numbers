@@ -1,3 +1,5 @@
+import { OUTLINE_COLOR } from '@/libs/processImage/settings';
+
 export default function generateImage(imageData, labelsLocations = []) {
   return new Promise(resolve => {
     const canvas = document.createElement('canvas');
@@ -7,7 +9,7 @@ export default function generateImage(imageData, labelsLocations = []) {
     ctx.putImageData(imageData, 0, 0);
 
     ctx.font = '10px Georgia';
-    ctx.fillStyle = 'rgb(150, 150, 150)';
+    ctx.fillStyle = `rgb(${OUTLINE_COLOR.r}, ${OUTLINE_COLOR.g}, ${OUTLINE_COLOR.b})`;
     const len = labelsLocations.length;
     for (var i = 0; i < len; i++) {
       ctx.fillText(
