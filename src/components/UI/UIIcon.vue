@@ -1,6 +1,6 @@
 <template>
   <div class="ui-icon">
-    <i :class="icon"> </i>
+    <i :class="icon" :style="{ fontSize: size }"> </i>
   </div>
 </template>
 
@@ -8,7 +8,8 @@
 export default {
   name: 'UIIcon',
   props: {
-    icon: { type: String }
+    icon: { type: String },
+    size: { type: String, default: '1.4rem' }
   }
 };
 </script>

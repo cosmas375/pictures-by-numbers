@@ -5,7 +5,7 @@
     :on-change="onChange"
     class="image-uploader"
   >
-    <UIIcon icon="el-icon-upload" class="image-uploader__icon" />
+    <UIIcon icon="el-icon-upload" size="6.7rem" class="image-uploader__icon" />
     <div class="image-uploader__text">
       {{ $t('image_processor.file_upload.text') }}
     </div>
@@ -37,6 +37,8 @@ export default {
 @import '@/assets/scss/theming';
 
 .image-uploader {
+  width: 100%;
+
   &__tip {
     text-align: center;
     @include themed() {
@@ -49,6 +51,13 @@ export default {
       color: t($text-color);
       transition: color $theme-transition;
     }
+  }
+
+  .el-upload {
+    width: 100%;
+  }
+  .el-upload-dragger {
+    width: 100%;
   }
 }
 </style>

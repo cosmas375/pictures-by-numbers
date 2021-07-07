@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <UIIcon icon="el-icon-picture" class="logo__icon" />
+    <UIIcon icon="el-icon-picture" size="4.8rem" class="logo__icon" />
     <div class="logo__content">{{ $t('logo') }}</div>
   </div>
 </template>
@@ -25,7 +25,6 @@ export default {
   user-select: none;
 
   &__icon {
-    font-size: 4.8rem;
     margin-right: 1rem;
     @include themed() {
       color: t($text-color);

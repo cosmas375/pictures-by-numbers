@@ -1,11 +1,19 @@
 <template>
-  <UISwitch
-    :value="isDarkThemeEnabled"
-    :inactive-text="$t('common.dark_mode')"
-    active-color="#ffffff"
-    @input="$emit('switch-theme')"
-    class="theme-switch"
-  />
+  <div class="theme-switch">
+    <UISwitch
+      :value="isDarkThemeEnabled"
+      :inactive-text="$t('common.dark_mode')"
+      active-color="#ffffff"
+      @input="switchTheme"
+      class="theme-switch__switch"
+    />
+    <UIIcon
+      icon="el-icon-moon"
+      size="2rem"
+      @click="switchTheme"
+      class="theme-switch__icon"
+    />
+  </div>
 </template>
 
 <script>
@@ -23,6 +31,11 @@ export default {
     isDarkThemeEnabled() {
       return this.theme === THEMES.dark;
     }
+  },
+  methods: {
+    switchTheme() {
+      this.$emit('switch-theme');
+    }
   }
 };
 </script>
@@ -31,7 +44,12 @@ export default {
 @import '@/assets/scss/theming';
 
 .theme-switch {
-  .el-switch__label {
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    margin-left: 0.8rem;
+    cursor: pointer;
     @include themed() {
       color: t($text-color);
       transition: color $theme-transition;

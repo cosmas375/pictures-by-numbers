@@ -210,7 +210,7 @@ export default {
 
   &__bottom-controls {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
   }
 

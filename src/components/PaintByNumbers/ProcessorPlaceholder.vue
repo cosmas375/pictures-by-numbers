@@ -1,6 +1,10 @@
 <template>
   <div class="processor-placeholder">
-    <UIIcon icon="el-icon-view" class="processor-placeholder__icon" />
+    <UIIcon
+      icon="el-icon-view"
+      size="4.8rem"
+      class="processor-placeholder__icon"
+    />
     <span class="processor-placeholder__text">
       {{ $t('image_processor.preview.placeholder') }}
     </span>
@@ -25,7 +29,6 @@ export default {
   justify-content: center;
 
   &__icon {
-    font-size: 4.8rem;
     @include themed() {
       color: t($text-color-secondary);
       transition: color $theme-transition;
