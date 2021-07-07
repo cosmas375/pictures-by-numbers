@@ -9,58 +9,56 @@ import getLabelLocations from './steps/getLabelLocations';
 import matrixToColors from './steps/matrixToColors';
 import rgbColorsToColors from './steps/rgbColorsToColors';
 import colorsToImageData from './steps/colorsToImageData';
+import { log } from '@/libs/processImage/helpers/loggingHelper';
 import { OUTLINE_COLOR } from '@/libs/processImage/settings';
 
 const OUTLINE_PALETTE = [{ r: 255, g: 255, b: 255, a: 255 }, OUTLINE_COLOR];
 
 onmessage = async e => {
-  console.log(
-    '---------------------------------------------------------------------------------------------------------------------------------------------------------'
-  );
-  console.log(new Date());
+  log(`------------------ ${new Date()} ------------------`);
 
   const imageData = e.data;
   const width = imageData.width;
   const height = imageData.height;
 
-  console.log('smoothing...');
+  log('smoothing...');
   const smoothedImage = smooth(imageData);
 
-  console.log('extracting colors...');
+  log('extracting colors...');
   const colors = imageDataToColors(smoothedImage.data);
 
-  console.log('converting rgba to rgb...');
+  log('converting rgba to rgb...');
   const rgbColors = colorsToRgbColors(colors);
 
-  console.log('generating palette...');
+  log('generating palette...');
   const palette = generatePalette(rgbColors);
 
-  console.log('aligning colors to palette...');
+  log('aligning colors to palette...');
   const alignedColors = alignColorsToPalette(rgbColors, palette);
 
-  console.log('transforming colors to matrix...');
+  log('transforming colors to matrix...');
   const matrix = colorsToMatrix({
     colors: alignedColors,
     width: width,
     height: height
   });
 
-  console.log('outlining...');
+  log('outlining...');
   const outlinedImage = outline(matrix);
 
-  console.log('calculating labels locations...');
+  log('calculating labels locations...');
   const labelsLocations = getLabelLocations(matrix);
 
-  console.log('transforming matrix to colors...');
+  log('transforming matrix to colors...');
   const processedRgbColors = matrixToColors(outlinedImage);
 
-  console.log('converting rgb to rgba...');
+  log('converting rgb to rgba...');
   const processedColors = rgbColorsToColors(
     processedRgbColors,
     OUTLINE_PALETTE
   );
 
-  console.log('creating imageData...');
+  log('creating imageData...');
   const result = colorsToImageData({
     colors: processedColors,
     width: width,
@@ -81,5 +79,5 @@ onmessage = async e => {
     }
   });
 
-  console.log('Done!');
+  log('Done!');
 };

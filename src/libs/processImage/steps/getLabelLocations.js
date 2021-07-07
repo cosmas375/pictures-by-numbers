@@ -54,7 +54,8 @@ function getRegion(mat, cov, x, y) {
 }
 
 function coverRegion(covered, region) {
-  for (let i = 0; i < region.x.length; i++) {
+  const len = region.x.length;
+  for (let i = 0; i < len; i++) {
     covered[region.y[i]][region.x[i]] = true;
   }
 }
@@ -62,12 +63,15 @@ function coverRegion(covered, region) {
 function getLabelLoc(mat, region) {
   let bestI = 0;
   let best = 0;
-  for (let i = 0; i < region.x.length; i++) {
+  const len = region.x.length;
+  const regX = region.x;
+  const regY = region.y;
+  for (let i = 0; i < len; i++) {
     const goodness =
-      sameCount(mat, region.x[i], region.y[i], -1, 0) *
-      sameCount(mat, region.x[i], region.y[i], 1, 0) *
-      sameCount(mat, region.x[i], region.y[i], 0, -1) *
-      sameCount(mat, region.x[i], region.y[i], 0, 1);
+      sameCount(mat, regX[i], regY[i], -1, 0) *
+      sameCount(mat, regX[i], regY[i], 1, 0) *
+      sameCount(mat, regX[i], regY[i], 0, -1) *
+      sameCount(mat, regX[i], regY[i], 0, 1);
     if (goodness > best) {
       best = goodness;
       bestI = i;
@@ -75,20 +79,16 @@ function getLabelLoc(mat, region) {
   }
   return {
     value: region.value,
-    x: region.x[bestI] - 2,
-    y: region.y[bestI] - 2
+    x: regX[bestI] - 2,
+    y: regY[bestI] - 2
   };
 }
 function sameCount(mat, x, y, incX, incY) {
   const value = mat[y][x];
   let count = -1;
-  while (
-    x >= 0 &&
-    x < mat[0].length &&
-    y >= 0 &&
-    y < mat.length &&
-    mat[y][x] === value
-  ) {
+  const len1 = mat[0].length;
+  const len2 = mat.length;
+  while (x >= 0 && x < len1 && y >= 0 && y < len2 && mat[y][x] === value) {
     count++;
     x += incX;
     y += incY;
@@ -98,17 +98,20 @@ function sameCount(mat, x, y, incX, incY) {
 
 function removeRegion(mat, region) {
   let newValue;
-  if (region.y[0] > 0) {
-    newValue = mat[region.y[0] - 1][region.x[0]]; // assumes first pixel in list is topmost then leftmost of region.
+  const regX = region.x;
+  const regY = region.y;
+  if (regY[0] > 0) {
+    newValue = mat[regY[0] - 1][region.x[0]]; // assumes first pixel in list is topmost then leftmost of region.
   } else {
-    const x = region.x[0];
-    let y = region.y[0];
+    const x = regX[0];
+    let y = regY[0];
     while (mat[y][x] === region.value) {
       y++;
     }
     newValue = mat[y][x];
   }
-  for (let i = 0; i < region.x.length; i++) {
-    mat[region.y[i]][region.x[i]] = newValue;
+  const len = regX.length;
+  for (let i = 0; i < len; i++) {
+    mat[regY[i]][regX[i]] = newValue;
   }
 }

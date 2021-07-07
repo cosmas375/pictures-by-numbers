@@ -1,4 +1,4 @@
-import { OUTLINE_COLOR } from '@/libs/processImage/settings';
+import { LABELS_FONT_SIZE, OUTLINE_COLOR } from '@/libs/processImage/settings';
 
 export default function generateImage(imageData, labelsLocations = []) {
   return new Promise(resolve => {
@@ -10,13 +10,13 @@ export default function generateImage(imageData, labelsLocations = []) {
 
     const len = labelsLocations.length;
     if (len) {
-      ctx.font = '10px Georgia';
+      ctx.font = `${LABELS_FONT_SIZE}px Georgia`;
       ctx.fillStyle = `rgb(${OUTLINE_COLOR.r}, ${OUTLINE_COLOR.g}, ${OUTLINE_COLOR.b})`;
       for (var i = 0; i < len; i++) {
         ctx.fillText(
           labelsLocations[i].value,
-          labelsLocations[i].x - 3,
-          labelsLocations[i].y + 4
+          labelsLocations[i].x - 2,
+          labelsLocations[i].y
         );
       }
     }

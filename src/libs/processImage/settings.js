@@ -1,2 +1,3 @@
 export const PALETTE_SIZE = 12;
-export const OUTLINE_COLOR = { r: 100, g: 100, b: 100 };
+export const LABELS_FONT_SIZE = 8;
+export const OUTLINE_COLOR = { r: 200, g: 200, b: 200 };
