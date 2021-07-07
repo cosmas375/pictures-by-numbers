@@ -33,7 +33,7 @@ export default {
     },
     setLang(lang) {
       this.lang = lang;
-      this.$i18n.locale = lang;
+      this.$localization.setLocale(lang);
       saveLang(lang);
     }
   },

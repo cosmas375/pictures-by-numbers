@@ -7,4 +7,11 @@ const i18n = createI18n({
   messages
 });
 
-export default i18n;
+export default {
+  install: function(app) {
+    app.use(i18n);
+    app.config.globalProperties.$localization = {
+      setLocale: locale => (i18n.global.locale = locale)
+    };
+  }
+};
