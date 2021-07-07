@@ -1,5 +1,6 @@
 const LS_KEY_DARK_MODE_ENABLED = 'dark-mode-enabled';
 
+export const DEFAULT_THEME = 'light';
 export const THEMES = {
   // sync with @/assets/scss/themes.scss
   light: 'light',
@@ -11,5 +12,8 @@ export function saveTheme(value) {
 }
 
 export function getSavedTheme() {
-  return THEMES[localStorage.getItem(LS_KEY_DARK_MODE_ENABLED)];
+  return (
+    THEMES[localStorage.getItem(LS_KEY_DARK_MODE_ENABLED)] ||
+    THEMES[DEFAULT_THEME]
+  );
 }

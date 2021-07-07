@@ -12,11 +12,12 @@ export default function generateImage(imageData, labelsLocations = []) {
     if (len) {
       ctx.font = `${LABELS_FONT_SIZE}px Georgia`;
       ctx.fillStyle = `rgb(${OUTLINE_COLOR.r}, ${OUTLINE_COLOR.g}, ${OUTLINE_COLOR.b})`;
+      const labelsOffset = LABELS_FONT_SIZE / 2;
       for (var i = 0; i < len; i++) {
         ctx.fillText(
           labelsLocations[i].value,
-          labelsLocations[i].x - 2,
-          labelsLocations[i].y
+          labelsLocations[i].x - labelsOffset,
+          labelsLocations[i].y + labelsOffset
         );
       }
     }

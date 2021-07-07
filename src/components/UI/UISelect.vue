@@ -1,13 +1,12 @@
 <template>
-  <div class="ui-select">
-    <el-select
-      :modelValue="value"
-      :size="size"
-      @update:modelValue="$emit('input', $event)"
-    >
-      <slot> </slot>
-    </el-select>
-  </div>
+  <el-select
+    :modelValue="value"
+    :size="size"
+    @update:modelValue="$emit('input', $event)"
+    class="ui-select"
+  >
+    <slot> </slot>
+  </el-select>
 </template>
 
 <script>

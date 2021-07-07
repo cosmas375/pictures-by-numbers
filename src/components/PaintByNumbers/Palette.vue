@@ -37,6 +37,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming';
+
 .palette {
   display: flex;
   flex-wrap: wrap;
@@ -47,9 +49,12 @@ export default {
     display: inline-block;
     width: 8rem;
     height: 8rem;
-    border-radius: 0.5rem;
     position: relative;
     overflow: hidden;
+    @include themed() {
+      border: 0.2rem solid t('text-color-secondary');
+      border-radius: 0.5rem;
+    }
 
     &:hover {
       .palette__color-value {

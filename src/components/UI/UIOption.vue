@@ -1,9 +1,7 @@
 <template>
-  <div class="ui-option">
-    <el-option :label="label" :value="value">
-      <slot> </slot>
-    </el-option>
-  </div>
+  <el-option :label="label" :value="value" class="ui-option">
+    <slot> </slot>
+  </el-option>
 </template>
 
 <script>

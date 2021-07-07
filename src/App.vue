@@ -12,15 +12,25 @@
 
 <script>
 import PaintByNumbers from '@/views/PaintByNumbers';
-import { THEMES, saveTheme, getSavedTheme } from '@/helpers/themesHelper';
-import { LANGS, saveLang, getSavedLang } from '@/helpers/langsHelper';
+import {
+  THEMES,
+  DEFAULT_THEME,
+  saveTheme,
+  getSavedTheme
+} from '@/helpers/themesHelper';
+import {
+  LANGS,
+  DEFAUTL_LANG,
+  saveLang,
+  getSavedLang
+} from '@/helpers/langsHelper';
 
 export default {
   name: 'App',
   data() {
     return {
-      theme: THEMES.light,
-      lang: LANGS[0],
+      theme: DEFAULT_THEME,
+      lang: DEFAUTL_LANG,
       langs: LANGS
     };
   },

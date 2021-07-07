@@ -1,5 +1,6 @@
 const LS_KEY_LANG = 'lang';
 
+export const DEFAUTL_LANG = 'en';
 export const LANGS = ['ru', 'en'];
 
 export function saveLang(value) {
@@ -17,5 +18,5 @@ export function getSavedLang() {
     return navLang;
   }
 
-  return LANGS[0];
+  return DEFAUTL_LANG;
 }
