@@ -185,6 +185,10 @@ export default {
     }
   }
 
+  &__first {
+    background-color: #fff;
+  }
+
   &__slider {
     position: absolute;
     z-index: 9;
