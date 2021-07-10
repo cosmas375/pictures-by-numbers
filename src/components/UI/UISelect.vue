@@ -1,10 +1,8 @@
 <template>
-  <el-select
-    :modelValue="value"
-    :size="size"
-    @update:modelValue="$emit('input', $event)"
-    class="ui-select"
-  >
+  <el-select v-model="fuck" :size="size" class="ui-select">
+    <template #prefix>
+      <slot name="prefix"> </slot>
+    </template>
     <slot> </slot>
   </el-select>
 </template>
@@ -15,6 +13,16 @@ export default {
   props: {
     value: { type: String },
     size: { type: String }
+  },
+  computed: {
+    fuck: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit('input', value);
+      }
+    }
   },
   emits: {
     input: null

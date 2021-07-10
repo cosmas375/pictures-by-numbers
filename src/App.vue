@@ -63,6 +63,10 @@ html {
   font-family: Helvetica, sans-serif;
 }
 
+body {
+  overflow: hidden;
+}
+
 .app {
   min-height: 100vh;
   min-width: 36rem;

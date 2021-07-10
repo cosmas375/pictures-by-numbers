@@ -1,5 +1,11 @@
 <template>
   <div class="theme-switch">
+    <UIIcon
+      icon="el-icon-sunny"
+      size="2rem"
+      @click="setLightTheme"
+      class="theme-switch__icon"
+    />
     <UISwitch
       :value="isDarkThemeEnabled"
       :inactive-text="$t('common.dark_mode')"
@@ -9,8 +15,8 @@
     />
     <UIIcon
       icon="el-icon-moon"
-      size="2rem"
-      @click="switchTheme"
+      size="1.6rem"
+      @click="setDarkTheme"
       class="theme-switch__icon"
     />
   </div>
@@ -22,7 +28,7 @@ import { THEMES } from '@/helpers/themesHelper';
 export default {
   name: 'ThemeSwitch',
   props: {
-    theme: { type: String, default: 'light' }
+    theme: { type: String, default: THEMES.light }
   },
   emits: {
     'switch-theme': null
@@ -35,6 +41,16 @@ export default {
   methods: {
     switchTheme() {
       this.$emit('switch-theme');
+    },
+    setLightTheme() {
+      if (this.isDarkThemeEnabled) {
+        this.switchTheme();
+      }
+    },
+    setDarkTheme() {
+      if (!this.isDarkThemeEnabled) {
+        this.switchTheme();
+      }
     }
   }
 };
@@ -48,12 +64,15 @@ export default {
   align-items: center;
 
   &__icon {
-    margin-left: 0.8rem;
     cursor: pointer;
     @include themed() {
       color: t($text-color);
       transition: color $theme-transition;
     }
+  }
+
+  &__switch {
+    margin: 0 0.8rem;
   }
 }
 </style>

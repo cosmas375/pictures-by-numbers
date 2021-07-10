@@ -156,7 +156,8 @@ export default {
 
     &_content {
       width: 67%;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: auto;
       display: flex;
       flex-direction: column;
       padding: 3rem 5% 6rem;
@@ -167,7 +168,6 @@ export default {
     }
 
     &_controls {
-      padding: 3rem 2rem 2rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -200,6 +200,7 @@ export default {
   }
 
   &__top-controls {
+    padding: 3rem 2rem 2rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -209,6 +210,7 @@ export default {
   }
 
   &__bottom-controls {
+    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -255,6 +257,9 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
+  body {
+    overflow: auto !important;
+  }
   .processor {
     flex-direction: column;
 
@@ -270,20 +275,7 @@ export default {
       &_controls {
         position: relative;
         height: auto;
-        padding: 4rem 4rem;
       }
-    }
-  }
-}
-@media only screen and (max-width: 480px) {
-  .processor {
-    &__bottom-controls {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    &__theme-switch {
-      margin-top: 2rem;
     }
   }
 }
