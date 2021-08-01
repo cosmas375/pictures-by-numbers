@@ -5,7 +5,7 @@
     :on-change="onChange"
     class="image-uploader"
   >
-    <UIIcon icon="el-icon-upload" size="6.7rem" class="image-uploader__icon" />
+    <UIIcon icon="upload" size="6.7rem" class="image-uploader__icon" />
     <div class="image-uploader__text">
       {{ $t('image_processor.file_upload.text') }}
     </div>
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .image-uploader {
   width: 100%;

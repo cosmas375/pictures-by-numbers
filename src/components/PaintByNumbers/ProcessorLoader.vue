@@ -1,10 +1,6 @@
 <template>
   <div class="processor-loader">
-    <UIIcon
-      icon="el-icon-loading"
-      size="2.4rem"
-      class="processor-loader__icon"
-    />
+    <UIIcon icon="loading" size="2.4rem" class="processor-loader__icon" />
     <span class="processor-loader__text">{{
       $t('image_processor.preview.loader')
     }}</span>
@@ -18,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .processor-loader {
   width: 100%;

@@ -155,7 +155,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .result-comparison {
   width: 100%;

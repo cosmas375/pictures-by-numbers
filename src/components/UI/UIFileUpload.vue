@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss">
 @import '~element-plus/packages/theme-chalk/src/upload.scss';
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .el-upload-dragger {
   @include themed() {

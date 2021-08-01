@@ -52,7 +52,7 @@ export default {
       this.$emit('input', lang);
     },
     getLangIcon(lang) {
-      return require(`@/assets/icons/flags/${lang}.svg`);
+      return require(`@/assets/svg/flags/${lang}.svg`);
     }
   }
 };

@@ -1,9 +1,6 @@
 <template>
   <div class="processor">
     <div class="processor__block processor__block_content">
-      <div class="processor__content-row processor__content-row_logo">
-        <Logo />
-      </div>
       <div class="processor__content-row processor__content-row_preview">
         <div class="processor__preview preview">
           <div v-if="!isResultReady" class="preview__container">
@@ -46,7 +43,6 @@
 </template>
 
 <script>
-import Logo from '@/components/common/Logo';
 import LangSelect from '@/components/common/LangSelect';
 import ThemeSwitch from '@/components/common/ThemeSwitch';
 import ImageUploader from '@/components/PaintByNumbers/ImageUploader';
@@ -129,7 +125,6 @@ export default {
     }
   },
   components: {
-    Logo,
     LangSelect,
     ThemeSwitch,
     ImageUploader,
@@ -142,7 +137,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .processor {
   min-height: 100vh;

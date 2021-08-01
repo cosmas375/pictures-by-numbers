@@ -1,7 +1,7 @@
 <template>
   <div class="theme-switch">
     <UIIcon
-      icon="el-icon-sunny"
+      icon="light-theme"
       size="2rem"
       @click="setLightTheme"
       class="theme-switch__icon"
@@ -14,7 +14,7 @@
       class="theme-switch__switch"
     />
     <UIIcon
-      icon="el-icon-moon"
+      icon="dark-theme"
       size="1.6rem"
       @click="setDarkTheme"
       class="theme-switch__icon"
@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .theme-switch {
   display: flex;

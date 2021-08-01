@@ -1,5 +1,5 @@
-import en from '@/locale/en';
-import ru from '@/locale/ru';
+import en from '@/locale/en.json';
+import ru from '@/locale/ru.json';
 
 export default {
   en,

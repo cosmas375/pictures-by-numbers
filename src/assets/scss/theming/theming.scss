@@ -1,5 +1,5 @@
 // https://medium.com/@katiemctigue/how-to-create-a-dark-mode-in-sass-609f131a3995
-@import '@/assets/scss/themes';
+@import './themes';
 
 @mixin themed() {
   @each $theme, $theme-entries in $themes {

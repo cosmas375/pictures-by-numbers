@@ -18,7 +18,7 @@ export default {
 
 <style lang="scss">
 @import '~element-plus/packages/theme-chalk/src/button.scss';
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .el-button {
   @include themed() {

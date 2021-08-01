@@ -1,10 +1,6 @@
 <template>
   <div class="processor-placeholder">
-    <UIIcon
-      icon="el-icon-view"
-      size="4.8rem"
-      class="processor-placeholder__icon"
-    />
+    <UIIcon icon="preview" size="4.8rem" class="processor-placeholder__icon" />
     <span class="processor-placeholder__text">
       {{ $t('image_processor.preview.placeholder') }}
     </span>
@@ -18,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .processor-placeholder {
   width: 100%;

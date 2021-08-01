@@ -1,17 +1,25 @@
 <template>
-  <div :class="`app app_${theme}`">
-    <PaintByNumbers
-      :theme="theme"
-      :lang="lang"
-      :langs="langs"
-      @switch-theme="switchTheme"
-      @set-lang="setLang"
-    />
-  </div>
+  <Layout :class="`app app_${theme}`">
+    <template #header>
+      <Header
+        :lang="lang"
+        :langs="langs"
+        :theme="theme"
+        :is-printing-available="isImageLoaded"
+        @set-lang="setLang"
+        @switch-theme="switchTheme"
+      />
+    </template>
+    <template #content>
+      <router-view></router-view>
+    </template>
+  </Layout>
 </template>
 
 <script>
-import PaintByNumbers from '@/views/PaintByNumbers';
+import Layout from '@/components/Layout';
+import Header from '@/components/Header';
+
 import {
   THEMES,
   DEFAULT_THEME,
@@ -31,7 +39,8 @@ export default {
     return {
       theme: DEFAULT_THEME,
       lang: DEFAUTL_LANG,
-      langs: LANGS
+      langs: LANGS,
+      isImageLoaded: true
     };
   },
   methods: {
@@ -51,7 +60,7 @@ export default {
     this.theme = getSavedTheme();
     this.setLang(getSavedLang());
   },
-  components: { PaintByNumbers }
+  components: { Layout, Header }
 };
 </script>
 
@@ -65,10 +74,5 @@ html {
 
 body {
   overflow: hidden;
-}
-
-.app {
-  min-height: 100vh;
-  min-width: 36rem;
 }
 </style>
