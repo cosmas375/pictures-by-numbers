@@ -34,10 +34,22 @@ export default {
 @import '~element-plus/packages/theme-chalk/src/upload.scss';
 @import '@/assets/scss/theming/theming';
 
+.ui-file-upload,
+.ui-file-upload > div,
+.ui-file-upload .el-upload {
+  width: 100%;
+  height: 100%;
+}
+
 .el-upload-dragger {
+  width: 100%;
+  height: 100%;
   @include themed() {
     background-color: t($file-uploader-bg-color);
     transition: background-color $theme-transition;
+  }
+  .el-icon-upload {
+    margin: 0;
   }
 }
 </style>

@@ -5,15 +5,15 @@
     :on-change="onChange"
     class="image-uploader"
   >
-    <UIIcon icon="upload" size="6.7rem" class="image-uploader__icon" />
-    <div class="image-uploader__text">
-      {{ $t('image_processor.file_upload.text') }}
-    </div>
-    <template #tip>
+    <div class="image-uploader__content">
+      <UIIcon icon="upload" size="6.7rem" class="image-uploader__icon" />
+      <div class="image-uploader__text">
+        {{ $t('image_processor.file_upload.text') }}
+      </div>
       <div class="image-uploader__tip">
         {{ $t('image_processor.file_upload.tip') }}
       </div>
-    </template>
+    </div>
   </UIFileUpload>
 </template>
 
@@ -37,7 +37,19 @@ export default {
 @import '@/assets/scss/theming/theming';
 
 .image-uploader {
-  width: 100%;
+  width: 42rem;
+  height: 58.8rem;
+  box-shadow: 1.5rem 1rem 0.9rem rgba(0, 0, 0, 0.23);
+  border-radius: 0.5rem;
+  position: relative;
+
+  &__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__tip {
     text-align: center;
@@ -51,13 +63,6 @@ export default {
       color: t($text-color);
       transition: color $theme-transition;
     }
-  }
-
-  .el-upload {
-    width: 100%;
-  }
-  .el-upload-dragger {
-    width: 100%;
   }
 }
 </style>
