@@ -11,7 +11,8 @@ const ICONS_MAP = {
   'dark-theme': 'el-icon-moon',
   upload: 'el-icon-upload',
   loading: 'el-icon-loading',
-  preview: 'el-icon-view'
+  preview: 'el-icon-view',
+  settings: 'el-icon-s-tools'
 };
 
 export default {

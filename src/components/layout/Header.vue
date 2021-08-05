@@ -10,33 +10,44 @@
       <div class="header__block header__block_left menu">
         <div class="menu__item">
           <router-link
-            :to="{ name: 'home' }"
+            :to="{ name: Routes.Home }"
             class="menu__link"
-            :class="{ menu__link_active: this.activeRouteName === 'home' }"
+            :class="{ menu__link_active: this.activeRouteName === Routes.Home }"
           >
             {{ $t('menu.home') }}
           </router-link>
         </div>
         <div class="menu__item">
           <router-link
-            :to="{ name: 'upload' }"
+            :to="{ name: Routes.Upload }"
             class="menu__link"
             :class="{
               menu__link_active:
-                this.activeRouteName === 'upload' ||
-                this.activeRouteName === 'printing'
+                this.activeRouteName === Routes.Upload ||
+                this.activeRouteName === Routes.Print
             }"
           >
             {{ $t('menu.generator') }}
           </router-link>
           <router-link
             v-if="isPrintingAvailable"
-            :to="{ name: 'printing' }"
+            :to="{ name: Routes.Print }"
             class="menu__link menu__link_printing"
-            :class="{ menu__link_active: this.activeRouteName === 'printing' }"
+            :class="{
+              menu__link_active: this.activeRouteName === Routes.Print
+            }"
           >
             <UIIcon icon="printing" />
           </router-link>
+        </div>
+        <div class="menu__item">
+          <Settings
+            :theme="theme"
+            :lang="lang"
+            :langs="langs"
+            @switch-theme="$emit('switch-theme')"
+            @set-lang="$emit('set-lang', $event)"
+          />
         </div>
       </div>
     </div>
@@ -45,6 +56,8 @@
 
 <script>
 import Container from '@/components/layout/Container';
+import Settings from '@/components/common/Settings';
+import { ROUTES } from '@/router';
 
 export default {
   name: 'Header',
@@ -57,9 +70,12 @@ export default {
   computed: {
     activeRouteName() {
       return this.$route.name;
+    },
+    Routes() {
+      return ROUTES;
     }
   },
-  components: { Container }
+  components: { Container, Settings }
 };
 </script>
 
@@ -90,7 +106,7 @@ export default {
     align-items: center;
 
     & + .menu__item {
-      margin-left: 4rem;
+      margin-left: 3rem;
     }
   }
 

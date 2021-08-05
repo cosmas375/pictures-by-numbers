@@ -63,7 +63,7 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  padding-bottom: 4rem;
+  padding-bottom: 2rem;
 
   &__preview {
     width: 100%;
@@ -73,9 +73,14 @@ export default {
     justify-content: center;
 
     &_portrait {
-      .upload__preview-block {
-        max-width: 60%;
-        max-height: 100%;
+      .upload {
+        &__preview-block {
+          max-width: 60%;
+          max-height: 100%;
+        }
+        &__preview-controls {
+          padding: 0 6rem;
+        }
       }
     }
 
@@ -83,9 +88,14 @@ export default {
       flex-direction: column;
       justify-content: center;
 
-      .upload__preview-block {
-        max-width: 100%;
-        max-height: 75%;
+      .upload {
+        &__preview-block {
+          max-width: 100%;
+          max-height: 75%;
+        }
+        &__preview-controls {
+          padding: 4rem 6rem 0;
+        }
       }
     }
   }
@@ -94,7 +104,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 4rem 6rem;
   }
 
   &__reset-btn {

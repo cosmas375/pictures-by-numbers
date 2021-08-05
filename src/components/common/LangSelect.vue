@@ -1,31 +1,24 @@
 <template>
-  <UIDropdown class="lang-select">
-    <img
-      :src="getLangIcon(value)"
-      :alt="value"
-      class="lang-select__flag lang-select__flag_toggler"
-    />
-    <template #dropdown>
-      <UIDropdownMenu>
-        <UIDropdownItem
-          v-for="lang in options"
-          :key="lang.value"
-          :value="lang.value"
-          :label="lang.label"
-          @click="selectLang(lang.value)"
-        >
-          <div class="lang-select__option-wrap">
-            <img
-              :src="lang.icon"
-              :alt="lang.value"
-              class="lang-select__flag lang-select__flag_option"
-            />
-            <span class="lang-select__content">{{ lang.label }}</span>
-          </div>
-        </UIDropdownItem>
-      </UIDropdownMenu>
-    </template>
-  </UIDropdown>
+  <div class="lang-select">
+    <div
+      @click="onTogglerClick"
+      class="lang-select__item lang-select__item_toggler"
+    >
+      <img :src="getLangIcon(value)" :alt="value" class="lang-select__flag" />
+      <span class="lang-select__title">{{ selectedLang.label }}</span>
+    </div>
+    <div class="lang-select__options" :style="{ height: optionsHeight }">
+      <div
+        v-for="lang in options"
+        :key="lang.value"
+        @click="selectLang(lang.value)"
+        class="lang-select__item lang-select__item_option"
+      >
+        <img :src="lang.icon" :alt="lang.value" class="lang-select__flag" />
+        <span class="lang-select__title">{{ lang.label }}</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -38,18 +31,43 @@ export default {
   emits: {
     input: null
   },
+  data() {
+    return {
+      isExpanded: false
+    };
+  },
   computed: {
+    selectedLang() {
+      return this.options.find(lang => lang.value === this.value);
+    },
     options() {
       return this.langs.map(lang => ({
         value: lang,
         label: this.$t(`common.langs.${lang}`),
         icon: this.getLangIcon(lang)
       }));
+    },
+    optionsHeight() {
+      if (!this.isExpanded) {
+        return '0px';
+      }
+      const itemHeight = 3.6;
+      return `${Math.min(itemHeight * this.langs.length, 12)}rem`;
     }
   },
   methods: {
+    onTogglerClick() {
+      this.isExpanded ? this.hideOptions() : this.showOptions();
+    },
+    showOptions() {
+      this.isExpanded = true;
+    },
+    hideOptions() {
+      this.isExpanded = false;
+    },
     selectLang(lang) {
       this.$emit('input', lang);
+      this.hideOptions();
     },
     getLangIcon(lang) {
       return require(`@/assets/svg/flags/${lang}.svg`);
@@ -60,22 +78,35 @@ export default {
 
 <style lang="scss">
 .lang-select {
-  &__option-wrap {
+  &__options {
+    background-color: rgb(234, 234, 234);
+    transition: height 0.2s;
+    overflow: auto;
+  }
+
+  &__item {
     display: flex;
     align-items: center;
-  }
-  &__flag {
-    width: 1.4rem;
-    height: 1.4rem;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
 
-    &_toggler {
-      width: 2rem;
-      height: 2rem;
+    &__toggler {
+      box-shadow: 0 0.4rem 2rem black;
     }
 
     &_option {
-      margin-right: 1rem;
+      &:hover {
+        background-color: rgb(207, 207, 207);
+      }
+
+      & + .lang-select__item {
+        border-top: 1px solid #000;
+      }
     }
+  }
+  &__flag {
+    width: 1.8rem;
+    margin-right: 0.8rem;
   }
 }
 </style>

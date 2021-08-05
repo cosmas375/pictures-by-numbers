@@ -5,19 +5,25 @@ import Generator from '@/views/Generator/Index';
 import Upload from '@/views/Generator/Upload';
 const PrinitngSettings = { template: '<h1>fuck you</h1>' };
 
+export const ROUTES = {
+  Home: 'home',
+  Upload: 'upload',
+  Print: 'print'
+};
+
 const routes = [
-  { name: 'home', path: '/', component: Landing },
+  { name: ROUTES.Home, path: '/', component: Landing },
   {
     path: '/numbers',
     component: Generator,
-    redirect: { name: 'upload' },
+    redirect: { name: ROUTES.Upload },
     children: [
       {
-        name: 'upload',
+        name: ROUTES.Upload,
         path: './',
         component: Upload
       },
-      { name: 'printing', path: './print', component: PrinitngSettings }
+      { name: ROUTES.Print, path: './print', component: PrinitngSettings }
     ]
   }
 ];

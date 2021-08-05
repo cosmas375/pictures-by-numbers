@@ -13,6 +13,7 @@
 <script>
 import Container from '@/components/layout/Container';
 import processImage from '@/libs/processImage';
+import { ROUTES } from '@/router';
 
 export default {
   name: 'Generator',
@@ -49,7 +50,7 @@ export default {
       this.preview = null;
     },
     onGetPdfClick() {
-      this.$router.push({ name: 'printing' });
+      this.$router.push({ name: ROUTES.Print });
     }
   },
   components: { Container }
