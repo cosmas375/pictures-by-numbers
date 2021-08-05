@@ -3,8 +3,8 @@ import colorsToRgbColors from './steps/colorsToRgbColors';
 import generatePalette from './steps/generatePalette';
 import alignColorsToPalette from './steps/alignColorsToPalette';
 import colorsToMatrix from './steps/colorsToMatrix';
-import smooth from './steps/smooth';
-import outline from './steps/outline';
+import smoothImage from './steps/smoothImage';
+import outlineImage from './steps/outlineImage';
 import getLabelLocations from './steps/getLabelLocations';
 import matrixToColors from './steps/matrixToColors';
 import rgbColorsToColors from './steps/rgbColorsToColors';
@@ -22,7 +22,7 @@ onmessage = async e => {
   const height = imageData.height;
 
   log('smoothing...');
-  const smoothedImage = smooth(imageData);
+  const smoothedImage = smoothImage(imageData);
 
   log('extracting colors...');
   const colors = imageDataToColors(smoothedImage.data);
@@ -36,6 +36,21 @@ onmessage = async e => {
   log('aligning colors to palette...');
   const alignedColors = alignColorsToPalette(rgbColors, palette);
 
+  log('generating preview...');
+  const preview = colorsToImageData({
+    colors: rgbColorsToColors(alignedColors, palette),
+    width: width,
+    height: height
+  });
+
+  postMessage({
+    type: 'preview',
+    data: {
+      preview,
+      palette
+    }
+  });
+
   log('transforming colors to matrix...');
   const matrix = colorsToMatrix({
     colors: alignedColors,
@@ -44,38 +59,25 @@ onmessage = async e => {
   });
 
   log('outlining...');
-  const outlinedImage = outline(matrix);
+  const outlinedImage = outlineImage(matrix);
 
-  log('calculating labels locations...');
-  const labelsLocations = getLabelLocations(matrix);
-
-  log('transforming matrix to colors...');
-  const processedRgbColors = matrixToColors(outlinedImage);
-
-  log('converting rgb to rgba...');
-  const processedColors = rgbColorsToColors(
-    processedRgbColors,
-    OUTLINE_PALETTE
-  );
-
-  log('creating imageData...');
-  const result = colorsToImageData({
-    colors: processedColors,
+  log('generating outlined image...');
+  const outline = colorsToImageData({
+    colors: rgbColorsToColors(matrixToColors(outlinedImage), OUTLINE_PALETTE),
     width: width,
     height: height
   });
 
+  log('calculating labels locations...');
+  const labelsLocations = getLabelLocations(matrix);
+
   postMessage({
-    action: 'result',
-    value: {
-      outline: result,
+    type: 'result',
+    data: {
+      outline,
       labelsLocations,
       palette,
-      color: colorsToImageData({
-        colors: rgbColorsToColors(matrixToColors(matrix), palette),
-        width: width,
-        height: height
-      })
+      preview
     }
   });
 

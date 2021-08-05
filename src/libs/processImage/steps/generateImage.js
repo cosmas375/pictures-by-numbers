@@ -25,6 +25,11 @@ export default function generateImage(imageData, labelsLocations = []) {
     const img = document.createElement('img');
     img.src = canvas.toDataURL();
     canvas.remove();
-    img.onload = () => resolve(img);
+    img.onload = () =>
+      resolve({
+        src: img.src,
+        width: imageData.width,
+        height: imageData.height
+      });
   });
 }

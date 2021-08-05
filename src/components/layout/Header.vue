@@ -19,11 +19,11 @@
         </div>
         <div class="menu__item">
           <router-link
-            :to="{ name: 'generator' }"
+            :to="{ name: 'upload' }"
             class="menu__link"
             :class="{
               menu__link_active:
-                this.activeRouteName === 'generator' ||
+                this.activeRouteName === 'upload' ||
                 this.activeRouteName === 'printing'
             }"
           >
