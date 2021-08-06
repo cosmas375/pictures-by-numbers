@@ -9,6 +9,7 @@ import UIOption from '@/components/UI/UIOption';
 import UIFileUpload from '@/components/UI/UIFileUpload';
 import UINotification from '@/components/UI/UINotification';
 import UIPopover from '@/components/UI/UIPopover';
+import UITooltip from '@/components/UI/UITooltip';
 
 import {
   ElButton,
@@ -20,7 +21,8 @@ import {
   ElOption,
   ElUpload,
   ElNotification,
-  ElPopover
+  ElPopover,
+  ElTooltip
 } from 'element-plus';
 
 const elementUIComponents = {
@@ -33,7 +35,8 @@ const elementUIComponents = {
   ElOption,
   ElUpload,
   ElNotification,
-  ElPopover
+  ElPopover,
+  ElTooltip
 };
 
 const components = {
@@ -47,7 +50,8 @@ const components = {
   UIOption,
   UIFileUpload,
   UINotification,
-  UIPopover
+  UIPopover,
+  UITooltip
 };
 
 export default {

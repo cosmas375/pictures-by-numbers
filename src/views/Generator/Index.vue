@@ -1,7 +1,7 @@
 <template>
   <Container class="generator">
     <router-view
-      :sourceImage="source"
+      :source="source"
       :preview="preview"
       @file-ready="onFileReady"
       @get-pdf="onGetPdfClick"
@@ -24,9 +24,9 @@ export default {
     };
   },
   methods: {
-    onFileReady(img) {
+    async onFileReady(img) {
       this.source = img;
-      processImage(img, {
+      await processImage(img, {
         onPreviewReady: this.onPreviewReady,
         onResultReady: this.onResultReady,
         onError: this.onError

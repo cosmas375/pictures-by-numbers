@@ -27,7 +27,12 @@ export default {
     onChange(file) {
       const img = new Image();
       img.src = URL.createObjectURL(file.raw);
-      img.onload = () => this.$emit('file-ready', img);
+      img.onload = () =>
+        this.$emit('file-ready', {
+          src: img.src,
+          width: img.width,
+          height: img.height
+        });
     }
   }
 };

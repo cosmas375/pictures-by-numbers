@@ -1,9 +1,6 @@
 <template>
   <div class="upload">
-    <ImageUploader
-      v-if="!sourceImage"
-      @file-ready="$emit('file-ready', $event)"
-    />
+    <ImageUploader v-if="!source" @file-ready="$emit('file-ready', $event)" />
     <template v-else>
       <div v-if="!preview" class="upload__loader">
         <UIIcon icon="loading" size="2.4rem" class="upload__loader-icon" />
@@ -33,7 +30,7 @@ import Preview from '@/components/Generator/Preview';
 export default {
   name: 'Upload',
   props: {
-    sourceImage: { type: [Image, Object], default: null },
+    source: { type: Object, default: null },
     preview: { type: Object, default: null }
   },
   emits: {

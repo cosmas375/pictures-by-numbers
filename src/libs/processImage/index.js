@@ -2,7 +2,7 @@ import Worker from './processor.worker.js';
 import generateImage from './steps/generateImage';
 import getImageData from './steps/getImageData';
 
-export default function processImage(
+export default async function processImage(
   img,
   { onPreviewReady = () => {}, onResultReady = () => {}, onError = () => {} }
 ) {
@@ -35,5 +35,5 @@ export default function processImage(
     }
   };
 
-  worker.postMessage(getImageData(img));
+  worker.postMessage(await getImageData(img));
 }

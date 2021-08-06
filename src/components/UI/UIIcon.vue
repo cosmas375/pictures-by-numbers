@@ -12,7 +12,8 @@ const ICONS_MAP = {
   upload: 'el-icon-upload',
   loading: 'el-icon-loading',
   preview: 'el-icon-view',
-  settings: 'el-icon-s-tools'
+  settings: 'el-icon-s-tools',
+  info: 'el-icon-question'
 };
 
 export default {
