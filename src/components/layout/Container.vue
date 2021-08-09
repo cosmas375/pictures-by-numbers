@@ -13,7 +13,6 @@ export default {
 <style lang="scss">
 .container {
   width: 120rem;
-  height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
 }

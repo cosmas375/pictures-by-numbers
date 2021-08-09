@@ -58,7 +58,7 @@ export default {
         content: '';
         width: 75%;
         height: 0.1rem;
-        background-color: red;
+        background-color: #c0c4cc;
         position: absolute;
         top: 0;
         left: 12.5%;

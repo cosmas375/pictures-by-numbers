@@ -1,8 +1,10 @@
 <template>
-  <Container class="generator">
+  <Container class="generator" :class="{ 'generator_no-scroll': noScroll }">
     <router-view
       :source="source"
       :preview="preview"
+      :outline="outline"
+      :palette="palette"
       @file-ready="onFileReady"
       @get-pdf="onGetPdfClick"
       @reset-upload="onResetUpload"
@@ -20,23 +22,32 @@ export default {
   data() {
     return {
       source: null,
-      preview: null
+      preview: null,
+      outline: null,
+      palette: []
     };
+  },
+  computed: {
+    noScroll() {
+      return this.$route.name === ROUTES.Upload;
+    }
   },
   methods: {
     async onFileReady(img) {
       this.source = img;
+      this.$emit('image-loaded');
       await processImage(img, {
         onPreviewReady: this.onPreviewReady,
         onResultReady: this.onResultReady,
         onError: this.onError
       });
     },
-    onPreviewReady({ preview }) {
+    onPreviewReady({ preview, palette }) {
       this.preview = preview;
+      this.palette = palette;
     },
-    onResultReady() {
-      //
+    onResultReady({ outline }) {
+      this.outline = outline;
     },
     onError() {
       this.$notify({
@@ -46,8 +57,11 @@ export default {
       });
     },
     onResetUpload() {
+      this.$emit('image-removed');
       this.source = null;
       this.preview = null;
+      this.outline = null;
+      this.palette = [];
     },
     onGetPdfClick() {
       this.$router.push({ name: ROUTES.Print });
@@ -63,5 +77,9 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 4rem 0;
+
+  &_no-scroll {
+    height: 100%;
+  }
 }
 </style>

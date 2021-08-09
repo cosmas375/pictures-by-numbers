@@ -1,28 +1,33 @@
 <template>
-  <UIFileUpload
-    :drag="true"
-    :show-file-list="false"
-    :on-change="onChange"
-    class="image-uploader"
-  >
-    <div class="image-uploader__content">
-      <UIIcon icon="upload" size="6.7rem" class="image-uploader__icon" />
-      <div class="image-uploader__text">
-        {{ $t('upload.uploader.text') }}
+  <Page>
+    <UIFileUpload
+      :drag="true"
+      :show-file-list="false"
+      :on-change="onChange"
+      class="image-uploader"
+    >
+      <div class="image-uploader__content">
+        <UIIcon icon="upload" size="6.7rem" class="image-uploader__icon" />
+        <div class="image-uploader__text">
+          {{ $t('upload.uploader.text') }}
+        </div>
+        <div class="image-uploader__tip">
+          {{ $t('upload.uploader.tip') }}
+        </div>
       </div>
-      <div class="image-uploader__tip">
-        {{ $t('upload.uploader.tip') }}
-      </div>
-    </div>
-  </UIFileUpload>
+    </UIFileUpload>
+  </Page>
 </template>
 
 <script>
+import Page from '@/components/common/Page';
+
 export default {
   name: 'ImageUploader',
   emits: {
     'file-ready': null
   },
+  components: { Page },
   methods: {
     onChange(file) {
       const img = new Image();
@@ -42,10 +47,6 @@ export default {
 @import '@/assets/scss/theming/theming';
 
 .image-uploader {
-  width: 42rem;
-  height: 58.8rem;
-  box-shadow: 1.5rem 1rem 0.9rem rgba(0, 0, 0, 0.23);
-  border-radius: 0.5rem;
   position: relative;
 
   &__content {
@@ -54,6 +55,8 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
   }
 
   &__text {

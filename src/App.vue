@@ -5,13 +5,16 @@
         :lang="lang"
         :langs="langs"
         :theme="theme"
-        :is-printing-available="isImageLoaded"
+        :is-printing-available="isPrintingRouteAvailable"
         @set-lang="setLang"
         @switch-theme="switchTheme"
       />
     </template>
     <template #content>
-      <router-view></router-view>
+      <router-view
+        @image-loaded="onImageReady"
+        @image-removed="onImageRemoved"
+      />
     </template>
   </Layout>
 </template>
@@ -40,7 +43,7 @@ export default {
       theme: DEFAULT_THEME,
       lang: DEFAUTL_LANG,
       langs: LANGS,
-      isImageLoaded: true
+      isPrintingRouteAvailable: false
     };
   },
   methods: {
@@ -54,6 +57,12 @@ export default {
       this.lang = lang;
       this.$localization.setLocale(lang);
       saveLang(lang);
+    },
+    onImageReady() {
+      this.isPrintingRouteAvailable = true;
+    },
+    onImageRemoved() {
+      this.isPrintingRouteAvailable = false;
     }
   },
   created() {

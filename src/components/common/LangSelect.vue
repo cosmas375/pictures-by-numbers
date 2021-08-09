@@ -100,7 +100,7 @@ export default {
       }
 
       & + .lang-select__item {
-        border-top: 1px solid #000;
+        border-top: 1px solid #c0c4cc;
       }
     }
   }

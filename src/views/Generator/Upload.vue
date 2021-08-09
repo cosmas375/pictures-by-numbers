@@ -26,6 +26,7 @@
 <script>
 import ImageUploader from '@/components/Generator/ImageUploader';
 import Preview from '@/components/Generator/Preview';
+import { getLayout } from '@/helpers/layoutHelper';
 
 export default {
   name: 'Upload',
@@ -47,9 +48,7 @@ export default {
       if (!this.preview) {
         return;
       }
-      return this.preview.width > this.preview.height
-        ? 'landscape'
-        : 'portrait';
+      return getLayout(this.preview);
     }
   }
 };
