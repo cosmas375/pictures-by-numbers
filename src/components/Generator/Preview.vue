@@ -27,8 +27,8 @@ export default {
   justify-content: center;
 
   &__image {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     box-shadow: 1.5rem 1rem 0.9rem rgba(0, 0, 0, 0.23);
   }
 }

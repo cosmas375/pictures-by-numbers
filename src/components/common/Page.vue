@@ -6,24 +6,36 @@
       :viewBox="`0 0 ${size.width} ${size.height}`"
       class="page__svg"
     ></svg>
-    <div class="page__content">
+    <div class="page__content" :style="{ padding: paddingStyle }">
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
+const SIZES = {
+  a4: { width: 210, height: 297 }
+};
 export default {
   name: 'Page',
   props: {
     layout: { type: String, default: 'portrait' },
-    padding: { type: Number, default: 0 }
+    padding: { type: Number, default: 0 },
+    format: { type: String, default: 'a4' }
   },
   computed: {
     size() {
+      const width = SIZES[this.format].width;
+      const height = SIZES[this.format].height;
       return this.layout === 'portrait'
-        ? { width: 210, height: 297 }
-        : { width: 297, height: 210 };
+        ? { width, height }
+        : { width: height, height: width };
+    },
+    paddingStyle() {
+      const getPadding = size => `${(this.padding / size) * 100}%`;
+      const topPadding = getPadding(this.size.height);
+      const leftPadding = getPadding(this.size.width);
+      return `${topPadding} ${leftPadding}`;
     }
   }
 };
@@ -49,6 +61,7 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
+    box-sizing: border-box;
   }
 }
 </style>

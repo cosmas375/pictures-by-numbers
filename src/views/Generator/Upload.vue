@@ -1,6 +1,10 @@
 <template>
-  <div class="upload">
-    <ImageUploader v-if="!source" @file-ready="$emit('file-ready', $event)" />
+  <Container class="upload">
+    <ImageUploader
+      v-if="!source"
+      @file-ready="$emit('file-ready', $event)"
+      class="upload__uploader"
+    />
     <template v-else>
       <div v-if="!preview" class="upload__loader">
         <UIIcon icon="loading" size="2.4rem" class="upload__loader-icon" />
@@ -20,10 +24,11 @@
         </div>
       </div>
     </template>
-  </div>
+  </Container>
 </template>
 
 <script>
+import Container from '@/components/layout/Container';
 import ImageUploader from '@/components/Generator/ImageUploader';
 import Preview from '@/components/Generator/Preview';
 import { getLayout } from '@/helpers/layoutHelper';
@@ -39,7 +44,7 @@ export default {
     'get-pdf': null,
     'reset-upload': null
   },
-  components: { ImageUploader, Preview },
+  components: { Container, ImageUploader, Preview },
   computed: {
     imageSrc() {
       return this.preview ? this.preview.src : null;
@@ -56,26 +61,34 @@ export default {
 
 <style lang="scss">
 .upload {
+  width: 100%;
   height: 100%;
+  min-height: 34rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
   display: flex;
   align-items: center;
-  padding-bottom: 2rem;
+  justify-content: center;
+
+  &__uploader {
+    width: auto;
+    height: auto;
+  }
 
   &__preview {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 
     &_portrait {
       .upload {
         &__preview-block {
           max-width: 60%;
           max-height: 100%;
-        }
-        &__preview-controls {
-          padding: 0 6rem;
+          width: 60%;
+          height: 100%;
         }
       }
     }
@@ -88,9 +101,27 @@ export default {
         &__preview-block {
           max-width: 100%;
           max-height: 75%;
+          width: 100%;
+          height: 75%;
+        }
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      justify-content: center;
+
+      .upload {
+        &__preview-block {
+          max-width: 100%;
+          max-height: 75%;
+          width: 100%;
+          height: 75%;
         }
         &__preview-controls {
-          padding: 4rem 6rem 0;
+          width: 100%;
+          padding-left: 0;
+          padding-right: 0;
         }
       }
     }
@@ -100,6 +131,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
+    padding: 4rem 6rem;
   }
 
   &__reset-btn {
@@ -113,7 +146,7 @@ export default {
       content: '';
       width: calc(100% + 0.4rem);
       height: 0.1rem;
-      background-color: black;
+      background-color: rgb(64, 64, 64);
       position: absolute;
       left: -0.2rem;
       bottom: -0.2rem;
@@ -121,11 +154,15 @@ export default {
     }
 
     &:hover {
-      color: red;
+      color: black;
 
       &:after {
-        background-color: red;
+        background-color: black;
       }
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.4rem;
     }
   }
 
@@ -133,6 +170,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 100%;
   }
   &__loader-text {
     margin-top: 1rem;

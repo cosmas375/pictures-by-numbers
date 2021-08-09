@@ -20,7 +20,7 @@ export default {
 @import '~element-plus/packages/theme-chalk/src/button.scss';
 @import '@/assets/scss/theming/theming';
 
-.el-button {
+.ui-button {
   @include themed() {
     border-color: t($border-color);
     background-color: t($file-uploader-bg-color);
@@ -44,6 +44,11 @@ export default {
       color: t($text-color);
       transition: color $theme-transition;
     }
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    font-size: 2rem !important;
   }
 }
 </style>

@@ -1,11 +1,6 @@
 <template>
-  <Page>
-    <UIFileUpload
-      :drag="true"
-      :show-file-list="false"
-      :on-change="onChange"
-      class="image-uploader"
-    >
+  <Page class="image-uploader">
+    <UIFileUpload :drag="true" :show-file-list="false" :on-change="onChange">
       <div class="image-uploader__content">
         <UIIcon icon="upload" size="6.7rem" class="image-uploader__icon" />
         <div class="image-uploader__text">
@@ -47,7 +42,7 @@ export default {
 @import '@/assets/scss/theming/theming';
 
 .image-uploader {
-  position: relative;
+  box-shadow: 1.5rem 1rem 2rem rgba(0, 0, 0, 0.2);
 
   &__content {
     height: 100%;

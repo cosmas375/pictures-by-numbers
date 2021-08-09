@@ -37,7 +37,8 @@ export default {
       width: 100%;
       overflow: hidden;
       background-color: #000;
-      text-align: center;
+      display: flex;
+      justify-content: center;
     }
     &_about-us {
       padding: 4rem 0;

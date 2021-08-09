@@ -48,7 +48,7 @@ export default {
   }
 
   &__popover {
-    min-width: 15rem;
+    min-width: 18rem;
   }
 
   &__item {
@@ -67,7 +67,7 @@ export default {
   }
 
   &__theme-switch {
-    padding: 0.8rem 1rem;
+    padding: 1rem 1.2rem;
     justify-content: center;
   }
 }

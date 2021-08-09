@@ -1,112 +1,160 @@
 <template>
-  <div class="printing">
+  <Container class="printing">
+    <UITooltip placement="bottom">
+      <UIIcon
+        icon="back"
+        size="2.4rem"
+        @click="onBackClick"
+        class="printing__back-icon"
+      />
+      <template #content>
+        Back to upload
+      </template>
+    </UITooltip>
     <div class="printing__title">
       PDF settings
     </div>
-    <div class="printing__pages">
-      <div class="printing__pages-item">
-        <Page
-          :layout="pageLayout"
-          class="printing__page printing__page_enabled"
-        >
-          <div
-            v-if="outline"
-            class="printing__page-content printing__page-content_image"
-          >
-            <img :src="outlineImage" alt="outline" class="printing__image" />
-          </div>
-          <UIIcon
-            v-else
-            icon="loading"
-            size="2.4rem"
-            class="printing__page-loader"
-          />
-        </Page>
-        <div class="printing__page-controls">
-          <label for="include_outline" class="printing__page-controls-label">
-            Outline
-          </label>
-        </div>
-      </div>
-      <div class="printing__pages-item">
-        <Page
-          class="printing__page"
-          :class="{ printing__page_enabled: includePalette }"
-        >
-          <div class="printing__page-content printing__page-content_palette">
-            <div class="palette__color"></div>
-          </div>
-          <div
-            class="printing__page-shadow"
-            :class="{ 'printing__page-shadow_visible': !includePalette }"
-          ></div>
-        </Page>
-        <div class="printing__page-controls">
-          <input
-            v-model="includePalette"
-            id="include_palette"
-            type="checkbox"
-            class="printing__checkbox"
-          />
-          <label for="include_palette" class="printing__page-controls-label">
-            Palette
-          </label>
-        </div>
-      </div>
-      <div class="printing__pages-item">
-        <Page
-          :layout="pageLayout"
-          class="printing__page"
-          :class="{ printing__page_enabled: includePreview }"
-        >
-          <div class="printing__page-content printing__page-content_image">
-            <img :src="previewImage" alt="preview" class="printing__image" />
-          </div>
-          <div
-            class="printing__page-shadow"
-            :class="{ 'printing__page-shadow_visible': !includePreview }"
-          ></div>
-        </Page>
-        <div class="printing__page-controls">
-          <input
-            v-model="includePreview"
-            id="include_reference"
-            type="checkbox"
-            class="printing__checkbox"
-          />
-          <label for="include_reference" class="printing__page-controls-label">
-            Reference
-          </label>
-        </div>
-      </div>
-      <div class="printing__pages-item">
-        <Page
-          :layout="pageLayout"
-          class="printing__page"
-          :class="{ printing__page_enabled: includeSource }"
-        >
-          <div class="printing__page-content printing__page-content_image">
-            <img :src="sourceImage" alt="source" class="printing__image" />
-          </div>
-          <div
-            class="printing__page-shadow"
-            :class="{ 'printing__page-shadow_visible': !includeSource }"
-          ></div>
-        </Page>
-        <div class="printing__page-controls">
-          <input
-            v-model="includeSource"
-            id="include_source"
-            type="checkbox"
-            class="printing__checkbox"
-          />
-          <label for="include_source" class="printing__page-controls-label">
-            Source image
-          </label>
+    <div class="printing__settings">
+      <div class="printing__settings-row">
+        <div class="printing__settings-name">
+          Pages to include:
         </div>
       </div>
     </div>
-    <div class="printing__settings printing-settings">
+    <div class="printing__pages">
+      <div class="printing__pages-wrap">
+        <div class="printing__pages-item">
+          <Page
+            :layout="pageLayout"
+            :padding="safetyPaddings"
+            class="printing__page printing__page_enabled"
+          >
+            <div
+              v-if="outline"
+              class="printing__page-content printing__page-content_image"
+            >
+              <img :src="outlineImage" alt="outline" class="printing__image" />
+            </div>
+            <UIIcon
+              v-else
+              icon="loading"
+              size="2.4rem"
+              class="printing__page-loader"
+            />
+          </Page>
+          <div class="printing__page-controls">
+            <label for="include_outline" class="printing__page-controls-label">
+              Outline
+            </label>
+          </div>
+        </div>
+        <div class="printing__pages-item">
+          <Page
+            :padding="safetyPaddings"
+            @click="includePalette = !includePalette"
+            class="printing__page"
+            :class="{ printing__page_enabled: includePalette }"
+          >
+            <div
+              v-if="palette"
+              class="printing__page-content printing__page-content_palette"
+            >
+              <div class="palette__color"></div>
+            </div>
+            <UIIcon
+              v-else
+              icon="loading"
+              size="2.4rem"
+              class="printing__page-loader"
+            />
+            <div
+              class="printing__page-shadow"
+              :class="{ 'printing__page-shadow_visible': !includePalette }"
+            ></div>
+          </Page>
+          <div class="printing__page-controls">
+            <input
+              v-model="includePalette"
+              id="include_palette"
+              type="checkbox"
+              class="printing__checkbox"
+            />
+            <label for="include_palette" class="printing__page-controls-label">
+              Palette
+            </label>
+          </div>
+        </div>
+        <div class="printing__pages-item">
+          <Page
+            :padding="safetyPaddings"
+            :layout="pageLayout"
+            @click="includePreview = !includePreview"
+            class="printing__page"
+            :class="{ printing__page_enabled: includePreview }"
+          >
+            <div
+              v-if="preview"
+              class="printing__page-content printing__page-content_image"
+            >
+              <img :src="previewImage" alt="preview" class="printing__image" />
+            </div>
+            <UIIcon
+              v-else
+              icon="loading"
+              size="2.4rem"
+              class="printing__page-loader"
+            />
+            <div
+              class="printing__page-shadow"
+              :class="{ 'printing__page-shadow_visible': !includePreview }"
+            ></div>
+          </Page>
+          <div class="printing__page-controls">
+            <input
+              v-model="includePreview"
+              id="include_reference"
+              type="checkbox"
+              class="printing__checkbox"
+            />
+            <label
+              for="include_reference"
+              class="printing__page-controls-label"
+            >
+              Reference
+            </label>
+          </div>
+        </div>
+        <div class="printing__pages-item">
+          <Page
+            :padding="safetyPaddings"
+            :layout="pageLayout"
+            @click="includeSource = !includeSource"
+            class="printing__page"
+            :class="{ printing__page_enabled: includeSource }"
+          >
+            <div class="printing__page-content printing__page-content_image">
+              <img :src="sourceImage" alt="source" class="printing__image" />
+            </div>
+            <div
+              class="printing__page-shadow"
+              :class="{ 'printing__page-shadow_visible': !includeSource }"
+            ></div>
+          </Page>
+          <div class="printing__page-controls">
+            <input
+              v-model="includeSource"
+              id="include_source"
+              type="checkbox"
+              class="printing__checkbox"
+            />
+            <label for="include_source" class="printing__page-controls-label">
+              Source image
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="printing__settings">
       <div class="printing__settings-row">
         <div class="printing__settings-name">
           Safety padding
@@ -156,14 +204,22 @@
       </div>
       <div class="printing__settings-row printing__settings-row_btn">
         <UIButton>
-          Download
+          <div class="printing__download-btn">
+            <UIIcon
+              icon="download"
+              size="1.8rem"
+              class="printing__download-btn-icon"
+            />
+            Download
+          </div>
         </UIButton>
       </div>
     </div>
-  </div>
+  </Container>
 </template>
 
 <script>
+import Container from '@/components/layout/Container';
 import Page from '@/components/common/Page';
 import { getLayout } from '@/helpers/layoutHelper';
 
@@ -171,11 +227,15 @@ export default {
   name: 'Printing',
   props: {
     outline: { type: Object, default: null },
-    palette: { type: Array, default: () => [] },
+    palette: { type: [Array, Object], default: null },
     preview: { type: Object, default: null },
     source: { type: Object, default: null }
   },
-  components: { Page },
+  emits: {
+    'back-to-upload': null,
+    download: null
+  },
+  components: { Container, Page },
   data() {
     return {
       includePalette: true,
@@ -213,23 +273,36 @@ export default {
         outloneColor: this.outlineColor,
         displayNumbers: this.displayNumbers
       });
+    },
+    onBackClick() {
+      this.$emit('back-to-upload');
     }
   }
 };
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/scroll-mixin';
+
 .printing {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+
+  &__back-icon {
+    position: absolute;
+    top: 1.4rem;
+    left: 50%;
+    cursor: pointer;
+  }
 
   &__title {
     width: 100%;
     margin-bottom: 2rem;
     font-size: 2.4rem;
-    text-align: center;
   }
 
   &__page {
@@ -274,10 +347,19 @@ export default {
   }
 
   &__pages {
-    width: 90%;
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 2.4rem;
+
+    @include scrollbar;
+  }
+
+  &__pages-wrap {
     display: flex;
     align-items: center;
     column-gap: 4rem;
+    min-width: 100rem;
+    padding: 1rem 2rem 2rem;
   }
 
   &__pages-item {
@@ -306,11 +388,14 @@ export default {
   }
 
   &__settings {
-    margin-top: 2.4rem;
-    width: 24rem;
+    width: 25rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   &__settings-row {
@@ -334,6 +419,16 @@ export default {
     cursor: pointer;
     margin-left: 0.6rem;
     color: #999999;
+  }
+
+  &__download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__download-btn-icon {
+    margin-right: 0.8rem;
   }
 }
 

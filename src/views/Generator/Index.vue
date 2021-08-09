@@ -1,19 +1,17 @@
 <template>
-  <Container class="generator" :class="{ 'generator_no-scroll': noScroll }">
-    <router-view
-      :source="source"
-      :preview="preview"
-      :outline="outline"
-      :palette="palette"
-      @file-ready="onFileReady"
-      @get-pdf="onGetPdfClick"
-      @reset-upload="onResetUpload"
-    ></router-view>
-  </Container>
+  <router-view
+    :source="source"
+    :preview="preview"
+    :outline="outline"
+    :palette="palette"
+    @file-ready="onFileReady"
+    @get-pdf="onGetPdfClick"
+    @reset-upload="onResetUpload"
+    @back-to-upload="onBackToUpload"
+  ></router-view>
 </template>
 
 <script>
-import Container from '@/components/layout/Container';
 import processImage from '@/libs/processImage';
 import { ROUTES } from '@/router';
 
@@ -24,7 +22,7 @@ export default {
       source: null,
       preview: null,
       outline: null,
-      palette: []
+      palette: null
     };
   },
   computed: {
@@ -65,21 +63,10 @@ export default {
     },
     onGetPdfClick() {
       this.$router.push({ name: ROUTES.Print });
+    },
+    onBackToUpload() {
+      this.$router.push({ name: ROUTES.Upload });
     }
-  },
-  components: { Container }
+  }
 };
 </script>
-
-<style lang="scss">
-.generator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 0;
-
-  &_no-scroll {
-    height: 100%;
-  }
-}
-</style>

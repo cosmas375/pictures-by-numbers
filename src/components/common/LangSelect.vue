@@ -3,6 +3,7 @@
     <div
       @click="onTogglerClick"
       class="lang-select__item lang-select__item_toggler"
+      ref="item"
     >
       <img :src="getLangIcon(value)" :alt="value" class="lang-select__flag" />
       <span class="lang-select__title">{{ selectedLang.label }}</span>
@@ -51,8 +52,9 @@ export default {
       if (!this.isExpanded) {
         return '0px';
       }
-      const itemHeight = 3.6;
-      return `${Math.min(itemHeight * this.langs.length, 12)}rem`;
+      const remSize = 10;
+      const itemHeight = (this.$refs.item.scrollHeight + 1) / remSize;
+      return `${Math.min(this.langs.length, 3.5) * itemHeight}rem`;
     }
   },
   methods: {
@@ -107,6 +109,13 @@ export default {
   &__flag {
     width: 1.8rem;
     margin-right: 0.8rem;
+  }
+  &__title {
+    font-size: 1.4rem;
+
+    @media screen and(max-width: 768px) {
+      font-size: 1.8rem;
+    }
   }
 }
 </style>

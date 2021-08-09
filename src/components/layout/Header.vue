@@ -37,7 +37,7 @@
               menu__link_active: this.activeRouteName === Routes.Print
             }"
           >
-            <UIIcon icon="printing" />
+            <UIIcon icon="printing" size="1.8rem" />
           </router-link>
         </div>
         <div class="menu__item">
@@ -111,6 +111,7 @@ export default {
   }
 
   &__link {
+    height: 2rem;
     cursor: pointer;
     position: relative;
     text-decoration: none;
@@ -137,6 +138,10 @@ export default {
 
     &_printing {
       margin-left: 0.4rem;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.8rem;
     }
   }
 }

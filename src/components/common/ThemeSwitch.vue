@@ -2,7 +2,7 @@
   <div class="theme-switch">
     <UIIcon
       icon="light-theme"
-      size="2rem"
+      size="2.4rem"
       @click="setLightTheme"
       class="theme-switch__icon"
     />
@@ -15,7 +15,7 @@
     />
     <UIIcon
       icon="dark-theme"
-      size="1.6rem"
+      size="2rem"
       @click="setDarkTheme"
       class="theme-switch__icon"
     />
