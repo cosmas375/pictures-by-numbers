@@ -29,8 +29,8 @@
 
 <script>
 import Container from '@/components/layout/Container';
-import ImageUploader from '@/components/Generator/ImageUploader';
-import Preview from '@/components/Generator/Preview';
+import ImageUploader from '@/components/Generator/Upload/ImageUploader';
+import Preview from '@/components/Generator/Upload/Preview';
 import { getLayout } from '@/helpers/layoutHelper';
 
 export default {

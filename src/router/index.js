@@ -14,8 +14,8 @@ export const ROUTES = {
 const routes = [
   { name: ROUTES.Home, path: '/', component: Landing },
   {
+    path: '/numbers',
     component: Generator,
-    redirect: { name: ROUTES.Upload },
     children: [
       {
         name: ROUTES.Upload,
