@@ -14,11 +14,9 @@
     <div class="printing__title">
       PDF settings
     </div>
-    <div class="printing__settings">
-      <div class="printing__settings-row">
-        <div class="printing__settings-name">
-          Pages to include:
-        </div>
+    <div class="printing__settings-row">
+      <div class="printing__settings-name">
+        Pages to include:
       </div>
     </div>
     <div class="printing__pages">
@@ -52,14 +50,25 @@
           <Page
             :padding="safetyPaddings"
             @click="includePalette = !includePalette"
-            class="printing__page"
+            class="printing__page printing__page_selectable"
             :class="{ printing__page_enabled: includePalette }"
           >
             <div
               v-if="palette"
-              class="printing__page-content printing__page-content_palette"
+              class="printing__page-content printing__page-content_palette palette"
             >
-              <div class="palette__color"></div>
+              <div
+                v-for="(color, index) in colors"
+                :key="color"
+                class="palette__item"
+              >
+                <div class="palette__number">{{ index + 1 }})</div>
+                <div
+                  class="palette__color"
+                  :style="{ backgroundColor: color }"
+                ></div>
+                <div class="palette__title">{{ color }}</div>
+              </div>
             </div>
             <UIIcon
               v-else
@@ -79,7 +88,10 @@
               type="checkbox"
               class="printing__checkbox"
             />
-            <label for="include_palette" class="printing__page-controls-label">
+            <label
+              for="include_palette"
+              class="printing__page-controls-label printing__page-controls-label_clickable"
+            >
               Palette
             </label>
           </div>
@@ -89,7 +101,7 @@
             :padding="safetyPaddings"
             :layout="pageLayout"
             @click="includePreview = !includePreview"
-            class="printing__page"
+            class="printing__page printing__page_selectable"
             :class="{ printing__page_enabled: includePreview }"
           >
             <div
@@ -118,7 +130,7 @@
             />
             <label
               for="include_reference"
-              class="printing__page-controls-label"
+              class="printing__page-controls-label printing__page-controls-label_clickable"
             >
               Reference
             </label>
@@ -129,7 +141,7 @@
             :padding="safetyPaddings"
             :layout="pageLayout"
             @click="includeSource = !includeSource"
-            class="printing__page"
+            class="printing__page printing__page_selectable"
             :class="{ printing__page_enabled: includeSource }"
           >
             <div class="printing__page-content printing__page-content_image">
@@ -147,7 +159,10 @@
               type="checkbox"
               class="printing__checkbox"
             />
-            <label for="include_source" class="printing__page-controls-label">
+            <label
+              for="include_source"
+              class="printing__page-controls-label printing__page-controls-label_clickable"
+            >
               Source image
             </label>
           </div>
@@ -155,6 +170,14 @@
       </div>
     </div>
     <div class="printing__settings">
+      <div class="printing__settings-row">
+        <div class="printing__settings-name">
+          File name
+        </div>
+        <div class="printing__settings-value">
+          <input v-model="fileName" type="text" />.pdf
+        </div>
+      </div>
       <div class="printing__settings-row">
         <div class="printing__settings-name">
           Safety padding
@@ -181,7 +204,7 @@
           </UITooltip>
         </div>
         <div class="printing__settings-value">
-          <UIColorPicker v-model="outlineColor" />
+          <UIColorPicker v-model="outlineColor" size="small" />
         </div>
       </div>
       <div class="printing__settings-row">
@@ -203,7 +226,7 @@
         </div>
       </div>
       <div class="printing__settings-row printing__settings-row_btn">
-        <UIButton>
+        <UIButton @click="onDownloadClick">
           <div class="printing__download-btn">
             <UIIcon
               icon="download"
@@ -222,6 +245,7 @@
 import Container from '@/components/layout/Container';
 import Page from '@/components/common/Page';
 import { getLayout } from '@/helpers/layoutHelper';
+import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
 
 export default {
   name: 'Printing',
@@ -241,6 +265,7 @@ export default {
       includePalette: true,
       includePreview: true,
       includeSource: false,
+      fileName: 'My awesome artwork', // TODO: localization
       safetyPaddings: 5, // mm
       outlineColor: '#c8c8c8',
       displayNumbers: true
@@ -261,6 +286,9 @@ export default {
         return;
       }
       return getLayout(this.source);
+    },
+    colors() {
+      return this.palette ? this.palette.map(color => RGBtoHEX(color)) : [];
     }
   },
   methods: {
@@ -269,8 +297,9 @@ export default {
         includePalette: this.includePalette,
         includePreview: this.includePreview,
         includeSource: this.includeSource,
+        fileName: this.fileName,
         safetyPaddings: this.safetyPaddings,
-        outloneColor: this.outlineColor,
+        outlineColor: this.outlineColor,
         displayNumbers: this.displayNumbers
       });
     },
@@ -312,6 +341,10 @@ export default {
     &_enabled {
       box-shadow: 1rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
     }
+
+    &_selectable {
+      cursor: pointer;
+    }
   }
 
   &__page-loader {
@@ -331,7 +364,7 @@ export default {
     transition: background-color 0.2s;
 
     &_visible {
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(218, 218, 218, 0.9);
     }
   }
 
@@ -344,6 +377,10 @@ export default {
     user-select: none;
     margin-left: 0.4rem;
     font-size: 1.4rem;
+
+    &_clickable {
+      cursor: pointer;
+    }
   }
 
   &__pages {
@@ -368,8 +405,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    &_landscape {
-    }
   }
 
   &__page-content {
@@ -388,7 +423,7 @@ export default {
   }
 
   &__settings {
-    width: 25rem;
+    width: 32rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -404,6 +439,8 @@ export default {
     justify-content: space-between;
     width: 100%;
     margin-top: 1rem;
+    min-height: 3rem;
+
     &_btn {
       justify-content: center;
       margin-top: 2rem;
@@ -433,5 +470,21 @@ export default {
 }
 
 .palette {
+  &__item {
+    display: flex;
+    align-items: center;
+
+    & + .palette__item {
+      margin-top: 0.2rem;
+    }
+  }
+
+  &__color {
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.4rem;
+    border: 0.1rem solid black;
+    border-radius: 0.2rem;
+  }
 }
 </style>

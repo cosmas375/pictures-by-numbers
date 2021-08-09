@@ -10,9 +10,9 @@ export default function generatePdf(data) {
     return;
   }
 
-  const { outline, color, palette } = data;
+  const { outline, palette, preview, source, settings } = data;
 
-  const imgPage = getImagePageData(outline);
+  const imgPage = getImagePageData(outline, settings.safetyPaddings);
   const imagePageParams = [
     'PNG',
     imgPage.x0,
@@ -29,15 +29,24 @@ export default function generatePdf(data) {
 
   doc.addImage(outline.src, ...imagePageParams);
 
-  addPalettePage(doc, palette);
+  if (settings.includePalette) {
+    addPalettePage(doc, palette);
+  }
 
-  doc.addPage(imgPage.format, imgPage.orientation);
-  doc.addImage(color.src, ...imagePageParams);
+  if (settings.includePreview) {
+    doc.addPage(imgPage.format, imgPage.orientation);
+    doc.addImage(preview.src, ...imagePageParams);
+  }
 
-  doc.save('My awesome artwork.pdf');
+  if (settings.includeSource) {
+    doc.addPage(imgPage.format, imgPage.orientation);
+    doc.addImage(source.src, ...imagePageParams);
+  }
+
+  doc.save(`${settings.fileName}.pdf`);
 }
 
-function getImagePageData(image) {
+function getImagePageData(image, safetyPaddings) {
   const format = 'a4';
   const orientation = image.width > image.height ? 'landscape' : 'portrait';
   const sheetParams = {
@@ -66,7 +75,7 @@ function getImagePageData(image) {
   const centeringMargin =
     (sheetParams[secondaryDimension] - image[secondaryDimension] * mmPerPx) / 2;
 
-  const mainDimensionMargin = 10;
+  const mainDimensionMargin = safetyPaddings;
   const secondaryDimensionMargin =
     (mainDimensionMargin / image[mainDimension]) * image[secondaryDimension];
 

@@ -1,6 +1,7 @@
 <template>
   <el-color-picker
     :value="value"
+    :size="size"
     @input="$emit('input')"
     class="ui-color-picker"
   >
@@ -12,7 +13,8 @@
 export default {
   name: 'UIColorPicker',
   props: {
-    value: { type: String }
+    value: { type: String },
+    size: { type: String, default: 'medium' }
   },
   emits: {
     input: null

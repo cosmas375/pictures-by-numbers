@@ -1,17 +1,15 @@
 import { PALETTE_SIZE } from '@/libs/processImage/settings';
 import getRandomSubarray from '@/libs/processImage/helpers/getRandomSubarray';
-import { RGBtoHEX, RGBtoHSV } from '../helpers/colorTransform';
+import { RGBtoHEX, RGBtoHSV, HEXtoRGB } from '../helpers/colorTransform';
 
 // https://curiousily.com/posts/color-palette-extraction-with-k-means-clustering/
-const MIN_DIFF = 3; // idk what to set it
+const MIN_DIFF = 30; // idk what to set it
 
 export default function generatePalette(colors) {
-  const result = fit(colors)
-    .map(cluster => cluster.center)
+  const extractedColors = fit(colors).map(cluster => RGBtoHEX(cluster.center));
+  return [...new Set(extractedColors)]
+    .map(color => HEXtoRGB(color))
     .sort((a, b) => RGBtoHSV(a).h - RGBtoHSV(b).h);
-  return result.filter(color =>
-    result.some(item => RGBtoHEX(color) === RGBtoHEX(item))
-  );
 }
 
 function fit(points) {
