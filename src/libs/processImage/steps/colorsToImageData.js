@@ -8,7 +8,7 @@ export default function colorsToImageData({ colors, width, height }) {
     arr[i] = color.r;
     arr[i + 1] = color.g;
     arr[i + 2] = color.b;
-    arr[i + 3] = color.a;
+    arr[i + 3] = 255;
   }
   return new ImageData(arr, width, height);
 }

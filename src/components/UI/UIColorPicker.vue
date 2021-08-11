@@ -1,8 +1,8 @@
 <template>
   <el-color-picker
-    :value="value"
+    :model-value="value"
     :size="size"
-    @input="$emit('input')"
+    @update:modelValue="$emit('input', $event)"
     class="ui-color-picker"
   >
     <slot> </slot>

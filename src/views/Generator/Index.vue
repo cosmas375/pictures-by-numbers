@@ -4,23 +4,26 @@
     :preview="preview"
     :outline="outline"
     :palette="palette"
+    :pdfSettings="pdfSettings"
     @file-ready="onFileReady"
     @get-pdf="onGetPdfClick"
     @reset-upload="onResetUpload"
+    @set-settings="updatePdfSettings"
     @download="queuePdfGeneration"
     @back-to-upload="onBackToUpload"
   ></router-view>
   <GlobalOverlay v-if="isPdfGenerationQueued" class="generator__spinner">
     <UIIcon icon="loading" size="3.2rem" class="generator__spinner-icon" />
-    PDF generation in progress...
+    {{ $t('printing.pdf_generation_in_progress') }}
   </GlobalOverlay>
 </template>
 
 <script>
 import GlobalOverlay from '@/components/common/GlobalOverlay';
-import processImage from '@/libs/processImage';
+import processImage, { generateOutlineImage } from '@/libs/processImage';
 import { ROUTES } from '@/router';
 import generatePdf from '@/helpers/generatePdf';
+import { HEXtoRGB } from '@/libs/processImage/helpers/colorTransform';
 
 export default {
   name: 'Generator',
@@ -29,9 +32,18 @@ export default {
     return {
       source: null,
       preview: null,
+      outlineData: null,
       outline: null,
       palette: null,
-      pdfSettings: {},
+      pdfSettings: {
+        includePalette: true,
+        includePreview: true,
+        includeSource: false,
+        fileName: this.$t('printing.default_file_name'),
+        safetyPaddings: 5, // mm
+        outlineColor: '#c8c8c8',
+        displayNumbers: true
+      },
       isResultReady: false,
       isPdfGenerationQueued: false
     };
@@ -51,23 +63,20 @@ export default {
         onError: this.onError
       });
     },
-    onPreviewReady({ preview, palette }) {
+    async onPreviewReady({ preview, palette }) {
       this.preview = preview;
       this.palette = palette;
     },
-    onResultReady({ outline }) {
-      this.outline = outline;
+    async onResultReady({ outline }) {
+      this.outlineData = outline;
+      await this.generateOutline();
       this.setResultReady(true);
       if (this.isPdfGenerationQueued) {
         this.generatePdf();
       }
     },
     onError() {
-      this.$notify({
-        message: this.$t('image_processor.error.title'),
-        type: 'error',
-        duration: 5000
-      });
+      console.log('error occurred');
       this.setPdfGenerationQueued(false);
       this.setResultReady(false);
     },
@@ -75,6 +84,7 @@ export default {
       this.$emit('image-removed');
       this.source = null;
       this.preview = null;
+      this.outlineData = null;
       this.outline = null;
       this.palette = [];
       this.pdfSettings = {};
@@ -88,14 +98,22 @@ export default {
       this.$router.push({ name: ROUTES.Upload });
       this.setPdfGenerationQueued(false);
     },
-    queuePdfGeneration(settings) {
-      console.log(settings);
-      this.pdfSettings = settings;
+    queuePdfGeneration() {
       if (this.isResultReady) {
         this.generatePdf();
       } else {
         this.setPdfGenerationQueued(true);
       }
+    },
+    async generateOutline(settings = this.pdfSettings) {
+      this.outline = null;
+      if (!this.outlineData) {
+        return;
+      }
+      this.outline = await generateOutlineImage(this.outlineData, {
+        outlineColor: HEXtoRGB(settings.outlineColor),
+        displayNumbers: settings.displayNumbers
+      });
     },
     generatePdf() {
       generatePdf({
@@ -106,6 +124,15 @@ export default {
         settings: this.pdfSettings
       });
       this.setPdfGenerationQueued(false);
+    },
+    updatePdfSettings(settings) {
+      if (
+        this.pdfSettings.outlineColor !== settings.outlineColor ||
+        this.pdfSettings.displayNumbers !== settings.displayNumbers
+      ) {
+        this.generateOutline(settings);
+      }
+      this.pdfSettings = settings;
     },
     setResultReady(value) {
       this.isResultReady = value;

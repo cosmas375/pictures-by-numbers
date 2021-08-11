@@ -1,6 +1,9 @@
+let paletteSize = 0;
+
 export default function alignColorsToPalette(colors, palette) {
   const len = colors.length;
   const result = [];
+  paletteSize = palette.length;
   for (let i = 0; i < len; i++) {
     result.push(getNearestColorFromPalette(colors[i], palette));
   }
@@ -10,9 +13,8 @@ export default function alignColorsToPalette(colors, palette) {
 function getNearestColorFromPalette(color, palette) {
   let nearestColorIndex;
   let minDiff = Infinity;
-  const len = palette.length;
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < paletteSize; i++) {
     const paletteColor = palette[i];
 
     const diff =

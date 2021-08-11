@@ -43,6 +43,7 @@ export default {
 
 .image-uploader {
   box-shadow: 1.5rem 1rem 2rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
 
   &__content {
     height: 100%;
@@ -66,6 +67,7 @@ export default {
     font-size: 1rem;
     margin-top: 0.6rem;
     text-align: center;
+    line-height: 1.4rem;
     @include themed() {
       color: t($text-color);
       transition: color $theme-transition;

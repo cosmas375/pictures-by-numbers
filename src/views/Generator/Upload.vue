@@ -46,9 +46,6 @@ export default {
   },
   components: { Container, ImageUploader, Preview },
   computed: {
-    imageSrc() {
-      return this.preview ? this.preview.src : null;
-    },
     previewLayout() {
       if (!this.preview) {
         return;

@@ -1,30 +1,40 @@
 import Worker from './processor.worker.js';
 import generateImage from './steps/generateImage';
 import getImageData from './steps/getImageData';
+import paletteToColors from './steps/paletteToColors';
+import colorsToImageData from './steps/colorsToImageData';
+
+let worker = null;
 
 export default async function processImage(
   img,
   { onPreviewReady = () => {}, onResultReady = () => {}, onError = () => {} }
 ) {
-  var worker = new Worker();
+  if (worker) {
+    worker.terminate();
+    worker = null;
+  }
+
+  worker = new Worker();
+
+  let palette = null;
 
   worker.onmessage = async e => {
     const msg = e.data;
+
     switch (msg.type) {
+      case 'palette':
+        palette = msg.data;
+        break;
       case 'preview':
         onPreviewReady({
-          ...msg.data,
-          preview: await generateImage(msg.data.preview)
+          palette,
+          preview: await generateImage(msg.data)
         });
         break;
-      case 'result':
+      case 'outline':
         onResultReady({
-          ...msg.data,
-          preview: await generateImage(msg.data.preview),
-          outline: await generateImage(
-            msg.data.outline,
-            msg.data.labelsLocations
-          )
+          outline: msg.data
         });
         worker.terminate();
         break;
@@ -36,4 +46,17 @@ export default async function processImage(
   };
 
   worker.postMessage(await getImageData(img));
+}
+
+export async function generateOutlineImage(data, settings) {
+  const outlinePalette = [settings.outlineColor, { r: 255, g: 255, b: 255 }];
+  const imageColors = paletteToColors(data.image.data, outlinePalette);
+
+  const imageData = colorsToImageData({
+    colors: imageColors,
+    width: data.image.width,
+    height: data.image.height
+  });
+
+  return await generateImage(imageData, data.labelsLocations, settings);
 }

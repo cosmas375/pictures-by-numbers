@@ -11,6 +11,8 @@ import UINotification from '@/components/UI/UINotification';
 import UIPopover from '@/components/UI/UIPopover';
 import UITooltip from '@/components/UI/UITooltip';
 import UIColorPicker from '@/components/UI/UIColorPicker';
+import UIInput from '@/components/UI/UIInput';
+import UICheckbox from '@/components/UI/UICheckbox';
 
 import {
   ElButton,
@@ -55,7 +57,9 @@ const components = {
   UINotification,
   UIPopover,
   UITooltip,
-  UIColorPicker
+  UIColorPicker,
+  UIInput,
+  UICheckbox
 };
 
 export default {

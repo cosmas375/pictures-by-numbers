@@ -15,7 +15,8 @@ const ICONS_MAP = {
   settings: 'el-icon-s-tools',
   info: 'el-icon-question',
   download: 'el-icon-download',
-  back: 'el-icon-arrow-up'
+  back: 'el-icon-arrow-up',
+  check: 'el-icon-circle-check'
 };
 
 export default {

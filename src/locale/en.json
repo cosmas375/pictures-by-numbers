@@ -1,38 +1,39 @@
 {
-  "common": {
-    "dark_mode": "Dark side",
-    "langs": {
-      "en": "English",
-      "ru": "Russian"
-    }
-  },
-  "image_processor": {
-    "file_upload": {
-      "text": "Drop file here or click to upload",
-      "tip": "jpg/png files with a size less than 2480 pixels x 3508 pixels"
-    },
-    "preview": {
-      "placeholder": "Here you'll see the result!",
-      "loader": "Please wait a bit, we're generating your artwork...",
-      "download": "Generate PDF"
-    },
-    "error": {
-      "title": "Error occurred ):",
-      "message": "Something went wrong during generation process. Please contact me via email provided in contacts section. I'll try to fix the problem in shortest time."
-    }
-  },
-
   "menu": {
     "home": "Home",
     "generator": "Art"
   },
+  "langs": {
+    "en": "English",
+    "ru": "Russian"
+  },
   "upload": {
-    "loading": "Getting some magics done...",
     "uploader": {
-      "text": "Drop file here or click to upload",
+      "text": "Upload a file",
       "tip": "jpg/png files with a size less than 2480 pixels x 3508 pixels"
     },
+    "loading": "Getting some magics done...",
     "get_pdf": "Get PDF",
     "reset": "Reset upload"
+  },
+  "printing": {
+    "back_to_upload": "Back to upload",
+    "title": "PDF settings",
+    "pages_to_include": "Pages to include:",
+    "outline": "Outline",
+    "palette": "Palette",
+    "preview": "Reference",
+    "source": "Source image",
+    "file_name": "File name:",
+    "default_file_name": "My awesome artwork",
+    "units": "mm",
+    "safety_paddings": "Safety paddings:",
+    "safety_paddings_hint": "Safety paddings hint",
+    "outline_color": "Outline color:",
+    "outline_color_hint": "Outline color hint",
+    "display_numbers": "Display numbers:",
+    "display_numbers_hint": "Display numbers hint",
+    "download": "Download",
+    "pdf_generation_in_progress": "PDF generation in progress..."
   }
 }

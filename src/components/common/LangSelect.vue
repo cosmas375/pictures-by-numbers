@@ -44,7 +44,7 @@ export default {
     options() {
       return this.langs.map(lang => ({
         value: lang,
-        label: this.$t(`common.langs.${lang}`),
+        label: this.$t(`langs.${lang}`),
         icon: this.getLangIcon(lang)
       }));
     },

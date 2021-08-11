@@ -1,22 +1,12 @@
 <template>
   <Container class="printing">
-    <UITooltip placement="bottom">
-      <UIIcon
-        icon="back"
-        size="2.4rem"
-        @click="onBackClick"
-        class="printing__back-icon"
-      />
-      <template #content>
-        Back to upload
-      </template>
-    </UITooltip>
+    <BackButton @click="onBackClick" class="printing__back-button" />
     <div class="printing__title">
-      PDF settings
+      {{ $t('printing.title') }}
     </div>
     <div class="printing__settings-row">
       <div class="printing__settings-name">
-        Pages to include:
+        {{ $t('printing.pages_to_include') }}
       </div>
     </div>
     <div class="printing__pages">
@@ -24,7 +14,7 @@
         <div class="printing__pages-item">
           <Page
             :layout="pageLayout"
-            :padding="safetyPaddings"
+            :padding="pdfSettings.safetyPaddings"
             class="printing__page printing__page_enabled"
           >
             <div
@@ -41,17 +31,17 @@
             />
           </Page>
           <div class="printing__page-controls">
-            <label for="include_outline" class="printing__page-controls-label">
-              Outline
-            </label>
+            <div for="include_outline" class="printing__page-controls-label">
+              {{ $t('printing.outline') }}
+            </div>
           </div>
         </div>
         <div class="printing__pages-item">
           <Page
-            :padding="safetyPaddings"
-            @click="includePalette = !includePalette"
+            :padding="pdfSettings.safetyPaddings"
+            @click="toggleIncludePalette"
             class="printing__page printing__page_selectable"
-            :class="{ printing__page_enabled: includePalette }"
+            :class="{ printing__page_enabled: pdfSettings.includePalette }"
           >
             <div
               v-if="palette"
@@ -78,31 +68,33 @@
             />
             <div
               class="printing__page-shadow"
-              :class="{ 'printing__page-shadow_visible': !includePalette }"
+              :class="{
+                'printing__page-shadow_visible': !pdfSettings.includePalette
+              }"
             ></div>
           </Page>
           <div class="printing__page-controls">
-            <input
-              v-model="includePalette"
+            <UICheckbox
               id="include_palette"
-              type="checkbox"
+              :value="pdfSettings.includePalette"
+              @input="toggleIncludePalette"
               class="printing__checkbox"
             />
-            <label
-              for="include_palette"
+            <div
+              @click="toggleIncludePalette"
               class="printing__page-controls-label printing__page-controls-label_clickable"
             >
-              Palette
-            </label>
+              {{ $t('printing.palette') }}
+            </div>
           </div>
         </div>
         <div class="printing__pages-item">
           <Page
-            :padding="safetyPaddings"
+            :padding="pdfSettings.safetyPaddings"
             :layout="pageLayout"
-            @click="includePreview = !includePreview"
+            @click="toggleIncludePreview"
             class="printing__page printing__page_selectable"
-            :class="{ printing__page_enabled: includePreview }"
+            :class="{ printing__page_enabled: pdfSettings.includePreview }"
           >
             <div
               v-if="preview"
@@ -118,53 +110,57 @@
             />
             <div
               class="printing__page-shadow"
-              :class="{ 'printing__page-shadow_visible': !includePreview }"
+              :class="{
+                'printing__page-shadow_visible': !pdfSettings.includePreview
+              }"
             ></div>
           </Page>
           <div class="printing__page-controls">
-            <input
-              v-model="includePreview"
+            <UICheckbox
               id="include_reference"
-              type="checkbox"
+              :value="pdfSettings.includePreview"
+              @input="toggleIncludePreview"
               class="printing__checkbox"
             />
-            <label
-              for="include_reference"
+            <div
+              @click="toggleIncludePreview"
               class="printing__page-controls-label printing__page-controls-label_clickable"
             >
-              Reference
-            </label>
+              {{ $t('printing.preview') }}
+            </div>
           </div>
         </div>
         <div class="printing__pages-item">
           <Page
-            :padding="safetyPaddings"
+            :padding="pdfSettings.safetyPaddings"
             :layout="pageLayout"
-            @click="includeSource = !includeSource"
+            @click="toggleIncludeSource"
             class="printing__page printing__page_selectable"
-            :class="{ printing__page_enabled: includeSource }"
+            :class="{ printing__page_enabled: pdfSettings.includeSource }"
           >
             <div class="printing__page-content printing__page-content_image">
               <img :src="sourceImage" alt="source" class="printing__image" />
             </div>
             <div
               class="printing__page-shadow"
-              :class="{ 'printing__page-shadow_visible': !includeSource }"
+              :class="{
+                'printing__page-shadow_visible': !pdfSettings.includeSource
+              }"
             ></div>
           </Page>
           <div class="printing__page-controls">
-            <input
-              v-model="includeSource"
+            <UICheckbox
               id="include_source"
-              type="checkbox"
+              :value="pdfSettings.includeSource"
+              @input="toggleIncludeSource"
               class="printing__checkbox"
             />
-            <label
-              for="include_source"
+            <div
+              @click="toggleIncludeSource"
               class="printing__page-controls-label printing__page-controls-label_clickable"
             >
-              Source image
-            </label>
+              {{ $t('printing.source') }}
+            </div>
           </div>
         </div>
       </div>
@@ -172,55 +168,68 @@
     <div class="printing__settings">
       <div class="printing__settings-row">
         <div class="printing__settings-name">
-          File name
+          {{ $t('printing.file_name') }}
         </div>
         <div class="printing__settings-value">
-          <input v-model="fileName" type="text" />.pdf
+          <UIInput
+            :value="pdfSettings.fileName"
+            @input="onFileNameChange"
+          />.pdf
         </div>
       </div>
       <div class="printing__settings-row">
         <div class="printing__settings-name">
-          Safety padding
+          {{ $t('printing.safety_paddings') }}
           <UITooltip placement="top-start">
             <UIIcon icon="info" size="1.8rem" class="printing__settings-hint" />
             <template #content>
-              fuck this shit
+              {{ $t('printing.safety_paddings_hint') }}
             </template>
           </UITooltip>
         </div>
         <div class="printing__settings-value">
-          <input v-model="safetyPaddings" min="0" max="15" type="number" />
-          mm
+          <UIInput
+            :value="pdfSettings.safetyPaddings"
+            min="0"
+            max="15"
+            type="number"
+            @input="onSafetyPaddingsChange"
+          />
+          {{ $t('printing.units') }}
         </div>
       </div>
       <div class="printing__settings-row">
         <div class="printing__settings-name">
-          Outline color
+          {{ $t('printing.outline_color') }}
           <UITooltip placement="top-start">
             <UIIcon icon="info" size="1.8rem" class="printing__settings-hint" />
             <template #content>
-              fuck this shit
+              {{ $t('printing.outline_color_hint') }}
             </template>
           </UITooltip>
         </div>
         <div class="printing__settings-value">
-          <UIColorPicker v-model="outlineColor" size="small" />
+          <UIColorPicker
+            :value="pdfSettings.outlineColor"
+            @input="onOutlineColorChange"
+            size="small"
+          />
         </div>
       </div>
       <div class="printing__settings-row">
         <div class="printing__settings-name">
-          Dsplay numbers
+          {{ $t('printing.display_numbers') }}
           <UITooltip placement="top-start">
             <UIIcon icon="info" size="1.8rem" class="printing__settings-hint" />
             <template #content>
-              fuck this shit
+              {{ $t('printing.display_numbers_hint') }}
             </template>
           </UITooltip>
         </div>
         <div class="printing__settings-value">
-          <input
-            v-model="displayNumbers"
-            type="checkbox"
+          <UICheckbox
+            :value="pdfSettings.displayNumbers"
+            @input="onDisplayNumbersChange"
             class="printing__checkbox"
           />
         </div>
@@ -233,7 +242,7 @@
               size="1.8rem"
               class="printing__download-btn-icon"
             />
-            Download
+            {{ $t('printing.download') }}
           </div>
         </UIButton>
       </div>
@@ -243,6 +252,7 @@
 
 <script>
 import Container from '@/components/layout/Container';
+import BackButton from '@/components/Generator/Printing/BackButton';
 import Page from '@/components/common/Page';
 import { getLayout } from '@/helpers/layoutHelper';
 import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
@@ -253,24 +263,15 @@ export default {
     outline: { type: Object, default: null },
     palette: { type: [Array, Object], default: null },
     preview: { type: Object, default: null },
-    source: { type: Object, default: null }
+    source: { type: Object, default: null },
+    pdfSettings: { type: Object, default: () => ({}) }
   },
   emits: {
     'back-to-upload': null,
+    'set-settings': null,
     download: null
   },
-  components: { Container, Page },
-  data() {
-    return {
-      includePalette: true,
-      includePreview: true,
-      includeSource: false,
-      fileName: 'My awesome artwork', // TODO: localization
-      safetyPaddings: 5, // mm
-      outlineColor: '#c8c8c8',
-      displayNumbers: true
-    };
-  },
+  components: { Container, BackButton, Page },
   computed: {
     outlineImage() {
       return this.outline ? this.outline.src : null;
@@ -293,18 +294,45 @@ export default {
   },
   methods: {
     onDownloadClick() {
-      this.$emit('download', {
-        includePalette: this.includePalette,
-        includePreview: this.includePreview,
-        includeSource: this.includeSource,
-        fileName: this.fileName,
-        safetyPaddings: this.safetyPaddings,
-        outlineColor: this.outlineColor,
-        displayNumbers: this.displayNumbers
-      });
+      this.$emit('download');
     },
     onBackClick() {
       this.$emit('back-to-upload');
+    },
+    updateSettings(updates) {
+      this.$emit('set-settings', {
+        ...this.pdfSettings,
+        ...updates
+      });
+    },
+    toggleIncludePalette() {
+      this.updateSettings({
+        includePalette: !this.pdfSettings.includePalette
+      });
+    },
+    toggleIncludePreview() {
+      this.updateSettings({
+        includePreview: !this.pdfSettings.includePreview
+      });
+    },
+    toggleIncludeSource() {
+      this.updateSettings({
+        includeSource: !this.pdfSettings.includeSource
+      });
+    },
+    onFileNameChange(fileName) {
+      this.updateSettings({ fileName });
+    },
+    onSafetyPaddingsChange(safetyPaddings) {
+      this.updateSettings({ safetyPaddings });
+    },
+    onOutlineColorChange(outlineColor) {
+      this.updateSettings({ outlineColor });
+    },
+    onDisplayNumbersChange() {
+      this.updateSettings({
+        displayNumbers: !this.pdfSettings.displayNumbers
+      });
     }
   }
 };
@@ -321,11 +349,10 @@ export default {
   padding-top: 4rem;
   padding-bottom: 4rem;
 
-  &__back-icon {
+  &__back-button {
     position: absolute;
     top: 1.4rem;
     left: 50%;
-    cursor: pointer;
   }
 
   &__title {
