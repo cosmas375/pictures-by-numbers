@@ -12,9 +12,14 @@
     </template>
     <template #content>
       <router-view
+        v-slot="{ Component }"
         @image-loaded="onImageReady"
         @image-removed="onImageRemoved"
-      />
+      >
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </template>
   </Layout>
 </template>

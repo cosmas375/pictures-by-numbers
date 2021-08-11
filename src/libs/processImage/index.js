@@ -8,7 +8,12 @@ let worker = null;
 
 export default async function processImage(
   img,
-  { onPreviewReady = () => {}, onResultReady = () => {}, onError = () => {} }
+  {
+    onPreviewReady = () => {},
+    onResultReady = () => {},
+    onError = () => {},
+    uploadId
+  }
 ) {
   if (worker) {
     worker.terminate();
@@ -29,23 +34,32 @@ export default async function processImage(
       case 'preview':
         onPreviewReady({
           palette,
-          preview: await generateImage(msg.data)
+          preview: await generateImage(msg.data),
+          uploadId
         });
         break;
       case 'outline':
         onResultReady({
-          outline: msg.data
+          outline: msg.data,
+          uploadId
         });
         worker.terminate();
         break;
       case 'error':
-        onError(msg.data);
+        onError({
+          err: msg.data,
+          uploadId
+        });
         worker.terminate();
         break;
     }
   };
 
   worker.postMessage(await getImageData(img));
+
+  return {
+    terminate: worker.terminate
+  };
 }
 
 export async function generateOutlineImage(data, settings) {

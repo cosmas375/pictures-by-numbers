@@ -24,12 +24,14 @@ import processImage, { generateOutlineImage } from '@/libs/processImage';
 import { ROUTES } from '@/router';
 import generatePdf from '@/helpers/generatePdf';
 import { HEXtoRGB } from '@/libs/processImage/helpers/colorTransform';
+import { nanoid } from 'nanoid';
 
 export default {
   name: 'Generator',
   components: { GlobalOverlay },
   data() {
     return {
+      uploadId: null,
       source: null,
       preview: null,
       outlineData: null,
@@ -55,19 +57,27 @@ export default {
   },
   methods: {
     async onFileReady(img) {
+      this.uploadId = nanoid();
       this.source = img;
       this.$emit('image-loaded');
       await processImage(img, {
         onPreviewReady: this.onPreviewReady,
         onResultReady: this.onResultReady,
-        onError: this.onError
+        onError: this.onError,
+        uploadId: this.uploadId
       });
     },
-    async onPreviewReady({ preview, palette }) {
+    async onPreviewReady({ preview, palette, uploadId }) {
+      if (!this.uploadId || this.uploadId !== uploadId) {
+        return;
+      }
       this.preview = preview;
       this.palette = palette;
     },
-    async onResultReady({ outline }) {
+    async onResultReady({ outline, uploadId }) {
+      if (!this.uploadId || this.uploadId !== uploadId) {
+        return;
+      }
       this.outlineData = outline;
       await this.generateOutline();
       this.setResultReady(true);
@@ -76,18 +86,17 @@ export default {
       }
     },
     onError() {
-      console.log('error occurred');
       this.setPdfGenerationQueued(false);
       this.setResultReady(false);
     },
     onResetUpload() {
       this.$emit('image-removed');
+      this.uploadId = null;
       this.source = null;
       this.preview = null;
       this.outlineData = null;
       this.outline = null;
       this.palette = [];
-      this.pdfSettings = {};
       this.setPdfGenerationQueued(false);
       this.setResultReady(false);
     },
@@ -134,12 +143,26 @@ export default {
       }
       this.pdfSettings = settings;
     },
+    setDefaultPdfSettings() {
+      this.pdfSettings = {
+        includePalette: true,
+        includePreview: true,
+        includeSource: false,
+        fileName: this.$t('printing.default_file_name'),
+        safetyPaddings: 5, // mm
+        outlineColor: '#c8c8c8',
+        displayNumbers: true
+      };
+    },
     setResultReady(value) {
       this.isResultReady = value;
     },
     setPdfGenerationQueued(value) {
       this.isPdfGenerationQueued = value;
     }
+  },
+  mounted() {
+    this.setDefaultPdfSettings();
   }
 };
 </script>
