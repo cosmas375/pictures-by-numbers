@@ -27,11 +27,18 @@ export default {
   },
   methods: {
     onScroll() {
-      this.scrollTop = this.$refs.content.scrollTop;
+      if (this.$refs.content) {
+        this.scrollTop = this.$refs.content.scrollTop;
+      }
+    },
+    setScrollEventListener() {
+      if (this.$refs.content) {
+        this.$refs.content.addEventListener('scroll', this.onScroll);
+      }
     }
   },
   mounted() {
-    this.$refs.content.addEventListener('scroll', this.onScroll);
+    this.setScrollEventListener();
   }
 };
 </script>

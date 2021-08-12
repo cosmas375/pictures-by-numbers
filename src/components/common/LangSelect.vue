@@ -53,7 +53,10 @@ export default {
         return '0px';
       }
       const remSize = 10;
-      const itemHeight = (this.$refs.item.scrollHeight + 1) / remSize;
+      const defaultHeight = 35;
+      const itemHeight = this.$refs.item
+        ? (this.$refs.item.scrollHeight + 1) / remSize
+        : defaultHeight;
       return `${Math.min(this.langs.length, 3.5) * itemHeight}rem`;
     }
   },

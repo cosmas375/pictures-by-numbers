@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import Landing from '@/views/Landing';
-import Generator from '@/views/Generator/Index';
-import Upload from '@/views/Generator/Upload';
-import Printing from '@/views/Generator/Printing';
+const Generator = () => import('@/views/Generator/Index');
+const Upload = () => import('@/views/Generator/Upload');
+const Printing = () => import('@/views/Generator/Printing');
 
 export const ROUTES = {
   Home: 'home',

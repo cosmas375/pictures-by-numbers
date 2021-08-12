@@ -391,7 +391,7 @@ export default {
     transition: background-color 0.2s;
 
     &_visible {
-      background-color: rgba(218, 218, 218, 0.9);
+      background-color: rgba(237, 237, 237, 0.84);
     }
   }
 
