@@ -12,6 +12,10 @@
       "text": "Upload a file",
       "tip": "jpg/png files with a size less than 2480 pixels x 3508 pixels"
     },
+    "error": {
+      "wrong_file_format": "Wrong file format!",
+      "too_large_image": "This image is too large!"
+    },
     "loading": "Getting some magics done...",
     "get_pdf": "Get PDF",
     "reset": "Reset upload"

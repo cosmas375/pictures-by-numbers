@@ -6,6 +6,7 @@
     :palette="palette"
     :pdfSettings="pdfSettings"
     @file-ready="onFileReady"
+    @upload-error="onUploadError"
     @get-pdf="onGetPdfClick"
     @reset-upload="onResetUpload"
     @set-settings="updatePdfSettings"
@@ -67,6 +68,9 @@ export default {
         uploadId: this.uploadId
       });
     },
+    onUploadError(error) {
+      console.log(this.$t(`upload.error.${error}`));
+    },
     async onPreviewReady({ preview, palette, uploadId }) {
       if (!this.uploadId || this.uploadId !== uploadId) {
         return;
@@ -85,7 +89,10 @@ export default {
         this.generatePdf();
       }
     },
-    onError() {
+    onError(error) {
+      if (error) {
+        console.log(error);
+      }
       this.setPdfGenerationQueued(false);
       this.setResultReady(false);
     },

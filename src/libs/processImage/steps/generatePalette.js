@@ -9,7 +9,11 @@ export default function generatePalette(colors) {
   const extractedColors = fit(colors).map(cluster => RGBtoHEX(cluster.center));
   return [...new Set(extractedColors)]
     .map(color => HEXtoRGB(color))
-    .sort((a, b) => RGBtoHSV(a).h - RGBtoHSV(b).h);
+    .sort((a, b) => {
+      const hsvA = RGBtoHSV(a);
+      const hsvB = RGBtoHSV(b);
+      return hsvA.h - hsvB.h || hsvA.v - hsvB.v;
+    });
 }
 
 function fit(points) {

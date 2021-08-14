@@ -3,6 +3,7 @@
     <ImageUploader
       v-if="!source"
       @file-ready="$emit('file-ready', $event)"
+      @error="$emit('upload-error', $event)"
       class="upload__uploader"
     />
     <template v-else>

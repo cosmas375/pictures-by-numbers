@@ -1,9 +1,7 @@
 import JSPDF from 'jspdf';
 import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
-
-const FORMATS = {
-  a4: { width: 210, height: 297 }
-};
+import { FORMATS_DATA } from '@/data/formats';
+import { LAYOUTS } from '@/helpers/layoutHelper';
 
 export default function generatePdf(data) {
   if (!data) {
@@ -48,12 +46,19 @@ export default function generatePdf(data) {
 
 function getImagePageData(image, safetyPaddings) {
   const format = 'a4';
-  const orientation = image.width > image.height ? 'landscape' : 'portrait';
+  const orientation =
+    image.width > image.height ? LAYOUTS.Landscape : LAYOUTS.Portrait;
   const sheetParams = {
     format: format,
     unit: 'mm',
-    width: FORMATS[format][orientation === 'landscape' ? 'height' : 'width'],
-    height: FORMATS[format][orientation === 'landscape' ? 'width' : 'height']
+    width:
+      FORMATS_DATA[format][
+        orientation === LAYOUTS.Landscape ? 'height' : 'width'
+      ],
+    height:
+      FORMATS_DATA[format][
+        orientation === LAYOUTS.Landscape ? 'width' : 'height'
+      ]
   };
 
   const sheetAspectRatio =

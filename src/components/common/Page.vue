@@ -13,20 +13,19 @@
 </template>
 
 <script>
-const SIZES = {
-  a4: { width: 210, height: 297 }
-};
+import { FORMATS, FORMATS_DATA } from '@/data/formats';
+
 export default {
   name: 'Page',
   props: {
     layout: { type: String, default: 'portrait' },
     padding: { type: Number, default: 0 },
-    format: { type: String, default: 'a4' }
+    format: { type: String, default: FORMATS.A4 }
   },
   computed: {
     size() {
-      const width = SIZES[this.format].width;
-      const height = SIZES[this.format].height;
+      const width = FORMATS_DATA[this.format].width;
+      const height = FORMATS_DATA[this.format].height;
       return this.layout === 'portrait'
         ? { width, height }
         : { width: height, height: width };
