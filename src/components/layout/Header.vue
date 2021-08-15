@@ -30,17 +30,18 @@
             {{ $t('menu.generator') }}
           </router-link>
           <router-link
-            v-if="isPrintingAvailable"
             :to="{ name: Routes.Print }"
             class="menu__link menu__link_printing"
             :class="{
-              menu__link_active: this.activeRouteName === Routes.Print
+              menu__link_active: activeRouteName === Routes.Print,
+              menu__link_visible: isPrintingAvailable,
+              menu__link_hidden: !isPrintingAvailable
             }"
           >
             <UIIcon icon="printing" size="1.8rem" />
           </router-link>
         </div>
-        <div class="menu__item">
+        <div class="menu__item menu__item_settings">
           <Settings
             :theme="theme"
             :lang="lang"
@@ -107,6 +108,10 @@ export default {
 
     & + .menu__item {
       margin-left: 3rem;
+
+      &_settings {
+        margin-left: 2rem;
+      }
     }
   }
 
@@ -116,6 +121,7 @@ export default {
     position: relative;
     text-decoration: none;
     color: black;
+    transition: all 0.2s;
 
     &:after {
       content: '';
@@ -138,6 +144,17 @@ export default {
 
     &_printing {
       margin-left: 0.4rem;
+    }
+
+    &_hidden {
+      opacity: 0;
+      transform: translate(-0.6rem);
+      pointer-events: none;
+    }
+
+    &_visible {
+      opacity: 1;
+      transform: translate(0);
     }
 
     @media screen and (max-width: 768px) {
