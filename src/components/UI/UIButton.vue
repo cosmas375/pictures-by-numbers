@@ -1,15 +1,12 @@
 <template>
-  <el-button :type="type" @click="$emit('click', $event)" class="ui-button">
+  <button @click="$emit('click', $event)" class="ui-button">
     <slot> </slot>
-  </el-button>
+  </button>
 </template>
 
 <script>
 export default {
   name: 'UIButton',
-  props: {
-    type: { type: String }
-  },
   emits: {
     click: null
   }
@@ -21,29 +18,17 @@ export default {
 @import '@/assets/scss/theming/theming';
 
 .ui-button {
+  padding: 1rem 2rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 0.5rem;
+
   @include themed() {
-    border-color: t($border-color);
-    background-color: t($file-uploader-bg-color);
-    transition: background-color $theme-transition,
-      border-color $theme-transition;
-  }
-
-  &:hover {
-    @include themed() {
-      background-color: t($border-color);
-    }
-    & > span {
-      @include themed() {
-        color: t($text-color-hover);
-      }
-    }
-  }
-
-  & > span {
-    @include themed() {
-      color: t($text-color);
-      transition: color $theme-transition;
-    }
+    background-color: t($color);
+    color: t($background-color-header);
+    transition: background-color $theme-transition, color $theme-transition;
   }
 
   @media screen and (max-width: 768px) {

@@ -28,6 +28,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming/theming';
+
 .landing {
   height: 100%;
 
@@ -52,10 +54,18 @@ export default {
   &__title {
     font-size: 2.4rem;
     margin-bottom: 2rem;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
   &__text {
     font-size: 1.4rem;
     line-height: 2rem;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
 }
 </style>

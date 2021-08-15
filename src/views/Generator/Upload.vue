@@ -58,6 +58,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming/theming';
+
 .upload {
   width: 100%;
   height: 100%;
@@ -139,23 +141,34 @@ export default {
     cursor: pointer;
     position: relative;
     transition: color 0.2s;
+    @include themed() {
+      color: t($color-secondary);
+      transition: color $theme-transition;
+    }
 
     &:after {
       content: '';
       width: calc(100% + 0.4rem);
       height: 0.1rem;
-      background-color: rgb(64, 64, 64);
       position: absolute;
       left: -0.2rem;
       bottom: -0.2rem;
-      transition: background-color 0.2s;
+      @include themed() {
+        background-color: t($color-secondary);
+        transition: background-color $theme-transition;
+      }
     }
 
     &:hover {
-      color: black;
+      @include themed() {
+        color: t($color-secondary-hover);
+      }
 
       &:after {
         background-color: black;
+        @include themed() {
+          background-color: t($color-secondary-hover);
+        }
       }
     }
 
@@ -170,6 +183,10 @@ export default {
     align-items: center;
     justify-content: center;
     height: 100%;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
   &__loader-text {
     margin-top: 1rem;

@@ -9,10 +9,10 @@
     >
       <div class="image-uploader__content">
         <UIIcon icon="upload" size="6.7rem" class="image-uploader__icon" />
-        <div class="image-uploader__text">
+        <div class="image-uploader__text image-uploader__text_main">
           {{ $t('upload.uploader.text') }}
         </div>
-        <div class="image-uploader__tip">
+        <div class="image-uploader__text image-uploader__text_tip">
           {{ $t('upload.uploader.tip') }}
         </div>
       </div>
@@ -103,6 +103,11 @@ export default {
 .image-uploader {
   box-shadow: 1.5rem 1rem 2rem rgba(0, 0, 0, 0.2);
   border-radius: 0.5rem;
+  border: 0.1rem dashed;
+  @include themed() {
+    border-color: t($border-color);
+    transition: border-color $theme-transition;
+  }
 
   &__content {
     height: 100%;
@@ -112,24 +117,28 @@ export default {
     justify-content: center;
     padding: 2rem;
     box-sizing: border-box;
+    @include themed() {
+      background-color: t($background-color-file-uploader);
+      transition: background-color $theme-transition;
+    }
   }
 
   &__text {
-    font-size: 1.4rem;
-    margin-top: 1.4rem;
     @include themed() {
-      color: t($text-color);
-      transition: color $theme-transition;
+      color: t($color);
+      transition: all $theme-transition;
     }
-  }
-  &__tip {
-    font-size: 1rem;
-    margin-top: 0.6rem;
-    text-align: center;
-    line-height: 1.4rem;
-    @include themed() {
-      color: t($text-color);
-      transition: color $theme-transition;
+
+    &_main {
+      font-size: 1.4rem;
+      margin-top: 1.4rem;
+    }
+
+    &_tip {
+      font-size: 1rem;
+      margin-top: 0.6rem;
+      text-align: center;
+      line-height: 1.4rem;
     }
   }
 }

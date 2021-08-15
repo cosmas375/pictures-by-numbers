@@ -3,7 +3,7 @@
 
 @mixin themed() {
   @each $theme, $theme-entries in $themes {
-    .app_#{$theme} & {
+    .app-body_#{$theme} & {
       $theme-map: () !global;
       @each $key, $theme-entry in $theme-entries {
         $value: map-get(map-get($themes, $theme), '#{$key}');

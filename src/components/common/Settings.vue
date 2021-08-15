@@ -42,13 +42,23 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming/theming';
+
 .settings {
   &__toggler {
     cursor: pointer;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
 
   &__popover {
     min-width: 18rem;
+    @include themed() {
+      background-color: t($background-color-popover);
+      transition: background-color $theme-transition;
+    }
   }
 
   &__item {
@@ -58,10 +68,13 @@ export default {
         content: '';
         width: 75%;
         height: 0.1rem;
-        background-color: #c0c4cc;
         position: absolute;
         top: 0;
         left: 12.5%;
+        @include themed() {
+          background-color: t($border-color);
+          transition: background-color $theme-transition;
+        }
       }
     }
   }

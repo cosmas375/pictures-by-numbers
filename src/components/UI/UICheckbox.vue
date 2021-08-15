@@ -34,6 +34,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming/theming';
+
 .ui-checkbox {
   display: inline-block;
 
@@ -46,7 +48,11 @@ export default {
     width: 1.4rem;
     height: 1.4rem;
     border-radius: 0.2rem;
-    border: 0.1rem solid black;
+    border: 0.1rem solid;
+    @include themed() {
+      border-color: t($color);
+      transition: border-color $theme-transition;
+    }
     position: relative;
     cursor: pointer;
 
@@ -55,7 +61,11 @@ export default {
         content: '';
         width: 0.4rem;
         height: 0.8rem;
-        border: 0.2rem solid black;
+        border: 0.2rem solid;
+        @include themed() {
+          border-color: t($color);
+          transition: border-color $theme-transition;
+        }
         border-left: 0;
         border-top: 0;
         position: absolute;

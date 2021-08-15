@@ -60,8 +60,14 @@ export default {
     switchTheme() {
       const newTheme = this.theme === THEMES.light ? THEMES.dark : THEMES.light;
 
+      this.updateBodyThemeClassName(newTheme);
+
       this.theme = newTheme;
       saveTheme(newTheme);
+    },
+    updateBodyThemeClassName(newTheme) {
+      document.body.classList.remove(`app-body_${this.theme}`);
+      document.body.classList.add(`app-body_${newTheme || this.theme}`);
     },
     setLang(lang) {
       this.lang = lang;
@@ -94,6 +100,7 @@ export default {
   },
   created() {
     this.theme = getSavedTheme();
+    this.updateBodyThemeClassName();
     this.setLang(getSavedLang());
   },
   components: { Layout, Header, Notifications }

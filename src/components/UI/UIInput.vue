@@ -24,10 +24,16 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming/theming';
+
 .ui-input {
   border: none;
   border-bottom: 0.1rem solid #565656;
   background-color: transparent;
   outline: none;
+  @include themed() {
+    color: t($color);
+    transition: color $theme-transition;
+  }
 }
 </style>

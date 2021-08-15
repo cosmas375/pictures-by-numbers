@@ -66,7 +66,7 @@ export default {
   &__icon {
     cursor: pointer;
     @include themed() {
-      color: t($text-color);
+      color: t($color);
       transition: color $theme-transition;
     }
   }

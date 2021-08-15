@@ -344,6 +344,7 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/scroll-mixin';
+@import '@/assets/scss/theming/theming';
 
 .printing {
   display: flex;
@@ -356,6 +357,10 @@ export default {
   &__back-button {
     margin-right: 1rem;
     cursor: pointer;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
 
   &__title {
@@ -364,6 +369,10 @@ export default {
     font-size: 2.4rem;
     display: flex;
     align-items: center;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
 
   &__page {
@@ -393,10 +402,12 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    transition: background-color 0.2s;
+    transition: background-color $theme-transition;
 
     &_visible {
-      background-color: rgba(237, 237, 237, 0.84);
+      @include themed() {
+        background-color: t($background-color-page-shadow);
+      }
     }
   }
 
@@ -409,6 +420,10 @@ export default {
     user-select: none;
     margin-left: 0.4rem;
     font-size: 1.4rem;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
 
     &_clickable {
       cursor: pointer;
@@ -483,11 +498,24 @@ export default {
     font-size: 1.4rem;
     display: flex;
     align-items: center;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
   &__settings-hint {
     cursor: pointer;
     margin-left: 0.6rem;
-    color: #999999;
+    @include themed() {
+      color: t($color-secondary);
+      transition: color $theme-transition;
+    }
+  }
+  &__settings-value {
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
   }
 
   &__download-btn {

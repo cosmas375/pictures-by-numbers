@@ -15,6 +15,7 @@
         @click="selectLang(lang.value)"
         class="lang-select__item lang-select__item_option"
       >
+        &nbsp; &nbsp;
         <img :src="lang.icon" :alt="lang.value" class="lang-select__flag" />
         <span class="lang-select__title">{{ lang.label }}</span>
       </div>
@@ -82,6 +83,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming/theming';
+
 .lang-select {
   &__options {
     background-color: rgb(234, 234, 234);
@@ -100,12 +103,21 @@ export default {
     }
 
     &_option {
+      @include themed() {
+        background-color: t($background-color-lang-select-option);
+        transition: background-color $theme-transition;
+      }
       &:hover {
-        background-color: rgb(207, 207, 207);
+        @include themed() {
+          background-color: t($background-color-lang-select-option-hover);
+        }
       }
 
       & + .lang-select__item {
-        border-top: 1px solid #c0c4cc;
+        border-top: 1px solid;
+        @include themed() {
+          border-color: t($border-color);
+        }
       }
     }
   }
@@ -115,6 +127,10 @@ export default {
   }
   &__title {
     font-size: 1.4rem;
+    @include themed() {
+      color: t($color);
+      transition: color $theme-transition;
+    }
 
     @media screen and(max-width: 768px) {
       font-size: 1.8rem;

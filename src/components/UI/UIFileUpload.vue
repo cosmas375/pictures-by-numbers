@@ -46,10 +46,7 @@ export default {
 .el-upload-dragger {
   width: 100%;
   height: 100%;
-  @include themed() {
-    background-color: t($file-uploader-bg-color);
-    transition: background-color $theme-transition;
-  }
+  border: none;
   .el-icon-upload {
     margin: 0;
   }

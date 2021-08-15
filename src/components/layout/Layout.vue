@@ -45,6 +45,7 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/scroll-mixin';
+@import '@/assets/scss/theming/theming';
 
 body {
   background-color: #f8f8f8;
@@ -72,7 +73,10 @@ body {
       box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.25);
       background-color: #fff;
       z-index: 5;
-      transition: height 0.2s;
+      @include themed() {
+        background-color: t($background-color-header);
+        transition: background-color $theme-transition, height 0.2s;
+      }
 
       &_collapsed {
         height: 5rem;
@@ -80,10 +84,13 @@ body {
     }
 
     &_content {
-      background-color: #f8f8f8;
       overflow: auto;
       flex: 1;
       @include scrollbar;
+      @include themed() {
+        background-color: t($background-color-content);
+        transition: background-color $theme-transition;
+      }
     }
   }
 }

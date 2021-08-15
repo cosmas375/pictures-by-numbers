@@ -81,6 +81,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/theming/theming';
+
 .header {
   width: 100%;
   height: 100%;
@@ -120,8 +122,10 @@ export default {
     cursor: pointer;
     position: relative;
     text-decoration: none;
-    color: black;
-    transition: all 0.2s;
+    @include themed() {
+      color: t($color);
+      transition: all $theme-transition;
+    }
 
     &:after {
       content: '';
@@ -130,15 +134,18 @@ export default {
       bottom: -1rem;
       width: calc(100% + 0.4rem);
       height: 0.1rem;
-      background-color: black;
       opacity: 0;
+      @include themed() {
+        background-color: t($color);
+        transition: background-color $theme-transition, bottom 0.2s,
+          opacity 0.2s;
+      }
     }
 
     &_active {
       &:after {
         opacity: 1;
         bottom: -0.4rem;
-        transition: bottom 0.2s, opacity 0.2s;
       }
     }
 

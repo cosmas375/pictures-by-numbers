@@ -2,35 +2,46 @@ $theme-transition: 0.2s;
 
 $themes: (
   light: (
-    text-color: #000,
-    text-color-hover: #000,
-    text-color-secondary: #979ba2,
-    text-color-red: red,
-    file-uploader-bg-color: #fff,
-    file-uploader-border-color: #c0c4cc,
-    img-processor-bg-content: #fff,
-    img-processor-bg-controls: #f3f4f8,
-    border-color: #d9d9d9
+    color: black,
+    color-secondary: rgb(64, 64, 64),
+    color-secondary-hover: black,
+    background-color-header: white,
+    background-color-content: #f8f8f8,
+    background-color-popover: white,
+    background-color-file-uploader: white,
+    background-color-page-shadow: rgba(237, 237, 237, 0.84),
+    background-color-lang-select-toggler: white,
+    background-color-lang-select-option: rgb(207, 207, 207),
+    background-color-lang-select-option-hover: #c0c4cc,
+    border-color: #c0c4cc
   ),
   dark: (
-    text-color: #fff,
-    text-color-hover: #000,
-    text-color-secondary: #acb0b8,
-    text-color-red: red,
-    file-uploader-bg-color: #313439,
-    file-uploader-border-color: #c0c4cc,
-    img-processor-bg-content: #272a30,
-    img-processor-bg-controls: #313439,
-    border-color: #d9d9d9
+    color: white,
+    color-secondary: rgb(167, 167, 167),
+    color-secondary-hover: white,
+    background-color-header: black,
+    background-color-content: black,
+    background-color-popover: black,
+    background-color-file-uploader: black,
+    background-color-page-shadow: rgba(120, 120, 120, 0.84),
+    background-color-lang-select-toggler: black,
+    background-color-lang-select-option: rgb(31, 31, 31),
+    background-color-lang-select-option-hover: #3a3a3a,
+    border-color: white
   )
 );
 
-$text-color: 'text-color';
-$text-color-hover: 'text-color-hover';
-$text-color-secondary: 'text-color-secondary';
-$text-color-red: 'text-color-red';
-$file-uploader-bg-color: 'file-uploader-bg-color';
-$file-uploader-border-color: 'file-uploader-border-color';
-$img-processor-bg-content: 'img-processor-bg-content';
-$img-processor-bg-controls: 'img-processor-bg-controls';
+$color: 'color';
+$color-secondary: 'color-secondary';
+$color-secondary-hover: 'color-secondary-hover';
+
+$background-color-header: 'background-color-header';
+$background-color-content: 'background-color-content';
+$background-color-popover: 'background-color-popover';
+$background-color-file-uploader: 'background-color-file-uploader';
+$background-color-page-shadow: 'background-color-page-shadow';
+$background-color-lang-select-toggler: 'background-color-lang-select-toggler';
+$background-color-lang-select-option: 'background-color-lang-select-option';
+$background-color-lang-select-option-hover: 'background-color-lang-select-option-hover';
+
 $border-color: 'border-color';
