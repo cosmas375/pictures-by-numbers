@@ -15,11 +15,13 @@
         v-slot="{ Component }"
         @image-loaded="onImageReady"
         @image-removed="onImageRemoved"
+        @notify="showNotification"
       >
         <keep-alive>
           <component :is="Component" />
         </keep-alive>
       </router-view>
+      <Notifications :notifications="notifications" @hide="hideNotification" />
     </template>
   </Layout>
 </template>
@@ -27,6 +29,7 @@
 <script>
 import Layout from '@/components/layout/Layout';
 import Header from '@/components/layout/Header';
+import Notifications from '@/components/common/Notifications';
 
 import {
   THEMES,
@@ -40,6 +43,7 @@ import {
   saveLang,
   getSavedLang
 } from '@/helpers/langsHelper';
+import { nanoid } from 'nanoid';
 
 export default {
   name: 'App',
@@ -48,7 +52,8 @@ export default {
       theme: DEFAULT_THEME,
       lang: DEFAUTL_LANG,
       langs: LANGS,
-      isPrintingRouteAvailable: false
+      isPrintingRouteAvailable: false,
+      notifications: []
     };
   },
   methods: {
@@ -68,13 +73,30 @@ export default {
     },
     onImageRemoved() {
       this.isPrintingRouteAvailable = false;
+    },
+    showNotification(notification) {
+      const id = nanoid();
+      this.notifications.push({
+        id,
+        ...notification
+      });
+      if (notification.duration) {
+        setTimeout(() => {
+          this.hideNotification(id);
+        }, notification.duration);
+      }
+    },
+    hideNotification(id) {
+      this.notifications = this.notifications.filter(
+        notification => notification.id !== id
+      );
     }
   },
   created() {
     this.theme = getSavedTheme();
     this.setLang(getSavedLang());
   },
-  components: { Layout, Header }
+  components: { Layout, Header, Notifications }
 };
 </script>
 

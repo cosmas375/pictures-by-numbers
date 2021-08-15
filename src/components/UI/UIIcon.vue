@@ -15,8 +15,11 @@ const ICONS_MAP = {
   settings: 'el-icon-s-tools',
   info: 'el-icon-question',
   download: 'el-icon-download',
-  back: 'el-icon-arrow-up',
-  check: 'el-icon-circle-check'
+  back: 'el-icon-arrow-left',
+  check: 'el-icon-circle-check',
+  close: 'el-icon-close',
+  notification_info: 'el-icon-info',
+  notification_error: 'el-icon-error'
 };
 
 export default {

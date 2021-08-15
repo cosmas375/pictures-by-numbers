@@ -1,7 +1,12 @@
 <template>
   <Container class="printing">
-    <BackButton @click="onBackClick" class="printing__back-button" />
     <div class="printing__title">
+      <UITooltip placement="bottom" class="printing__back-button">
+        <UIIcon icon="back" size="2rem" @click="onBackClick" />
+        <template #content>
+          {{ $t('printing.back_to_upload') }}
+        </template>
+      </UITooltip>
       {{ $t('printing.title') }}
     </div>
     <div class="printing__settings-row">
@@ -252,7 +257,6 @@
 
 <script>
 import Container from '@/components/layout/Container';
-import BackButton from '@/components/Generator/Printing/BackButton';
 import Page from '@/components/common/Page';
 import { getLayout } from '@/helpers/layoutHelper';
 import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
@@ -271,7 +275,7 @@ export default {
     'set-settings': null,
     download: null
   },
-  components: { Container, BackButton, Page },
+  components: { Container, Page },
   computed: {
     outlineImage() {
       return this.outline ? this.outline.src : null;
@@ -346,19 +350,20 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding-top: 4rem;
+  padding-top: 3rem;
   padding-bottom: 4rem;
 
   &__back-button {
-    position: absolute;
-    top: 1.4rem;
-    left: 50%;
+    margin-right: 1rem;
+    cursor: pointer;
   }
 
   &__title {
     width: 100%;
     margin-bottom: 2rem;
     font-size: 2.4rem;
+    display: flex;
+    align-items: center;
   }
 
   &__page {

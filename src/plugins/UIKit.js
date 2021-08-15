@@ -23,7 +23,6 @@ import {
   ElDropdownMenu,
   ElOption,
   ElUpload,
-  ElNotification,
   ElPopover,
   ElTooltip,
   ElColorPicker
@@ -38,7 +37,6 @@ const elementUIComponents = {
   ElDropdownMenu,
   ElOption,
   ElUpload,
-  ElNotification,
   ElPopover,
   ElTooltip,
   ElColorPicker

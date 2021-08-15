@@ -30,6 +30,11 @@ import { nanoid } from 'nanoid';
 export default {
   name: 'Generator',
   components: { GlobalOverlay },
+  emits: {
+    notify: null,
+    'image-loaded': null,
+    'image-removed': null
+  },
   data() {
     return {
       uploadId: null,
@@ -69,7 +74,11 @@ export default {
       });
     },
     onUploadError(error) {
-      console.log(this.$t(`upload.error.${error}`));
+      this.$emit('notify', {
+        type: 'error',
+        title: this.$t(`upload.error.${error}`),
+        duration: 3000
+      });
     },
     async onPreviewReady({ preview, palette, uploadId }) {
       if (!this.uploadId || this.uploadId !== uploadId) {

@@ -31,7 +31,8 @@ export default {
     maxFormat: { type: String, default: FORMATS.A4 }
   },
   emits: {
-    'file-ready': null
+    'file-ready': null,
+    error: null
   },
   components: { Page },
   methods: {
