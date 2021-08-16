@@ -327,8 +327,8 @@ export default {
     onFileNameChange(fileName) {
       this.updateSettings({ fileName });
     },
-    onSafetyPaddingsChange(safetyPaddings) {
-      this.updateSettings({ safetyPaddings });
+    onSafetyPaddingsChange(value) {
+      this.updateSettings({ safetyPaddings: Number(value) });
     },
     onOutlineColorChange(outlineColor) {
       this.updateSettings({ outlineColor });

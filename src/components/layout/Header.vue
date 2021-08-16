@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header__block header__block_right">
         <router-link :to="{ name: 'home' }">
-          <img class="header__logo" src="@/assets/img/logo.png" alt="stains" />
+          <div class="header__logo" />
         </router-link>
       </div>
 
@@ -98,6 +98,13 @@ export default {
   }
 
   &__logo {
+    @include themed() {
+      background-image: t($src-logo);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+    width: 12.2rem;
     height: 3.2rem;
   }
 }

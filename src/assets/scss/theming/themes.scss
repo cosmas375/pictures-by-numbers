@@ -2,6 +2,7 @@ $theme-transition: 0.2s;
 
 $themes: (
   light: (
+    src-logo: url('~@/assets/img/logo-dark.png'),
     color: black,
     color-secondary: rgb(64, 64, 64),
     color-secondary-hover: black,
@@ -16,6 +17,7 @@ $themes: (
     border-color: #c0c4cc
   ),
   dark: (
+    src-logo: url('~@/assets/img/logo-light.png'),
     color: white,
     color-secondary: rgb(167, 167, 167),
     color-secondary-hover: white,
@@ -30,6 +32,8 @@ $themes: (
     border-color: white
   )
 );
+
+$src-logo: 'src-logo';
 
 $color: 'color';
 $color-secondary: 'color-secondary';
