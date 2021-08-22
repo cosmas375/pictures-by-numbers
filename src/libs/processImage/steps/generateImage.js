@@ -2,7 +2,7 @@ import { LABELS_FONT_SIZE, OUTLINE_COLOR } from '@/libs/processImage/settings';
 
 export default function generateImage(
   imageData,
-  labelsLocations = [],
+  labels = [],
   { displayNumbers, outlineColor = OUTLINE_COLOR } = {}
 ) {
   return new Promise(resolve => {
@@ -12,16 +12,16 @@ export default function generateImage(
     const ctx = canvas.getContext('2d');
     ctx.putImageData(imageData, 0, 0);
 
-    const len = labelsLocations.length;
+    const len = labels.length;
     if (displayNumbers && len) {
       ctx.font = `${LABELS_FONT_SIZE}px Georgia`;
       ctx.fillStyle = `rgb(${outlineColor.r}, ${outlineColor.g}, ${outlineColor.b})`;
       const labelsOffset = LABELS_FONT_SIZE / 2;
       for (var i = 0; i < len; i++) {
         ctx.fillText(
-          labelsLocations[i].value,
-          labelsLocations[i].x - labelsOffset,
-          labelsLocations[i].y + labelsOffset
+          labels[i].value,
+          labels[i].x - labelsOffset,
+          labels[i].y + labelsOffset
         );
       }
     }

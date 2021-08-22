@@ -43,7 +43,7 @@
         </div>
         <div class="printing__pages-item">
           <Page
-            :padding="pdfSettings.safetyPaddings"
+            :padding="5"
             @click="toggleIncludePalette"
             class="printing__page printing__page_selectable"
             :class="{ printing__page_enabled: pdfSettings.includePalette }"
@@ -185,12 +185,6 @@
       <div class="printing__settings-row">
         <div class="printing__settings-name">
           {{ $t('printing.safety_paddings') }}
-          <UITooltip placement="top-start">
-            <UIIcon icon="info" size="1.8rem" class="printing__settings-hint" />
-            <template #content>
-              {{ $t('printing.safety_paddings_hint') }}
-            </template>
-          </UITooltip>
         </div>
         <div class="printing__settings-value">
           <UIInput
@@ -206,12 +200,6 @@
       <div class="printing__settings-row">
         <div class="printing__settings-name">
           {{ $t('printing.outline_color') }}
-          <UITooltip placement="top-start">
-            <UIIcon icon="info" size="1.8rem" class="printing__settings-hint" />
-            <template #content>
-              {{ $t('printing.outline_color_hint') }}
-            </template>
-          </UITooltip>
         </div>
         <div class="printing__settings-value">
           <UIColorPicker
@@ -224,12 +212,6 @@
       <div class="printing__settings-row">
         <div class="printing__settings-name">
           {{ $t('printing.display_numbers') }}
-          <UITooltip placement="top-start">
-            <UIIcon icon="info" size="1.8rem" class="printing__settings-hint" />
-            <template #content>
-              {{ $t('printing.display_numbers_hint') }}
-            </template>
-          </UITooltip>
         </div>
         <div class="printing__settings-value">
           <UICheckbox
@@ -328,7 +310,9 @@ export default {
       this.updateSettings({ fileName });
     },
     onSafetyPaddingsChange(value) {
-      this.updateSettings({ safetyPaddings: Number(value) });
+      this.updateSettings({
+        safetyPaddings: Math.max(0, Math.min(Number(value), 15))
+      });
     },
     onOutlineColorChange(outlineColor) {
       this.updateSettings({ outlineColor });
@@ -500,14 +484,6 @@ export default {
     align-items: center;
     @include themed() {
       color: t($color);
-      transition: color $theme-transition;
-    }
-  }
-  &__settings-hint {
-    cursor: pointer;
-    margin-left: 0.6rem;
-    @include themed() {
-      color: t($color-secondary);
       transition: color $theme-transition;
     }
   }

@@ -130,15 +130,15 @@ export default {
     }
 
     &_main {
-      font-size: 1.4rem;
-      margin-top: 1.4rem;
+      font-size: 1.8rem;
+      margin-top: 1.8rem;
     }
 
     &_tip {
-      font-size: 1rem;
-      margin-top: 0.6rem;
+      font-size: 1.2rem;
+      margin-top: 1rem;
       text-align: center;
-      line-height: 1.4rem;
+      line-height: 1.6rem;
     }
   }
 }

@@ -10,7 +10,7 @@
   "upload": {
     "uploader": {
       "text": "Upload a file",
-      "tip": "jpg/png files with a size less than 2480 pixels x 3508 pixels"
+      "tip": "jpg/png files with a size less than 2480 x 3508 pixels"
     },
     "error": {
       "wrong_file_format": "Wrong file format!",
@@ -23,7 +23,7 @@
   "printing": {
     "back_to_upload": "Back to upload",
     "title": "PDF settings",
-    "pages_to_include": "Pages to include:",
+    "pages_to_include": "Pages to include in your PDF:",
     "outline": "Outline",
     "palette": "Palette",
     "preview": "Reference",

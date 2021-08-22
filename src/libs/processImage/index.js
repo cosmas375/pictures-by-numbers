@@ -72,5 +72,5 @@ export async function generateOutlineImage(data, settings) {
     height: data.image.height
   });
 
-  return await generateImage(imageData, data.labelsLocations, settings);
+  return await generateImage(imageData, data.labels, settings);
 }

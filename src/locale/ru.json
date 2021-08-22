@@ -23,7 +23,7 @@
   "printing": {
     "back_to_upload": "Назад к загрузке",
     "title": "Настройки PDF",
-    "pages_to_include": "Включить следующие страницы:",
+    "pages_to_include": "Включить в файл следующие страницы:",
     "outline": "Контур",
     "palette": "Палитра",
     "preview": "Готовый пример",

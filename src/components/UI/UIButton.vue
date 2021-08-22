@@ -19,16 +19,24 @@ export default {
 
 .ui-button {
   padding: 1rem 2rem;
-  border: none;
   outline: none;
-  background-color: transparent;
   cursor: pointer;
+  font-size: 1.4rem;
+  transition: background-color $theme-transition, color $theme-transition;
+
+  border: none;
   border-radius: 0.5rem;
 
   @include themed() {
-    background-color: t($color);
-    color: t($background-color-header);
-    transition: background-color $theme-transition, color $theme-transition;
+    background-color: t($background-color-button);
+    color: t($color-button);
+  }
+
+  &:hover {
+    @include themed() {
+      background-color: t($background-color-button-hover);
+      color: t($color-button-hover);
+    }
   }
 
   @media screen and (max-width: 768px) {

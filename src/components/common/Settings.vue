@@ -1,5 +1,5 @@
 <template>
-  <UIPopover class="settings">
+  <UIPopover @show="onPopoverShow" @hide="onPopoverHide" class="settings">
     <template #reference>
       <UIIcon icon="settings" size="1.6rem" class="settings__toggler" />
     </template>
@@ -15,6 +15,7 @@
         <LangSelect
           :value="lang"
           :langs="langs"
+          :visible="isPopupVisible"
           @input="$emit('set-lang', $event)"
         />
       </div>
@@ -37,7 +38,20 @@ export default {
     'switch-theme': null,
     'set-lang': null
   },
-  components: { ThemeSwitch, LangSelect }
+  components: { ThemeSwitch, LangSelect },
+  data() {
+    return {
+      isPopupVisible: false
+    };
+  },
+  methods: {
+    onPopoverShow() {
+      this.isPopupVisible = true;
+    },
+    onPopoverHide() {
+      this.isPopupVisible = false;
+    }
+  }
 };
 </script>
 
@@ -55,6 +69,7 @@ export default {
 
   &__popover {
     min-width: 18rem;
+    border-radius: 0.4rem;
     @include themed() {
       background-color: t($background-color-popover);
       transition: background-color $theme-transition;

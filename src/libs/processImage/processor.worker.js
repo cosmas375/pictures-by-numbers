@@ -4,7 +4,7 @@ import alignColorsToPalette from './steps/alignColorsToPalette';
 import colorsToMatrix from './steps/colorsToMatrix';
 import smoothImage from './steps/smoothImage';
 import outlineImage from './steps/outlineImage';
-import getLabelLocations from './steps/getLabelLocations';
+import getLabels from './steps/getLabels';
 import colorsToImageData from './steps/colorsToImageData';
 import paletteToColors from './steps/paletteToColors';
 import { log } from '@/libs/processImage/helpers/loggingHelper';
@@ -59,13 +59,13 @@ onmessage = async e => {
   const outlineMatrix = outlineImage(colorsMatrix);
 
   log('calculating labels locations...');
-  const labelsLocations = getLabelLocations(colorsMatrix);
+  const labels = getLabels(colorsMatrix);
 
   emit({
     type: 'outline',
     data: {
       image: { data: flat(outlineMatrix), width, height },
-      labelsLocations
+      labels
     }
   });
 

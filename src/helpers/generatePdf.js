@@ -1,6 +1,6 @@
 import JSPDF from 'jspdf';
 import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
-import { FORMATS_DATA } from '@/data/formats';
+import { FORMATS, FORMATS_DATA } from '@/data/formats';
 import { LAYOUTS } from '@/helpers/layoutHelper';
 
 export default function generatePdf(data) {
@@ -45,7 +45,7 @@ export default function generatePdf(data) {
 }
 
 function getImagePageData(image, safetyPaddings) {
-  const format = 'a4';
+  const format = FORMATS.A4;
   const orientation =
     image.width > image.height ? LAYOUTS.Landscape : LAYOUTS.Portrait;
   const sheetParams = {

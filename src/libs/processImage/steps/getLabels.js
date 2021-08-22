@@ -80,7 +80,7 @@ function getLabelLoc(matrix, region) {
     }
   }
   return {
-    value: region.value,
+    value: region.value + 1,
     x: regX[bestI] - 2,
     y: regY[bestI] - 2
   };

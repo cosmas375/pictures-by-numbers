@@ -15,7 +15,7 @@
         @click="selectLang(lang.value)"
         class="lang-select__item lang-select__item_option"
       >
-        &nbsp; &nbsp;
+        •&nbsp;&nbsp;
         <img :src="lang.icon" :alt="lang.value" class="lang-select__flag" />
         <span class="lang-select__title">{{ lang.label }}</span>
       </div>
@@ -28,7 +28,8 @@ export default {
   name: 'LangSelect',
   props: {
     value: { type: String },
-    langs: { type: Array, default: () => [] }
+    langs: { type: Array, default: () => [] },
+    visible: Boolean
   },
   emits: {
     input: null
@@ -77,6 +78,13 @@ export default {
     },
     getLangIcon(lang) {
       return require(`@/assets/svg/flags/${lang}.svg`);
+    }
+  },
+  watch: {
+    visible(v) {
+      if (!v) {
+        this.hideOptions();
+      }
     }
   }
 };

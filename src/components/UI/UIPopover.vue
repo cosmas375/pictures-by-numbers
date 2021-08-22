@@ -1,5 +1,10 @@
 <template>
-  <el-popover :popper-class="popperClass" class="ui-popover">
+  <el-popover
+    :popper-class="popperClass"
+    @show="$emit('show')"
+    @hide="$emit('hide')"
+    class="ui-popover"
+  >
     <template #reference>
       <slot name="reference"> </slot>
     </template>
@@ -12,6 +17,10 @@ export default {
   name: 'UIPopover',
   props: {
     popperClass: { type: String, default: 'ui-popover__popover' }
+  },
+  emits: {
+    show: null,
+    hide: null
   }
 };
 </script>

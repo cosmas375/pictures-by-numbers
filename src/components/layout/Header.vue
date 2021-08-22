@@ -129,6 +129,7 @@ export default {
     cursor: pointer;
     position: relative;
     text-decoration: none;
+    font-weight: 600;
     @include themed() {
       color: t($color);
       transition: all $theme-transition;

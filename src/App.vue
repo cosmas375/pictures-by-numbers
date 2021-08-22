@@ -109,10 +109,10 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/resets';
+@import '@/assets/scss/fonts';
 
 html {
   font-size: 10px;
-  font-family: Helvetica, sans-serif;
 }
 
 body {
