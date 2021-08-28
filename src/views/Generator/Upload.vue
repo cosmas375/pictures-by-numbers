@@ -59,6 +59,7 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/theming/theming';
+@import '@/assets/scss/responsiveness';
 
 .upload {
   width: 100%;
@@ -106,25 +107,6 @@ export default {
         }
       }
     }
-
-    @media screen and (max-width: 768px) {
-      flex-direction: column;
-      justify-content: center;
-
-      .upload {
-        &__preview-block {
-          max-width: 100%;
-          max-height: 75%;
-          width: 100%;
-          height: 75%;
-        }
-        &__preview-controls {
-          width: 100%;
-          padding-left: 0;
-          padding-right: 0;
-        }
-      }
-    }
   }
 
   &__preview-controls {
@@ -161,19 +143,15 @@ export default {
 
     &:hover {
       @include themed() {
-        color: t($color-secondary-hover);
+        color: t($color-red);
       }
 
       &:after {
         background-color: black;
         @include themed() {
-          background-color: t($color-secondary-hover);
+          background-color: t($color-red);
         }
       }
-    }
-
-    @media screen and (max-width: 768px) {
-      font-size: 1.4rem;
     }
   }
 
@@ -191,6 +169,29 @@ export default {
   &__loader-text {
     margin-top: 1rem;
     font-size: 1.4rem;
+  }
+}
+
+@include screen-m {
+  .upload {
+    &__preview {
+      flex-direction: column;
+      justify-content: center;
+
+      .upload {
+        &__preview-block {
+          max-width: 100%;
+          max-height: 75%;
+          width: 100%;
+          height: 75%;
+        }
+        &__preview-controls {
+          width: 100%;
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
   }
 }
 </style>

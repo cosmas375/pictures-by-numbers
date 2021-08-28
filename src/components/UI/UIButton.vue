@@ -16,6 +16,7 @@ export default {
 <style lang="scss">
 @import '~element-plus/packages/theme-chalk/src/button.scss';
 @import '@/assets/scss/theming/theming';
+@import '@/assets/scss/responsiveness';
 
 .ui-button {
   padding: 1rem 2rem;
@@ -37,11 +38,6 @@ export default {
       background-color: t($background-color-button-hover);
       color: t($color-button-hover);
     }
-  }
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    font-size: 2rem !important;
   }
 }
 </style>

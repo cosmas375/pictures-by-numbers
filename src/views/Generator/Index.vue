@@ -24,7 +24,8 @@ import GlobalOverlay from '@/components/common/GlobalOverlay';
 import processImage, { generateOutlineImage } from '@/libs/processImage';
 import { ROUTES } from '@/router';
 import generatePdf from '@/helpers/generatePdf';
-import { HEXtoRGB } from '@/libs/processImage/helpers/colorTransform';
+import { HEXtoRGB, RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
+import { OUTLINE_COLOR } from '@/libs/processImage/settings';
 import { nanoid } from 'nanoid';
 
 export default {
@@ -49,7 +50,7 @@ export default {
         includeSource: false,
         fileName: this.$t('printing.default_file_name'),
         safetyPaddings: 5, // mm
-        outlineColor: '#c8c8c8',
+        outlineColor: RGBtoHEX(OUTLINE_COLOR),
         displayNumbers: true
       },
       isResultReady: false,

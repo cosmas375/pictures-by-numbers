@@ -3,7 +3,7 @@ import getRandomSubarray from '@/libs/processImage/helpers/getRandomSubarray';
 import { RGBtoHEX, RGBtoHSV, HEXtoRGB } from '../helpers/colorTransform';
 
 // https://curiousily.com/posts/color-palette-extraction-with-k-means-clustering/
-const MIN_DIFF = 20; // idk what to set it
+const MIN_DIFF = 10; // idk what to set it
 
 export default function generatePalette(colors) {
   const extractedColors = fit(colors).map(cluster => RGBtoHEX(cluster.center));

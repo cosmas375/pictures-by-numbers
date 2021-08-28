@@ -54,6 +54,7 @@ body {
 
 .layout {
   width: 100vw;
+  min-width: 32rem;
   height: 100vh;
   display: flex;
   flex-direction: column;

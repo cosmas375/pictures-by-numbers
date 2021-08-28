@@ -118,8 +118,4 @@ html {
 body {
   overflow: hidden;
 }
-
-.app {
-  min-width: 48rem;
-}
 </style>

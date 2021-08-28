@@ -9,9 +9,11 @@
       </UITooltip>
       {{ $t('printing.title') }}
     </div>
-    <div class="printing__settings-row">
-      <div class="printing__settings-name">
-        {{ $t('printing.pages_to_include') }}
+    <div class="printing__settings">
+      <div class="printing__settings-row">
+        <div class="printing__settings-name">
+          {{ $t('printing.pages_to_include') }}
+        </div>
       </div>
     </div>
     <div class="printing__pages">
@@ -171,7 +173,7 @@
       </div>
     </div>
     <div class="printing__settings">
-      <div class="printing__settings-row">
+      <div class="printing__settings-row printing__settings-row_wrap">
         <div class="printing__settings-name">
           {{ $t('printing.file_name') }}
         </div>
@@ -179,10 +181,11 @@
           <UIInput
             :value="pdfSettings.fileName"
             @input="onFileNameChange"
+            class="printing__input"
           />.pdf
         </div>
       </div>
-      <div class="printing__settings-row">
+      <div class="printing__settings-row printing__settings-row_wrap">
         <div class="printing__settings-name">
           {{ $t('printing.safety_paddings') }}
         </div>
@@ -193,6 +196,7 @@
             max="15"
             type="number"
             @input="onSafetyPaddingsChange"
+            class="printing__input"
           />
           {{ $t('printing.units') }}
         </div>
@@ -206,6 +210,7 @@
             :value="pdfSettings.outlineColor"
             @input="onOutlineColorChange"
             size="small"
+            class="printing__color-picker"
           />
         </div>
       </div>
@@ -222,8 +227,8 @@
         </div>
       </div>
       <div class="printing__settings-row printing__settings-row_btn">
-        <UIButton @click="onDownloadClick">
-          <div class="printing__download-btn">
+        <UIButton @click="onDownloadClick" class="printing__download-btn">
+          <div class="printing__download-btn-content">
             <UIIcon
               icon="download"
               size="1.8rem"
@@ -329,6 +334,7 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/scroll-mixin';
 @import '@/assets/scss/theming/theming';
+@import '@/assets/scss/responsiveness';
 
 .printing {
   display: flex;
@@ -455,13 +461,10 @@ export default {
 
   &__settings {
     width: 32rem;
+    font-size: 1.4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    @media screen and (max-width: 768px) {
-      width: 100%;
-    }
   }
 
   &__settings-row {
@@ -469,17 +472,22 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-top: 1rem;
     min-height: 3rem;
 
     &_btn {
       justify-content: center;
-      margin-top: 2rem;
+    }
+
+    & + .printing__settings-row {
+      margin-top: 1rem;
+
+      &_btn {
+        margin-top: 2rem;
+      }
     }
   }
 
   &__settings-name {
-    font-size: 1.4rem;
     display: flex;
     align-items: center;
     @include themed() {
@@ -494,7 +502,7 @@ export default {
     }
   }
 
-  &__download-btn {
+  &__download-btn-content {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -502,6 +510,51 @@ export default {
 
   &__download-btn-icon {
     margin-right: 0.8rem;
+  }
+}
+
+@include screen-s {
+  .printing {
+    &__settings {
+      font-size: 1.6rem;
+    }
+    &__settings-row {
+      width: 100%;
+      margin-bottom: 1.4rem;
+
+      &_wrap {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .printing {
+          &__settings-name {
+            width: 100%;
+          }
+          &__settings-value {
+            width: 100%;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+    &__settings-name {
+      margin-bottom: 0.8rem;
+    }
+    &__settings-value {
+    }
+    &__input {
+      flex: 1;
+      margin-right: 0.4rem;
+    }
+  }
+}
+
+@include screen-m {
+  .printing {
+    &__settings {
+      width: 100%;
+    }
   }
 }
 
