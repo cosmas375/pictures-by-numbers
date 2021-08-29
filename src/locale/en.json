@@ -17,7 +17,7 @@
       "wrong_file_format": "Wrong file format!",
       "too_large_image": "This image is too large!"
     },
-    "loading": "Getting some magics done...",
+    "loading": "Applying some magic...",
     "get_pdf": "Get PDF",
     "reset": "Reset upload"
   },
@@ -40,5 +40,22 @@
     "display_numbers_hint": "Display numbers hint",
     "download": "Download",
     "pdf_generation_in_progress": "PDF generation in progress..."
+  },
+  "landing": {
+    "hero": "Just add some colors",
+    "greetings": "Hey there!",
+    "greetings_content_1": "You want to become an artist? Welcome to Stains.by!",
+    "greetings_content_2": "All you have to do is to upload an image you want to paint. And after applying some magic you’ll get a palette and appropriate outline for your masterpiece.",
+    "try_it": "Try it",
+    "feature_interior_title": "Boost up your interior!",
+    "feature_interior": "Self made pictures definitely look more pleasant than any photo. Don’t you?",
+    "feature_gift": "Sh… Sh… Don’t tell anyone! It’ll be our little secret… Making a gift is always a good idea ;)",
+    "feature_gift_secondary": "Not that good as this boy, but still...",
+    "feature_rules_title": "Break the rules!",
+    "feature_rules": "Life is too short to follow someone’s guides :) Use any material of any color you have. Don’t be afraid of experimenting!",
+    "footer_1": "By the way, we have an Instagram account!",
+    "footer_2": "We’re curious to see your artworks, so don’t forget to mark us.",
+    "footer_3": "All the news and also the best artworks will be posted there ;)",
+    "instagram_url": "https://instagram.com/stains_by"
   }
 }
