@@ -1,10 +1,7 @@
 <template>
   <div class="landing">
     <div class="landing__row landing__row_hero">
-      <img src="@/assets/img/hero.jpg" alt="stains" class="landing__hero-img" />
-      <div class="landing__hero-text">
-        {{ $t('landing.hero') }}
-      </div>
+      <div v-html="$t('landing.hero')" class="landing__hero-text"></div>
     </div>
 
     <div class="landing__row landing__row_greetings">
@@ -123,6 +120,9 @@ export default {
       background-color: #000;
       display: flex;
       justify-content: center;
+      background-image: url('~@/assets/img/hero.png');
+      background-size: cover;
+      background-repeat: no-repeat;
     }
 
     &_greetings {
@@ -199,16 +199,19 @@ export default {
   &__hero-text {
     position: absolute;
     height: 100%;
+    left: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 25%;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-left: 15%;
+    padding-bottom: 15vh;
+    box-sizing: border-box;
 
-    font-size: 5rem;
+    font-size: 6.4rem;
     font-weight: bold;
-    text-transform: uppercase;
-    word-spacing: 666rem;
+    text-transform: capitalize;
     line-height: 9rem;
+    letter-spacing: 0.4rem;
   }
 
   &__title {
