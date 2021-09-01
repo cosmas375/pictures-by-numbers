@@ -19,7 +19,8 @@ const ICONS_MAP = {
   check: 'el-icon-circle-check',
   close: 'el-icon-close',
   notification_info: 'el-icon-info',
-  notification_error: 'el-icon-error'
+  notification_error: 'el-icon-error',
+  try_it: 'el-icon-arrow-right'
 };
 
 export default {

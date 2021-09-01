@@ -15,13 +15,26 @@
         <div class="landing__text">
           {{ $t('landing.greetings_content_2') }}
         </div>
+        <UIButton @click="onTryItClick" class="landing__try-button">
+          <div class="landing__try-button-content">
+            {{ $t('landing.try_it') }}
+            <UIIcon icon="try_it" />
+          </div>
+        </UIButton>
+      </div>
+    </div>
+    <div class="landing__row landing__row_ideas">
+      <div class="landing__row-content">
+        <div class="landing__text">
+          {{ $t('landing.ideas') }}
+        </div>
       </div>
     </div>
     <div class="landing__row landing__row_feature landing__row_feature_1">
       <div class="landing__feature-bg"></div>
       <div class="landing__row-content landing__row-content_feature">
         <img
-          src="@/assets/img/placeholder.jpeg"
+          src="@/assets/img/demo.png"
           alt="boost_up_interior"
           class="landing__feature-image"
         />
@@ -47,7 +60,7 @@
           </div>
         </div>
         <img
-          src="@/assets/img/placeholder.jpeg"
+          src="@/assets/img/doggo.jpg"
           alt="gift"
           class="landing__feature-image"
         />
@@ -57,7 +70,7 @@
       <div class="landing__feature-bg"></div>
       <div class="landing__row-content landing__row-content_feature">
         <img
-          src="@/assets/img/placeholder.jpeg"
+          src="@/assets/img/give_up.jpg"
           alt="rules"
           class="landing__feature-image"
         />
@@ -100,13 +113,21 @@
 </template>
 
 <script>
+import { ROUTES } from '@/router';
+
 export default {
-  name: 'Landing'
+  name: 'Landing',
+  methods: {
+    onTryItClick() {
+      this.$router.push({ name: ROUTES.Upload });
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 @import '@/assets/scss/theming/theming';
+@import '@/assets/scss/responsiveness';
 
 .landing {
   height: 100%;
@@ -129,7 +150,12 @@ export default {
       padding: 8rem 0 12rem;
     }
 
+    &_ideas {
+      margin: 0 0 14rem;
+    }
+
     &_feature {
+      height: 24rem;
       position: relative;
 
       & + .landing__row_feature {
@@ -178,6 +204,7 @@ export default {
   &__row-content {
     position: relative;
     width: 55rem;
+    height: 100%;
     margin: 0 auto;
     padding: 0 1rem;
 
@@ -187,10 +214,27 @@ export default {
     }
   }
 
+  &__try-button {
+    margin-top: 4rem;
+  }
+  &__try-button-content {
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  &__feature-description {
+    position: relative;
+  }
+
+  &__feature-image {
+    max-height: 100%;
+  }
+
   &__feature-bg {
     position: absolute;
-    height: 100%;
-    top: 0%;
+    height: 80%;
+    top: 10%;
     @include themed() {
       background-color: t($background-color-feature);
     }
@@ -233,9 +277,11 @@ export default {
     user-select: none;
 
     &_secondary {
+      width: 100%;
       position: absolute;
-      bottom: 6rem;
+      bottom: -3.2rem;
       font-size: 1rem;
+      line-height: 1.2rem;
       @include themed() {
         color: t($color-secondary);
         transition: color $theme-transition;
@@ -275,6 +321,38 @@ export default {
     display: flex;
     align-items: center;
     user-select: none;
+  }
+}
+
+@include screen-m {
+  .landing {
+    &__row {
+      &_feature {
+        &_1 {
+          .landing {
+            &__feature-bg {
+              width: 85%;
+            }
+            &__feature-image {
+              transform: translate(-4rem, 0) rotate(-4deg);
+            }
+          }
+        }
+        &_3 {
+          .landing {
+            &__feature-bg {
+              width: 70%;
+            }
+            &__feature-image {
+              transform: translate(-3rem, -8rem) rotate(-2deg);
+            }
+            &__feature-description {
+              transform: translate(0, 16rem);
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>
