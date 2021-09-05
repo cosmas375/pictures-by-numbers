@@ -7,16 +7,25 @@ export function saveLang(value) {
   localStorage.setItem(LS_KEY_LANG, value);
 }
 
-export function getSavedLang() {
-  const lsData = localStorage.getItem(LS_KEY_LANG);
-  if (lsData) {
-    return lsData;
+export function getDefaultLanguage() {
+  const savedLang = getSavedLang();
+  if (savedLang) {
+    return savedLang;
   }
 
-  const navLang = window.navigator.language.toLowerCase().slice(0, 2);
-  if (LANGS.includes(navLang)) {
+  const navLang = getLangByNavigator();
+  if (navLang) {
     return navLang;
   }
 
   return DEFAUTL_LANG;
+}
+
+function getSavedLang() {
+  return localStorage.getItem(LS_KEY_LANG);
+}
+
+function getLangByNavigator() {
+  const lang = window.navigator.language.toLowerCase().slice(0, 2);
+  return LANGS.includes(lang) ? lang : null;
 }

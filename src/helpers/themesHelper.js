@@ -11,9 +11,26 @@ export function saveTheme(value) {
   localStorage.setItem(LS_KEY_DARK_MODE_ENABLED, value);
 }
 
-export function getSavedTheme() {
-  return (
-    THEMES[localStorage.getItem(LS_KEY_DARK_MODE_ENABLED)] ||
-    THEMES[DEFAULT_THEME]
-  );
+export function getDefautlTheme() {
+  const savedTheme = getSavedTheme();
+  if (savedTheme) {
+    return savedTheme;
+  }
+
+  const themeByTime = getThemeByTime();
+  if (themeByTime) {
+    return themeByTime;
+  }
+
+  return DEFAULT_THEME;
+}
+
+function getSavedTheme() {
+  const savedKey = localStorage.getItem(LS_KEY_DARK_MODE_ENABLED);
+  return savedKey ? THEMES[savedKey] : null;
+}
+
+function getThemeByTime() {
+  const currentHour = new Date().getHours();
+  return currentHour > 5 && currentHour < 20 ? THEMES.light : THEMES.dark;
 }

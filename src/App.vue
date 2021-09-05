@@ -6,7 +6,7 @@
         :langs="langs"
         :theme="theme"
         :is-printing-available="isPrintingRouteAvailable"
-        @set-lang="setLang"
+        @set-lang="switchLang"
         @switch-theme="switchTheme"
       />
     </template>
@@ -35,13 +35,13 @@ import {
   THEMES,
   DEFAULT_THEME,
   saveTheme,
-  getSavedTheme
+  getDefautlTheme
 } from '@/helpers/themesHelper';
 import {
   LANGS,
   DEFAUTL_LANG,
   saveLang,
-  getSavedLang
+  getDefaultLanguage
 } from '@/helpers/langsHelper';
 import { nanoid } from 'nanoid';
 
@@ -57,23 +57,31 @@ export default {
     };
   },
   methods: {
+    // theme
     switchTheme() {
-      const newTheme = this.theme === THEMES.light ? THEMES.dark : THEMES.light;
-
-      this.updateBodyThemeClassName(newTheme);
-
-      this.theme = newTheme;
-      saveTheme(newTheme);
+      const theme = this.theme === THEMES.light ? THEMES.dark : THEMES.light;
+      this.setTheme(theme);
+      saveTheme(theme);
     },
-    updateBodyThemeClassName(newTheme) {
+    setTheme(theme) {
+      this.updateBodyThemeClassName(theme);
+      this.theme = theme;
+    },
+    updateBodyThemeClassName(theme) {
       document.body.classList.remove(`app-body_${this.theme}`);
-      document.body.classList.add(`app-body_${newTheme || this.theme}`);
+      document.body.classList.add(`app-body_${theme}`);
+    },
+
+    // lang
+    switchLang(lang) {
+      this.setLang(lang);
+      saveLang(lang);
     },
     setLang(lang) {
       this.lang = lang;
       this.$localization.setLocale(lang);
-      saveLang(lang);
     },
+
     onImageReady() {
       this.isPrintingRouteAvailable = true;
     },
@@ -99,9 +107,8 @@ export default {
     }
   },
   created() {
-    this.theme = getSavedTheme();
-    this.updateBodyThemeClassName();
-    this.setLang(getSavedLang());
+    this.setTheme(getDefautlTheme());
+    this.setLang(getDefaultLanguage());
   },
   components: { Layout, Header, Notifications }
 };
