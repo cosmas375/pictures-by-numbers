@@ -99,10 +99,7 @@ export default {
         this.generatePdf();
       }
     },
-    onError(error) {
-      if (error) {
-        console.log(error);
-      }
+    onError() {
       this.setPdfGenerationQueued(false);
       this.setResultReady(false);
     },
