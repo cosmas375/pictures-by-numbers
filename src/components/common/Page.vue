@@ -44,8 +44,6 @@ export default {
 .page {
   background-color: #fff;
   position: relative;
-  width: 100%;
-  height: 100%;
 
   &__svg {
     width: 100%;
