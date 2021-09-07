@@ -1,6 +1,7 @@
 module.exports = {
-  // https://github.com/neutrinojs/webpack-chain/tree/v4#getting-started
+  productionSourceMap: false,
   chainWebpack(config) {
+    // https://github.com/neutrinojs/webpack-chain/tree/v4#getting-started
     config.module.rule('js').test(/^((?!\.worker).)*\.js$/);
     config.module
       .rule('worker-loader')

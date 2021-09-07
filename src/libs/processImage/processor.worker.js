@@ -1,18 +1,16 @@
-import imageDataToColors from './steps/imageDataToColors';
-import colorsToRgbColors from './steps/colorsToRgbColors';
+import imageDataToRGBColors from './steps/imageDataToRGBColors';
 import generatePalette from './steps/generatePalette';
 import alignColorsToPalette from './steps/alignColorsToPalette';
 import colorsToMatrix from './steps/colorsToMatrix';
-import smooth from './steps/smooth';
-import outline from './steps/outline';
-import getLabelLocations from './steps/getLabelLocations';
-import matrixToColors from './steps/matrixToColors';
-import rgbColorsToColors from './steps/rgbColorsToColors';
+import smoothImage from './steps/smoothImage';
+import outlineImage from './steps/outlineImage';
+import getLabels from './steps/getLabels';
 import colorsToImageData from './steps/colorsToImageData';
+import paletteToColors from './steps/paletteToColors';
 import { log } from '@/libs/processImage/helpers/loggingHelper';
-import { OUTLINE_COLOR } from '@/libs/processImage/settings';
+import flat from '@/libs/processImage/helpers/flat';
 
-const OUTLINE_PALETTE = [{ r: 255, g: 255, b: 255, a: 255 }, OUTLINE_COLOR];
+const emit = postMessage;
 
 onmessage = async e => {
   log(`------------------ ${new Date()} ------------------`);
@@ -22,60 +20,52 @@ onmessage = async e => {
   const height = imageData.height;
 
   log('smoothing...');
-  const smoothedImage = smooth(imageData);
+  const smoothedImage = smoothImage(imageData);
 
   log('extracting colors...');
-  const colors = imageDataToColors(smoothedImage.data);
-
-  log('converting rgba to rgb...');
-  const rgbColors = colorsToRgbColors(colors);
+  const rgbColors = imageDataToRGBColors(smoothedImage.data);
 
   log('generating palette...');
   const palette = generatePalette(rgbColors);
 
+  emit({
+    type: 'palette',
+    data: palette
+  });
+
   log('aligning colors to palette...');
   const alignedColors = alignColorsToPalette(rgbColors, palette);
 
+  log('generating preview...');
+  const preview = colorsToImageData({
+    colors: paletteToColors(alignedColors, palette),
+    width: width,
+    height: height
+  });
+
+  emit({
+    type: 'preview',
+    data: preview
+  });
+
   log('transforming colors to matrix...');
-  const matrix = colorsToMatrix({
+  const colorsMatrix = colorsToMatrix({
     colors: alignedColors,
     width: width,
     height: height
   });
 
   log('outlining...');
-  const outlinedImage = outline(matrix);
+  const outlineMatrix = outlineImage(colorsMatrix);
 
   log('calculating labels locations...');
-  const labelsLocations = getLabelLocations(matrix);
+  const labels = getLabels(colorsMatrix);
 
-  log('transforming matrix to colors...');
-  const processedRgbColors = matrixToColors(outlinedImage);
-
-  log('converting rgb to rgba...');
-  const processedColors = rgbColorsToColors(
-    processedRgbColors,
-    OUTLINE_PALETTE
-  );
-
-  log('creating imageData...');
-  const result = colorsToImageData({
-    colors: processedColors,
-    width: width,
-    height: height
-  });
-
-  postMessage({
-    action: 'result',
-    value: {
-      outline: result,
-      labelsLocations,
-      palette,
-      color: colorsToImageData({
-        colors: rgbColorsToColors(matrixToColors(matrix), palette),
-        width: width,
-        height: height
-      })
+  emit({
+    type: 'outline',
+    data: {
+      image: { data: flat(outlineMatrix), width, height },
+      labels
     }
   });
 

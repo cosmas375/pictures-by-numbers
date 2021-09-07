@@ -1,8 +1,8 @@
 <template>
   <div class="theme-switch">
     <UIIcon
-      icon="el-icon-sunny"
-      size="2rem"
+      icon="light-theme"
+      size="2.4rem"
       @click="setLightTheme"
       class="theme-switch__icon"
     />
@@ -14,8 +14,8 @@
       class="theme-switch__switch"
     />
     <UIIcon
-      icon="el-icon-moon"
-      size="1.6rem"
+      icon="dark-theme"
+      size="2rem"
       @click="setDarkTheme"
       class="theme-switch__icon"
     />
@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
 
 .theme-switch {
   display: flex;
@@ -66,7 +66,7 @@ export default {
   &__icon {
     cursor: pointer;
     @include themed() {
-      color: t($text-color);
+      color: t($color);
       transition: color $theme-transition;
     }
   }

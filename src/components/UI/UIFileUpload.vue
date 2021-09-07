@@ -5,6 +5,7 @@
       :auto-upload="autoUpload"
       :drag="drag"
       :show-file-list="showFileList"
+      :list-type="listType"
       :on-change="onChange"
     >
       <slot></slot>
@@ -24,6 +25,7 @@ export default {
     showFileList: Boolean,
     drag: Boolean,
     limit: Number,
+    listType: String,
     onSuccess: Function,
     onChange: Function
   }
@@ -32,12 +34,21 @@ export default {
 
 <style lang="scss">
 @import '~element-plus/packages/theme-chalk/src/upload.scss';
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
+
+.ui-file-upload,
+.ui-file-upload > div,
+.ui-file-upload .el-upload {
+  width: 100%;
+  height: 100%;
+}
 
 .el-upload-dragger {
-  @include themed() {
-    background-color: t($file-uploader-bg-color);
-    transition: background-color $theme-transition;
+  width: 100%;
+  height: 100%;
+  border: none;
+  .el-icon-upload {
+    margin: 0;
   }
 }
 </style>

@@ -1,15 +1,12 @@
 <template>
-  <el-button :type="type" @click="$emit('click', $event)" class="ui-button">
+  <button @click="$emit('click', $event)" class="ui-button">
     <slot> </slot>
-  </el-button>
+  </button>
 </template>
 
 <script>
 export default {
   name: 'UIButton',
-  props: {
-    type: { type: String }
-  },
   emits: {
     click: null
   }
@@ -18,31 +15,28 @@ export default {
 
 <style lang="scss">
 @import '~element-plus/packages/theme-chalk/src/button.scss';
-@import '@/assets/scss/theming';
+@import '@/assets/scss/theming/theming';
+@import '@/assets/scss/responsiveness';
 
-.el-button {
+.ui-button {
+  padding: 1rem 2rem;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: background-color $theme-transition, color $theme-transition;
+
+  border: none;
+  border-radius: 0.5rem;
+
   @include themed() {
-    border-color: t($border-color);
-    background-color: t($file-uploader-bg-color);
-    transition: background-color $theme-transition,
-      border-color $theme-transition;
+    background-color: t($background-color-button);
+    color: t($color-button);
   }
 
   &:hover {
     @include themed() {
-      background-color: t($border-color);
-    }
-    & > span {
-      @include themed() {
-        color: t($text-color-hover);
-      }
-    }
-  }
-
-  & > span {
-    @include themed() {
-      color: t($text-color);
-      transition: color $theme-transition;
+      background-color: t($background-color-button-hover);
+      color: t($color-button-hover);
     }
   }
 }

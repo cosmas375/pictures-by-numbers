@@ -1,18 +1,16 @@
 import JSPDF from 'jspdf';
 import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
-
-const FORMATS = {
-  a4: { width: 210, height: 297 }
-};
+import { FORMATS, FORMATS_DATA } from '@/data/formats';
+import { LAYOUTS } from '@/helpers/layoutHelper';
 
 export default function generatePdf(data) {
   if (!data) {
     return;
   }
 
-  const { outline, color, palette } = data;
+  const { outline, palette, preview, source, settings } = data;
 
-  const imgPage = getImagePageData(outline);
+  const imgPage = getImagePageData(outline, settings.safetyPaddings);
   const imagePageParams = [
     'PNG',
     imgPage.x0,
@@ -29,22 +27,38 @@ export default function generatePdf(data) {
 
   doc.addImage(outline.src, ...imagePageParams);
 
-  addPalettePage(doc, palette);
+  if (settings.includePalette) {
+    addPalettePage(doc, palette);
+  }
 
-  doc.addPage(imgPage.format, imgPage.orientation);
-  doc.addImage(color.src, ...imagePageParams);
+  if (settings.includePreview) {
+    doc.addPage(imgPage.format, imgPage.orientation);
+    doc.addImage(preview.src, ...imagePageParams);
+  }
 
-  doc.save('My awesome artwork.pdf');
+  if (settings.includeSource) {
+    doc.addPage(imgPage.format, imgPage.orientation);
+    doc.addImage(source.src, ...imagePageParams);
+  }
+
+  doc.save(`${settings.fileName}.pdf`);
 }
 
-function getImagePageData(image) {
-  const format = 'a4';
-  const orientation = image.width > image.height ? 'landscape' : 'portrait';
+function getImagePageData(image, safetyPaddings) {
+  const format = FORMATS.A4;
+  const orientation =
+    image.width > image.height ? LAYOUTS.Landscape : LAYOUTS.Portrait;
   const sheetParams = {
     format: format,
     unit: 'mm',
-    width: FORMATS[format][orientation === 'landscape' ? 'height' : 'width'],
-    height: FORMATS[format][orientation === 'landscape' ? 'width' : 'height']
+    width:
+      FORMATS_DATA[format][
+        orientation === LAYOUTS.Landscape ? 'height' : 'width'
+      ],
+    height:
+      FORMATS_DATA[format][
+        orientation === LAYOUTS.Landscape ? 'width' : 'height'
+      ]
   };
 
   const sheetAspectRatio =
@@ -66,7 +80,7 @@ function getImagePageData(image) {
   const centeringMargin =
     (sheetParams[secondaryDimension] - image[secondaryDimension] * mmPerPx) / 2;
 
-  const mainDimensionMargin = 10;
+  const mainDimensionMargin = safetyPaddings;
   const secondaryDimensionMargin =
     (mainDimensionMargin / image[mainDimension]) * image[secondaryDimension];
 

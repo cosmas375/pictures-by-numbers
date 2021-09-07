@@ -36,6 +36,15 @@ function getHexFromRGBChannel(c) {
   return hex.length === 1 ? '0' + hex : hex;
 }
 
+export function HEXtoRGB(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  };
+}
+
 export function RGBtoHSV({ r, g, b }) {
   let rr, gg, bb, h, s;
   const rabs = r / 255;
