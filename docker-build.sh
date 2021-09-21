@@ -1,1 +1,1 @@
-docker build . -t paint-by-numbers
+docker build . -t stains_by

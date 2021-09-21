@@ -12,19 +12,19 @@ export const ROUTES = {
 };
 
 const routes = [
-  { name: ROUTES.Home, path: '/', component: Landing },
+  { path: '/', name: ROUTES.Home, component: Landing },
   {
     path: '/numbers',
     component: Generator,
     children: [
       {
         name: ROUTES.Upload,
-        path: '/numbers',
+        path: '',
         component: Upload
       },
       {
         name: ROUTES.Print,
-        path: '/numbers/print',
+        path: './print',
         component: Printing,
         beforeEnter: (to, from, next) => {
           if (from.name) {
@@ -35,6 +35,10 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: { name: ROUTES.Home }
   }
 ];
 const router = createRouter({
