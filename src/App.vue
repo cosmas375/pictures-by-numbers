@@ -1,5 +1,8 @@
 <template>
-  <Layout :class="`app app_${theme}`">
+  <Layout
+    :is-scroll-to-topButton-available="isScrollToTopButtonAvailable"
+    :class="`app app_${theme}`"
+  >
     <template #header>
       <Header
         :lang="lang"
@@ -43,6 +46,8 @@ import {
   saveLang,
   getDefaultLanguage
 } from '@/helpers/langsHelper';
+import { ROUTES } from '@/router';
+
 import { nanoid } from 'nanoid';
 
 export default {
@@ -55,6 +60,11 @@ export default {
       isPrintingRouteAvailable: false,
       notifications: []
     };
+  },
+  computed: {
+    isScrollToTopButtonAvailable() {
+      return this.$route.name === ROUTES.Home;
+    }
   },
   methods: {
     // theme

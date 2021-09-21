@@ -20,7 +20,8 @@ const ICONS_MAP = {
   close: 'el-icon-close',
   notification_info: 'el-icon-info',
   notification_error: 'el-icon-error',
-  try_it: 'el-icon-arrow-right'
+  try_it: 'el-icon-arrow-right',
+  scroll_to_top: 'el-icon-arrow-up'
 };
 
 export default {
