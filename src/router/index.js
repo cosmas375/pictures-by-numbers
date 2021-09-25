@@ -1,6 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {
+  createRouter,
+  createWebHistory,
+  createMemoryHistory
+} from 'vue-router';
+import isServer from '@/utils/isServer';
 
-import Landing from '@/views/Landing';
+const Landing = () => import('@/views/Landing');
 const Generator = () => import('@/views/Generator/Index');
 const Upload = () => import('@/views/Generator/Upload');
 const Printing = () => import('@/views/Generator/Printing');
@@ -41,9 +46,9 @@ const routes = [
     redirect: { name: ROUTES.Home }
   }
 ];
-const router = createRouter({
-  history: createWebHistory(),
-  routes
-});
+
+const history = isServer() ? createMemoryHistory() : createWebHistory();
+
+const router = createRouter({ routes, history });
 
 export default router;

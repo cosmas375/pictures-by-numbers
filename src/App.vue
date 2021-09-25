@@ -21,7 +21,9 @@
         @notify="showNotification"
       >
         <keep-alive>
-          <component :is="Component" />
+          <suspense>
+            <component :is="Component" />
+          </suspense>
         </keep-alive>
       </router-view>
       <Notifications :notifications="notifications" @hide="hideNotification" />
@@ -116,7 +118,7 @@ export default {
       );
     }
   },
-  created() {
+  beforeMount() {
     this.setTheme(getDefautlTheme());
     this.setLang(getDefaultLanguage());
   },

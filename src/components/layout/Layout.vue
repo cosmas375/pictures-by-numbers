@@ -163,6 +163,7 @@ body {
   &__scroll-to-top-icon {
     position: relative;
     bottom: 0.3rem;
+    z-index: 5;
   }
 }
 </style>

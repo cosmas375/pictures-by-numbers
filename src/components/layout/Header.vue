@@ -9,7 +9,7 @@
               :to="{ name: Routes.Home }"
               class="menu__link"
               :class="{
-                menu__link_active: this.activeRouteName === Routes.Home
+                menu__link_active: activeRouteName === Routes.Home
               }"
             >
               {{ $t('menu.home') }}
@@ -21,8 +21,8 @@
               class="menu__link"
               :class="{
                 menu__link_active:
-                  this.activeRouteName === Routes.Upload ||
-                  this.activeRouteName === Routes.Print
+                  activeRouteName === Routes.Upload ||
+                  activeRouteName === Routes.Print
               }"
             >
               {{ $t('menu.generator') }}
@@ -70,13 +70,6 @@
                 </div>
               </div>
             </UIPopover>
-            <Settings
-              :theme="theme"
-              :lang="lang"
-              :langs="langs"
-              @switch-theme="$emit('switch-theme')"
-              @set-lang="$emit('set-lang', $event)"
-            />
           </div>
         </div>
       </div>
@@ -106,7 +99,7 @@
               :to="{ name: Routes.Home }"
               class="menu__link"
               :class="{
-                menu__link_active: this.activeRouteName === Routes.Home
+                menu__link_active: activeRouteName === Routes.Home
               }"
             >
               {{ $t('menu.home') }}
@@ -118,8 +111,8 @@
               class="menu__link"
               :class="{
                 menu__link_active:
-                  this.activeRouteName === Routes.Upload ||
-                  this.activeRouteName === Routes.Print
+                  activeRouteName === Routes.Upload ||
+                  activeRouteName === Routes.Print
               }"
             >
               {{ $t('menu.generator') }}
