@@ -25,6 +25,10 @@ server.use(
   '/favicon.ico',
   express.static(path.join(__dirname, './dist/client', 'favicon.ico'))
 );
+server.use(
+  '/site.webmanifest',
+  express.static(path.join(__dirname, './dist/client', 'site.webmanifest'))
+);
 
 const indexTemplate = fs.readFileSync(
   path.join(__dirname, '/dist/client/index.html'),
