@@ -10,6 +10,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '~element-plus/packages/theme-chalk/src/dropdown-item.scss';
-</style>
+<style lang="scss"></style>

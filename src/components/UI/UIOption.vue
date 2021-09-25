@@ -14,6 +14,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '~element-plus/packages/theme-chalk/src/option.scss';
-</style>
+<style lang="scss"></style>

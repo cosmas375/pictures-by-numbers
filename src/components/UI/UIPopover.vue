@@ -26,8 +26,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~element-plus/packages/theme-chalk/src/popover.scss';
-
 .ui-popover {
   &__popover {
     min-width: auto !important;

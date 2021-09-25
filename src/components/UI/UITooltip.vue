@@ -16,7 +16,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '~element-plus/packages/theme-chalk/src/tooltip.scss';
-@import '~element-plus/packages/theme-chalk/src/common/transition.scss';
-</style>
+<style lang="scss"></style>

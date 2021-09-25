@@ -33,7 +33,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~element-plus/packages/theme-chalk/src/upload.scss';
 @import '@/assets/scss/theming/theming';
 
 .ui-file-upload,
