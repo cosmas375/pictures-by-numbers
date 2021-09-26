@@ -1,10 +1,11 @@
 import createApp from '@/main';
 
-export default context => {
-  return new Promise((resolve, reject) => {
+export default () => {
+  return new Promise(resolve => {
     const { app, router } = createApp();
-    router.push(context.url);
-    router.isReady().then(() => resolve(app));
-    router.onError(reject);
+    resolve({
+      app,
+      router
+    });
   });
 };

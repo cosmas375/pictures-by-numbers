@@ -9,8 +9,10 @@ function createApp() {
     .use(Localization)
     .use(UIKit)
     .use(router);
-
-  return { app, router };
+  return {
+    app,
+    router
+  };
 }
 
 export default createApp;
