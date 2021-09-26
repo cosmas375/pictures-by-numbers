@@ -1,5 +1,6 @@
 <template>
   <Layout
+    v-show="isMounted"
     :is-scroll-to-topButton-available="isScrollToTopButtonAvailable"
     :class="`app app_${theme}`"
   >
@@ -60,7 +61,8 @@ export default {
       lang: DEFAUTL_LANG,
       langs: LANGS,
       isPrintingRouteAvailable: false,
-      notifications: []
+      notifications: [],
+      isMounted: false
     };
   },
   computed: {
@@ -121,6 +123,9 @@ export default {
   beforeMount() {
     this.setTheme(getDefautlTheme());
     this.setLang(getDefaultLanguage());
+  },
+  mounted() {
+    this.isMounted = true;
   },
   components: { Layout, Header, Notifications }
 };
