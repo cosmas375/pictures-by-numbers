@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "server": "nodemon ./server.js localhost 8080",
+    "start": "node ./server.js localhost 8080",
     "build:client": "vue-cli-service build --dest dist/client",
     "build:server": "SSR=1 vue-cli-service build --dest dist/server",
     "build": "npm run build:client && npm run build:server",
