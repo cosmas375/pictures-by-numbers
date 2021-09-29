@@ -1,2 +1,2 @@
-docker build . -t stains_front && \
+docker build ./frontend/ -t stains_front && \
 docker-compose up -d
