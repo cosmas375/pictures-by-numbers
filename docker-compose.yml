@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80' # http
+      - '443:443' # https
+    container_name: proxy_nginx
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      # - ./logs:/var/log/nginx/
+  stains_front:
+    image: stains_front
+    container_name: stains_ssr
+    ports:
+      - '8080:8080'
