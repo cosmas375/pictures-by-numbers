@@ -1,20 +1,27 @@
 <template>
   <div class="preview">
-    <img
-      :src="require('@/assets/img/previews/preview.jpg')"
-      @load="onBaseLoad"
-      class="preview__base"
-      ref="base"
-    />
-    <img
-      :src="imageSrc"
-      @load="onPreviewLoad"
-      class="preview__image"
-      :style="{
-        ...transforms
-      }"
-      ref="preview"
-    />
+    <UISlider class="preview__slider">
+      <template #slides>
+        <UISlide>
+          <div class="preview__slide-content">
+            <img
+              :src="require('@/assets/img/previews/preview.jpg')"
+              @load="onBaseLoad"
+              class="preview__base"
+              ref="base"
+            />
+            <img
+              :src="imageSrc"
+              @load="onPreviewLoad"
+              class="preview__image"
+              :style="{
+                ...transforms
+              }"
+            />
+          </div>
+        </UISlide>
+      </template>
+    </UISlider>
   </div>
 </template>
 
@@ -30,8 +37,7 @@ export default {
     return {
       isBaseImageLoaded: false,
       isPreviewLoaded: false,
-      transforms: {},
-      imageCss: {}
+      transforms: {}
     };
   },
   computed: {
@@ -73,8 +79,6 @@ export default {
       const w = rect.width;
       const h = rect.height;
 
-      console.log(w, h);
-
       const origW = 2183;
       const origH = 3342;
       const points = [
@@ -83,17 +87,21 @@ export default {
         { x: 534, y: 2278 },
         { x: 1632, y: 2278 }
       ];
-      this.transforms = getCssTransform(
-        this.image,
-        points.map(point => {
-          const x = (point.x / origW) * w;
-          const y = (point.y / origH) * h;
-          return {
-            x,
-            y
-          };
-        })
-      );
+      this.transforms = {
+        ...getCssTransform(
+          this.image,
+          points.map(point => {
+            const x = (point.x / origW) * w;
+            const y = (point.y / origH) * h;
+            return {
+              x,
+              y
+            };
+          })
+        ),
+        top: `${base.offsetTop}px`,
+        left: `${base.offsetLeft}px`
+      };
     },
     addResizeEventListeners() {
       addEventListener('resize', this.calculateTransform);
@@ -116,14 +124,21 @@ export default {
 .preview {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+
+  &__slider {
+    height: 100%;
+  }
+  &__slide-content {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__base {
     max-width: 100%;
     max-height: 100%;
+    height: 100%;
     object-fit: contain;
   }
 

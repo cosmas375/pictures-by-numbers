@@ -182,7 +182,7 @@ export default {
         &__preview-block {
           max-width: 100%;
           max-height: 75%;
-          width: 100%;
+          width: 80%;
           height: 75%;
         }
         &__preview-controls {

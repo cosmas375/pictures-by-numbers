@@ -13,6 +13,8 @@ import UITooltip from '@/components/UI/UITooltip';
 import UIColorPicker from '@/components/UI/UIColorPicker';
 import UIInput from '@/components/UI/UIInput';
 import UICheckbox from '@/components/UI/UICheckbox';
+import UISlider from '@/components/UI/UISlider/UISlider';
+import UISlide from '@/components/UI/UISlider/UISlide';
 
 import {
   ElButton,
@@ -57,7 +59,9 @@ const components = {
   UITooltip,
   UIColorPicker,
   UIInput,
-  UICheckbox
+  UICheckbox,
+  UISlider,
+  UISlide
 };
 
 export default {
