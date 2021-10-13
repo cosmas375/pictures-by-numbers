@@ -37,10 +37,8 @@ export default {
   name: 'UISlider',
   mounted() {
     new Splide(this.$refs.slider, {
-      type: 'loop',
       perPage: 1,
       gap: '100%',
-      clones: 1,
       classes: {
         pagination: 'ui-slider__pagination_hidden'
       }
