@@ -29,6 +29,7 @@ server.use(
   '/site.webmanifest',
   express.static(path.join(__dirname, './dist/client', 'site.webmanifest'))
 );
+server.use('/robots.txt', express.static(path.join(__dirname, './robots.txt')));
 
 const indexTemplate = fs.readFileSync(
   path.join(__dirname, '/dist/client/index.html'),
