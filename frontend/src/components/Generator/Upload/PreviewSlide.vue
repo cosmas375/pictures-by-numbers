@@ -5,12 +5,14 @@
       'preview-slide_visible': isVisible
     }"
   >
-    <img
-      :src="baseImageSrc"
-      @load="onBaseLoad"
-      class="preview-slide__base-image"
-      ref="base"
-    />
+    <div class="preview-slide__wrap">
+      <img
+        :src="baseImageSrc"
+        @load="onBaseLoad"
+        class="preview-slide__base-image"
+        ref="base"
+      />
+    </div>
     <img
       :src="imageSrc"
       class="preview-slide__result-preview"
@@ -52,7 +54,6 @@ export default {
       const base = this.$refs.base;
 
       if (!base.complete || !base.naturalHeight) {
-        console.log('fuck');
         return;
       }
 
@@ -60,18 +61,18 @@ export default {
       const w = rect.width;
       const h = rect.height;
 
+      const transformedPoints = this.base.points.map(point => {
+        const x = (point.x / this.base.width) * w;
+        const y = (point.y / this.base.height) * h;
+        return {
+          x,
+          y
+        };
+      });
+      console.log(w, h);
+
       this.transforms = {
-        ...getCssTransform(
-          this.preview,
-          this.base.points.map(point => {
-            const x = (point.x / this.base.width) * w;
-            const y = (point.y / this.base.height) * h;
-            return {
-              x,
-              y
-            };
-          })
-        ),
+        ...getCssTransform(this.preview, transformedPoints),
         top: `${base.offsetTop}px`,
         left: `${base.offsetLeft}px`
       };

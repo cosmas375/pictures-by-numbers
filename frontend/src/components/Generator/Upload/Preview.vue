@@ -12,6 +12,9 @@
 
 <script>
 import PreviewSlide from '@/components/Generator/Upload/PreviewSlide';
+import previews from '@/data/previews';
+import { getLayout } from '@/helpers/layoutHelper';
+import getRandomNumbers from '@/utils/getRandomNumbers';
 
 export default {
   name: 'Preview',
@@ -20,19 +23,21 @@ export default {
   },
   computed: {
     demos() {
-      return [
-        {
-          src: require('@/assets/img/previews/preview.jpg'),
-          width: 2183,
-          height: 3342,
-          points: [
-            { x: 534, y: 694 },
-            { x: 1632, y: 694 },
-            { x: 534, y: 2278 },
-            { x: 1632, y: 2278 }
-          ]
-        }
-      ];
+      const images = previews[getLayout(this.image)];
+      const previewsCount = 2;
+      const randomNumbers = getRandomNumbers(
+        0,
+        images.length - 1,
+        previewsCount
+      );
+      return images
+        .filter((item, index) => randomNumbers.includes(index))
+        .map(item => {
+          return {
+            ...item,
+            src: require(`@/assets/img/previews/${item.src}`)
+          };
+        });
     }
   },
   components: {
