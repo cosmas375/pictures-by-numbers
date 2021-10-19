@@ -75,8 +75,8 @@ export default {
   &__arrows {
     position: absolute;
     top: calc(50% - 2rem);
-    left: -2rem;
-    width: calc(100% + 4rem);
+    left: -3rem;
+    width: calc(100% + 6rem);
     display: flex;
     align-items: center;
     justify-content: space-between;

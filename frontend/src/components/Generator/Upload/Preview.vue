@@ -2,9 +2,12 @@
   <div class="preview">
     <UISlider class="preview__slider">
       <template #slides>
-        <UISlide v-for="demo in demos" :key="demo.src">
-          <PreviewSlide :preview="image" :base="demo" />
-        </UISlide>
+        <PreviewSlide
+          v-for="(demo, index) in demos"
+          :key="index"
+          :preview="image"
+          :base="demo"
+        />
       </template>
     </UISlider>
   </div>
@@ -23,21 +26,23 @@ export default {
   },
   computed: {
     demos() {
-      const images = previews[getLayout(this.image)];
       const previewsCount = 2;
+      const images = previews[getLayout(this.image)];
       const randomNumbers = getRandomNumbers(
         0,
         images.length - 1,
         previewsCount
       );
-      return images
-        .filter((item, index) => randomNumbers.includes(index))
-        .map(item => {
-          return {
-            ...item,
-            src: require(`@/assets/img/previews/${item.src}`)
-          };
-        });
+      return [null].concat(
+        images
+          .filter((item, index) => randomNumbers.includes(index))
+          .map(item => {
+            return {
+              ...item,
+              src: require(`@/assets/img/previews/${item.src}`)
+            };
+          })
+      );
     }
   },
   components: {

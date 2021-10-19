@@ -1,12 +1,36 @@
 export function getCssTransform(image, points) {
   const transforms = getTransform(image, points);
-  const cssValue = `matrix3d(${transforms.join(', ')})`;
+  const cssValue = `matrix3d(${postProcess(transforms, image).join(', ')})`;
   return {
     transform: cssValue,
     '-webkit-transform': cssValue,
     '-moz-transform': cssValue,
     '-o-transform': cssValue
   };
+}
+
+function postProcess(transforms, image) {
+  const result = transforms.slice();
+
+  // scale manipulations
+  const scaleXIndex = 0;
+  const scaleYIndex = 5;
+  const scaleX = result[scaleXIndex];
+  const scaleY = result[scaleYIndex];
+  const minScale = Math.min(scaleX, scaleY);
+  const reducedScale = minScale * 0.9;
+  result[scaleXIndex] = reducedScale;
+  result[scaleYIndex] = reducedScale;
+
+  // shift due to scale manipulations
+  const offsetXIndex = 12;
+  const offsetYIndex = 13;
+  const shiftX = (image.width * (scaleX - reducedScale)) / 2;
+  const shiftY = (image.height * (scaleY - reducedScale)) / 2;
+  result[offsetXIndex] += shiftX;
+  result[offsetYIndex] += shiftY;
+
+  return result;
 }
 
 function getTransform(image, points) {

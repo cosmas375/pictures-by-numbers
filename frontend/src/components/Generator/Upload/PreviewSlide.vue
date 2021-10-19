@@ -1,26 +1,32 @@
 <template>
-  <div
+  <UISlide
     class="preview-slide"
     :class="{
       'preview-slide_visible': isVisible
     }"
   >
-    <div class="preview-slide__wrap">
+    <div class="preview-slide__block"></div>
+    <div class="preview-slide__block preview-slide__block_main">
       <img
+        v-if="base"
         :src="baseImageSrc"
         @load="onBaseLoad"
         class="preview-slide__base-image"
         ref="base"
       />
+      <img
+        :src="imageSrc"
+        class="preview-slide__result-preview"
+        :class="{
+          'preview-slide__result-preview_inscribed': base
+        }"
+        :style="{
+          ...transforms
+        }"
+      />
     </div>
-    <img
-      :src="imageSrc"
-      class="preview-slide__result-preview"
-      :style="{
-        ...transforms
-      }"
-    />
-  </div>
+    <div class="preview-slide__block"></div>
+  </UISlide>
 </template>
 
 <script>
@@ -52,6 +58,11 @@ export default {
     },
     calculateTransform() {
       const base = this.$refs.base;
+
+      if (!this.base) {
+        this.isVisible = true;
+        return;
+      }
 
       if (!base.complete || !base.naturalHeight) {
         return;
@@ -99,29 +110,46 @@ export default {
 @import '~@/assets/scss/theming/theming';
 
 .preview-slide {
-  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: opacity $theme-transition;
+  height: 100%;
 
   &_visible {
     opacity: 1;
   }
 
+  &__block {
+    height: 100%;
+    &_main {
+      height: 100%;
+      flex-grow: 1;
+    }
+  }
+
   &__base-image {
     max-width: 100%;
     max-height: 100%;
-    height: 100%;
     object-fit: contain;
   }
 
   &__result-preview {
-    transform-origin: 0 0;
-    position: absolute;
-    left: 0;
-    top: 0;
+    border-radius: 0.4rem;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+
+    &_inscribed {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform-origin: 0 0;
+      max-width: unset;
+      max-height: unset;
+      box-shadow: 0 0 1rem rgb(0, 0, 0, 12%);
+      opacity: 0.85;
+    }
   }
 }
 </style>
