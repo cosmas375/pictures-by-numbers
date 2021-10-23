@@ -1,35 +1,63 @@
 <template>
   <div class="preview">
-    <img :src="imageSrc" class="preview__image" />
+    <UISlider class="preview__slider">
+      <template #slides>
+        <PreviewSlide
+          v-for="(demo, index) in demos"
+          :key="index"
+          :preview="image"
+          :base="demo"
+        />
+      </template>
+    </UISlider>
   </div>
 </template>
 
 <script>
+import PreviewSlide from '@/components/Generator/Upload/PreviewSlide';
+import previews from '@/data/previews';
+import { getLayout } from '@/helpers/layoutHelper';
+import getRandomNumbers from '@/utils/getRandomNumbers';
+
 export default {
   name: 'Preview',
   props: {
     image: { type: Object, default: null }
   },
   computed: {
-    imageSrc() {
-      return this.image ? this.image.src : null;
+    demos() {
+      const previewsCount = 2;
+      const images = previews[getLayout(this.image)];
+      const randomNumbers = getRandomNumbers(
+        0,
+        images.length - 1,
+        previewsCount
+      );
+      return [null].concat(
+        images
+          .filter((item, index) => randomNumbers.includes(index))
+          .map(item => {
+            return {
+              ...item,
+              src: require(`@/assets/img/previews/${item.src}`)
+            };
+          })
+      );
     }
+  },
+  components: {
+    PreviewSlide
   }
 };
 </script>
 
 <style lang="scss">
 .preview {
-  max-width: 100%;
-  max-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
 
-  &__image {
-    max-width: 100%;
-    max-height: 100%;
-    box-shadow: 1.5rem 1rem 0.9rem rgba(0, 0, 0, 0.23);
+  &__slider {
+    height: 100%;
   }
 }
 </style>

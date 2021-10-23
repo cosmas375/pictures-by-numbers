@@ -1,7 +1,7 @@
 import JSPDF from 'jspdf';
 import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
 import { FORMATS, FORMATS_DATA } from '@/data/formats';
-import { LAYOUTS } from '@/helpers/layoutHelper';
+import { LAYOUTS, getLayout } from '@/helpers/layoutHelper';
 
 export default function generatePdf(data) {
   if (!data) {
@@ -46,8 +46,7 @@ export default function generatePdf(data) {
 
 function getImagePageData(image, safetyPaddings) {
   const format = FORMATS.A4;
-  const orientation =
-    image.width > image.height ? LAYOUTS.Landscape : LAYOUTS.Portrait;
+  const orientation = getLayout(image);
   const sheetParams = {
     format: format,
     unit: 'mm',
@@ -63,7 +62,7 @@ function getImagePageData(image, safetyPaddings) {
 
   const sheetAspectRatio =
     (sheetParams.width / sheetParams.height) **
-    (orientation === 'portrait' ? 1 : -1);
+    (orientation === LAYOUTS.Portrait ? 1 : -1);
   const aspectRatio = image.width / image.height;
 
   let mainDimension, secondaryDimension;
