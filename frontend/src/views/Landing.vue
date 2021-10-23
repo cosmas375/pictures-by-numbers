@@ -34,7 +34,7 @@
     </section>
     <div class="landing__section landing__section_scroll-further">
       <div class="landing__section-content landing__section-content_centered">
-        <div class="landing__text">
+        <div class="landing__text landing__text_centered">
           {{ $t('landing.ideas') }}
         </div>
       </div>
@@ -135,7 +135,7 @@ export default {
 
   &__section-content {
     position: relative;
-    width: 55rem;
+    max-width: 55rem;
     height: 100%;
     margin: 0 auto;
     padding: 0 1rem;
@@ -197,6 +197,10 @@ export default {
     &_flex {
       display: flex;
       align-items: center;
+    }
+
+    &_centered {
+      text-align: center;
     }
 
     & + .landing__text {
