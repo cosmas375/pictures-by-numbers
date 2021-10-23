@@ -1,7 +1,8 @@
 <template>
-  <div class="ui-icon">
-    <i :class="mappedIcon" :style="{ fontSize: size }"> </i>
-  </div>
+  <span class="ui-icon">
+    <i v-if="mappedIcon" :class="mappedIcon" :style="{ fontSize: size }"> </i>
+    <img v-else :src="image" class="ui-icon__img" :style="{ height: size }" />
+  </span>
 </template>
 
 <script>
@@ -32,10 +33,21 @@ export default {
   },
   computed: {
     mappedIcon() {
-      return ICONS_MAP[this.icon] || this.icon;
+      return ICONS_MAP[this.icon];
+    },
+    image() {
+      return this.icon;
     }
   }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.ui-icon {
+  display: inline-block;
+
+  &__img {
+    vertical-align: middle;
+  }
+}
+</style>

@@ -1,11 +1,11 @@
 <template>
   <div class="layout">
-    <div
+    <header
       class="layout__block layout__block_header"
       :class="{ layout__block_header_collapsed: isHeaderCollapsed }"
     >
       <slot name="header"></slot>
-    </div>
+    </header>
     <div ref="content" class="layout__block layout__block_content">
       <slot name="content"></slot>
 
