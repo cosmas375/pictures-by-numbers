@@ -80,7 +80,6 @@ export default {
           y
         };
       });
-      console.log(w, h);
 
       this.transforms = {
         ...getCssTransform(this.preview, transformedPoints),

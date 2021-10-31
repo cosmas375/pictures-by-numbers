@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY ./ .
-RUN npm run build
+RUN npm run build-ssr
 
 FROM node:10-alpine as production-stage
 WORKDIR /app
