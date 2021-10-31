@@ -1,0 +1,68 @@
+{
+  "menu": {
+    "home": "Home",
+    "generator": "Art",
+    "settings": "Settings"
+  },
+  "langs": {
+    "en": "English",
+    "ru": "Russian"
+  },
+  "upload": {
+    "uploader": {
+      "text": "Upload a file",
+      "tip": "jpg/png files with a size less than 2480 x 3508 pixels"
+    },
+    "error": {
+      "wrong_file_format": "Wrong file format!",
+      "too_large_image": "This image is too large!"
+    },
+    "loading": "Applying some magic...",
+    "get_pdf": "Get PDF",
+    "reset": "Reset upload"
+  },
+  "printing": {
+    "back_to_upload": "Back to upload",
+    "title": "PDF settings",
+    "pages_to_include": "Pages to include in your PDF:",
+    "outline": "Outline",
+    "palette": "Palette",
+    "preview": "Reference",
+    "source": "Source image",
+    "file_name": "File name:",
+    "default_file_name": "My awesome artwork",
+    "units": "mm",
+    "safety_paddings": "Safety paddings:",
+    "safety_paddings_hint": "Safety paddings hint",
+    "outline_color": "Outline color:",
+    "outline_color_hint": "Outline color hint",
+    "display_numbers": "Display numbers:",
+    "display_numbers_hint": "Display numbers hint",
+    "download": "Download",
+    "pdf_generation_in_progress": "PDF generation in progress..."
+  },
+  "landing": {
+    "hero": "Just <br> add <br> colors",
+    "greetings": "Hey there!",
+    "greetings_content_1": "Welcome to Stains.by - online generator of pictures by numbers!",
+    "explanation_1": "Are you dreaming of becoming an artist but still can't boast of the necessary skills? You’re in the right place!",
+    "explanation_2": "Thanks to our service, you can create your own painting with your own plot using materials that you like. All you have to do is upload the image you want to draw. And then, after applying some magic, you’ll get a picture with numbered areas and a palette for your future drawing.",
+    "try_it": "Try it now",
+    "ideas": "or scroll further, there might be something interesting...",
+    "why_its_cool": "Why is Stains.by so cool? Let's tell you now!",
+    "cool_1": "It is you who determine which plot to depict in your picture, instead of choosing from the proposed options;",
+    "cool_2": "Don't you want to bother with canvas? Not a problem! You can apply the resulting contour anywhere, fore example paper, fabric, etc .;",
+    "cool_3": "Don't like paints? It doesn't matter either! Now you can use watercolors, pencils, markers, or whatever that comes to hand.",
+    "not_enough": "Isn't that enough?",
+    "some_more_ideas": "Okay, here are some more ideas...",
+    "feature_interior_title": "Upgrade your interior!",
+    "feature_interior": "Self made pictures definitely look more pleasant than any photo. Isn’t it?",
+    "feature_gift": "Shh ... Just don't tell anyone, this will be our secret, okay? An unexpected gift is always a good idea ;)",
+    "feature_gift_secondary": "Not as good as this boy, but still...",
+    "feature_rules_title": "Surprise your friends!",
+    "feature_rules": "By the way, since you and I have become friends, we would be glad to take a look at your work. So don't forget to tag us on your Instagram posts.",
+    "instagram": "Yes, we have an Instagram account!",
+    "instagram_description": "Subscribing to it gives you about 100 points of inspiration, as the coolest and most unusual works will be published there. It will also allow you to be among the first to know about the new features of our service.",
+    "instagram_url": "https://instagram.com/stains_by"
+  }
+}
