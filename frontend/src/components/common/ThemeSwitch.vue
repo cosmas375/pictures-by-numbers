@@ -8,7 +8,6 @@
     />
     <UISwitch
       :value="isDarkThemeEnabled"
-      :inactive-text="$t('common.dark_mode')"
       active-color="#ffffff"
       @input="switchTheme"
       class="theme-switch__switch"

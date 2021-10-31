@@ -43,7 +43,8 @@ export default {
   emits: {
     'file-ready': null,
     'get-pdf': null,
-    'reset-upload': null
+    'reset-upload': null,
+    'upload-error': null
   },
   components: { Container, ImageUploader, Preview },
   computed: {

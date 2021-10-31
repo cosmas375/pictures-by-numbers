@@ -120,7 +120,10 @@ export default {
     }
 
     &_features {
-      background-color: #fff;
+      @include themed() {
+        background-color: t($background-color-landing-features);
+        transition: background-color $theme-transition;
+      }
       padding: 6.4rem 0;
     }
 

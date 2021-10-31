@@ -4,7 +4,7 @@
       <UIIcon
         :icon="getIcon(type)"
         size="1.6rem"
-        class="notification__type-icon"
+        :class="`notification__type-icon notification__type-icon_${type}`"
       />
     </div>
     <div class="notification__block notification__block_content">
@@ -42,12 +42,19 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@/assets/scss/theming/theming';
+
 .notification {
   display: flex;
   box-shadow: 0.4rem 0.4rem 2rem rgba(0, 0, 0, 0.2);
   padding: 1rem 2rem 1rem 1rem;
   border-radius: 0.5rem;
   min-width: 18rem;
+  @include themed() {
+    color: t($color);
+    background-color: t($background-color-notification);
+    transition: color $theme-transition, background-color $theme-transition;
+  }
 
   &__block {
     &_content {
@@ -62,14 +69,17 @@ export default {
 
   &__type-icon {
     &_error {
-      color: red;
+      @include themed() {
+        color: t($color-red);
+        transition: color $theme-transition;
+      }
     }
   }
 
   &__title {
     font-weight: bold;
     line-height: 1.4rem;
-    margin-top: 0.2rem;
+    margin-top: 0.1rem;
   }
 
   &__close-button {
