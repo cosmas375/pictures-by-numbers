@@ -2,7 +2,7 @@ $theme-transition: 0.3s;
 
 $themes: (
   light: (
-    src-logo: url('~@/assets/img/logo-dark.png'),
+    src-logo: url('~@/assets/img/logo-dark.webp'),
     color: black,
     color-red: #dc3d3d,
     color-secondary: rgb(81, 81, 81),
@@ -29,7 +29,7 @@ $themes: (
     background-color-lang-select-option-hover: #c0c4cc
   ),
   dark: (
-    src-logo: url('~@/assets/img/logo-light.png'),
+    src-logo: url('~@/assets/img/logo-light.webp'),
     color: #ededed,
     color-red: #dc3d3d,
     color-secondary: #b8b8b8,
