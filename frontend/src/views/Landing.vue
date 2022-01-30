@@ -110,7 +110,7 @@ export default {
       background-color: #000;
       display: flex;
       justify-content: center;
-      background-image: url('~@/assets/img/hero.png');
+      background-image: url('~@/assets/img/hero.webp');
       background-size: cover;
       background-repeat: no-repeat;
     }
@@ -195,7 +195,6 @@ export default {
       color: t($color);
       transition: color $theme-transition;
     }
-    user-select: none;
 
     &_flex {
       display: flex;

@@ -15,6 +15,7 @@ import UIInput from '@/components/UI/UIInput';
 import UICheckbox from '@/components/UI/UICheckbox';
 import UISlider from '@/components/UI/UISlider/UISlider';
 import UISlide from '@/components/UI/UISlider/UISlide';
+import UIRemovable from '@/components/UI/UIRemovable';
 
 import {
   ElButton,
@@ -61,7 +62,8 @@ const components = {
   UIInput,
   UICheckbox,
   UISlider,
-  UISlide
+  UISlide,
+  UIRemovable
 };
 
 export default {

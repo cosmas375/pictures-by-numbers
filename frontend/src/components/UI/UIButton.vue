@@ -1,5 +1,12 @@
 <template>
-  <button @click="$emit('click', $event)" class="ui-button">
+  <button
+    :disabled="disabled"
+    @click="$emit('click', $event)"
+    class="ui-button"
+    :class="{
+      'ui-button_disabled': disabled
+    }"
+  >
     <slot> </slot>
   </button>
 </template>
@@ -7,6 +14,9 @@
 <script>
 export default {
   name: 'UIButton',
+  props: {
+    disabled: Boolean
+  },
   emits: {
     click: null
   }
@@ -36,6 +46,22 @@ export default {
     @include themed() {
       background-color: t($background-color-button-hover);
       color: t($color-button-hover);
+    }
+  }
+
+  &_disabled {
+    cursor: default;
+
+    @include themed() {
+      background-color: t($background-color-button-disabled);
+      color: t($color-button-disabled);
+    }
+
+    &:hover {
+      @include themed() {
+        background-color: t($background-color-button-disabled);
+        color: t($color-button-disabled);
+      }
     }
   }
 }

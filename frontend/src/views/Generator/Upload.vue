@@ -16,6 +16,33 @@
       <div v-else :class="`upload__preview upload__preview_${previewLayout}`">
         <Preview :image="preview" class="upload__preview-block" />
         <div class="upload__preview-controls">
+          <div class="upload__palette">
+            <div class="upload__palette-colors">
+              <UIRemovable
+                v-for="(color, index) in customPalette"
+                :key="index"
+                :disabled="isColorsRemovingDisabled"
+                @remove="removeColor(index)"
+              >
+                <UIColorPicker
+                  :value="color"
+                  @input="setColor($event, index)"
+                />
+              </UIRemovable>
+              <UIButton
+                :disabled="isColorsAddingDisabled"
+                @click="addColor"
+                class="upload__palette-add-button"
+              >
+                <UIIcon icon="add" />
+              </UIButton>
+            </div>
+            <div class="upload__palette-controls" v-if="isCustomPaletteChanged">
+              <span @click="regeneratePreview" class="upload__reset-btn">
+                {{ $t('upload.update_preview') }}
+              </span>
+            </div>
+          </div>
           <UIButton @click="$emit('get-pdf')">
             {{ $t('upload.get_pdf') }}
           </UIButton>
@@ -34,17 +61,28 @@ import ImageUploader from '@/components/Generator/Upload/ImageUploader';
 import Preview from '@/components/Generator/Upload/Preview';
 import { getLayout } from '@/helpers/layoutHelper';
 
+const MAX_PALETTE_SIZE = 64;
+const MIN_PALETTE_SIZE = 2;
+
 export default {
   name: 'Upload',
   props: {
     source: { type: Object, default: null },
-    preview: { type: Object, default: null }
+    preview: { type: Object, default: null },
+    palette: { type: Array, default: () => [] }
   },
   emits: {
     'file-ready': null,
     'get-pdf': null,
     'reset-upload': null,
-    'upload-error': null
+    'upload-error': null,
+    'regenerate-preview': null
+  },
+  data() {
+    return {
+      customPalette: [],
+      isCustomPaletteChanged: false
+    };
   },
   components: { Container, ImageUploader, Preview },
   computed: {
@@ -53,6 +91,52 @@ export default {
         return;
       }
       return getLayout(this.preview);
+    },
+    isColorsRemovingDisabled() {
+      return this.customPalette.length <= MIN_PALETTE_SIZE;
+    },
+    isColorsAddingDisabled() {
+      return this.customPalette.length >= MAX_PALETTE_SIZE;
+    }
+  },
+  methods: {
+    updateCustomPalette() {
+      this.customPalette = this.palette ? this.palette.slice() : [];
+      this.isCustomPaletteChanged = false;
+    },
+    setColor(color, index) {
+      this.customPalette[index] = color;
+      this.isCustomPaletteChanged = true;
+    },
+    removeColor(target) {
+      if (this.customPalette.length <= MIN_PALETTE_SIZE) {
+        return;
+      }
+
+      this.customPalette = this.customPalette.reduce(
+        (result, item, index) =>
+          index === target ? result : result.concat([item]),
+        []
+      );
+      this.isCustomPaletteChanged = true;
+    },
+    addColor() {
+      if (this.customPalette.length >= MAX_PALETTE_SIZE) {
+        return;
+      }
+      this.customPalette = this.customPalette.concat(['#ffffff']);
+      this.isCustomPaletteChanged = true;
+    },
+    regeneratePreview() {
+      this.$emit('regenerate-preview', this.customPalette);
+    }
+  },
+  mounted() {
+    this.updateCustomPalette();
+  },
+  watch: {
+    palette() {
+      this.updateCustomPalette();
     }
   }
 };
@@ -91,6 +175,11 @@ export default {
           max-height: 100%;
           width: 60%;
           height: 100%;
+        }
+
+        &__preview-controls {
+          max-width: 40%;
+          width: 40%;
         }
       }
     }
@@ -170,6 +259,31 @@ export default {
   &__loader-text {
     margin-top: 1rem;
     font-size: 1.4rem;
+  }
+
+  &__palette {
+    width: 100%;
+    margin-bottom: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__palette-colors {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 2rem;
+    column-gap: 1rem;
+  }
+  &__palette-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 2rem;
+    row-gap: 1rem;
+  }
+  &__palette-add-button {
+    padding: 1rem;
   }
 }
 

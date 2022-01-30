@@ -19,7 +19,8 @@
     },
     "loading": "Applying some magic...",
     "get_pdf": "Get PDF",
-    "reset": "Reset upload"
+    "reset": "Reset upload",
+    "update_preview": "Update preview"
   },
   "printing": {
     "back_to_upload": "Back to upload",

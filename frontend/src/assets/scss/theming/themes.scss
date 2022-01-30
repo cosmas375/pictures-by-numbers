@@ -2,7 +2,7 @@ $theme-transition: 0.3s;
 
 $themes: (
   light: (
-    src-logo: url('~@/assets/img/logo-dark.png'),
+    src-logo: url('~@/assets/img/logo-dark.webp'),
     color: black,
     color-red: #dc3d3d,
     color-secondary: rgb(81, 81, 81),
@@ -16,8 +16,10 @@ $themes: (
     // UIButton
       color-button: white,
     color-button-hover: white,
+    color-button-disabled: white,
     background-color-button: #343434,
     background-color-button-hover: #5e5e5e,
+    background-color-button-disabled: #5e5e5e,
     // Layout
       background-color-header: white,
     background-color-content: #f8f8f8,
@@ -29,7 +31,7 @@ $themes: (
     background-color-lang-select-option-hover: #c0c4cc
   ),
   dark: (
-    src-logo: url('~@/assets/img/logo-light.png'),
+    src-logo: url('~@/assets/img/logo-light.webp'),
     color: #ededed,
     color-red: #dc3d3d,
     color-secondary: #b8b8b8,
@@ -43,8 +45,10 @@ $themes: (
     // UIButton
       color-button: #272a31,
     color-button-hover: #000000,
+    color-button-disabled: #e1e1e1,
     background-color-button: #f9f9f9,
     background-color-button-hover: #d8d8d8,
+    background-color-button-disabled: #b9b9b9,
     // Layout
       background-color-header: #313438,
     background-color-content: #272a31,
@@ -65,6 +69,7 @@ $color-secondary: 'color-secondary';
 $color-secondary-hover: 'color-secondary-hover';
 $color-button: 'color-button';
 $color-button-hover: 'color-button-hover';
+$color-button-disabled: 'color-button-disabled';
 
 $background-color-header: 'background-color-header';
 $background-color-content: 'background-color-content';
@@ -79,5 +84,6 @@ $background-color-lang-select-option: 'background-color-lang-select-option';
 $background-color-lang-select-option-hover: 'background-color-lang-select-option-hover';
 $background-color-button: 'background-color-button';
 $background-color-button-hover: 'background-color-button-hover';
+$background-color-button-disabled: 'background-color-button-disabled';
 
 $border-color: 'border-color';

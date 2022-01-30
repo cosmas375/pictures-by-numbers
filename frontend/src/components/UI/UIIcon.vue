@@ -1,6 +1,11 @@
 <template>
-  <span class="ui-icon">
-    <i v-if="mappedIcon" :class="mappedIcon" :style="{ fontSize: size }"> </i>
+  <span :style="{ fontSize: size, height: size }" class="ui-icon">
+    <i
+      v-if="mappedIcon"
+      :class="mappedIcon"
+      :style="{ fontSize: size, height: size }"
+    >
+    </i>
     <img v-else :src="image" class="ui-icon__img" :style="{ height: size }" />
   </span>
 </template>
@@ -22,7 +27,9 @@ const ICONS_MAP = {
   notification_info: 'el-icon-info',
   notification_error: 'el-icon-error',
   try_it: 'el-icon-arrow-right',
-  scroll_to_top: 'el-icon-arrow-up'
+  scroll_to_top: 'el-icon-arrow-up',
+  remove: 'el-icon-close',
+  add: 'el-icon-plus'
 };
 
 export default {
