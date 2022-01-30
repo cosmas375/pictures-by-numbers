@@ -3,7 +3,7 @@
     :source="source"
     :preview="preview"
     :outline="outline"
-    :palette="palette"
+    :palette="paletteHEX"
     :pdfSettings="pdfSettings"
     @file-ready="onFileReady"
     @upload-error="onUploadError"
@@ -12,6 +12,7 @@
     @set-settings="updatePdfSettings"
     @download="queuePdfGeneration"
     @back-to-upload="onBackToUpload"
+    @regenerate-preview="regeneratePreview"
   ></router-view>
   <GlobalOverlay v-if="isPdfGenerationQueued" class="generator__spinner">
     <UIIcon icon="loading" size="3.2rem" class="generator__spinner-icon" />
@@ -21,7 +22,7 @@
 
 <script>
 import GlobalOverlay from '@/components/common/GlobalOverlay';
-import processImage, { generateOutlineImage } from '@/libs/processImage';
+import { ImageProcessor, generateOutlineImage } from '@/libs/processImage';
 import { ROUTES } from '@/router';
 import generatePdf from '@/helpers/generatePdf';
 import { HEXtoRGB, RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
@@ -40,10 +41,10 @@ export default {
     return {
       uploadId: null,
       source: null,
+      palette: [],
       preview: null,
       outlineData: null,
       outline: null,
-      palette: null,
       pdfSettings: {
         includePalette: true,
         includePreview: true,
@@ -58,8 +59,8 @@ export default {
     };
   },
   computed: {
-    noScroll() {
-      return this.$route.name === ROUTES.Upload;
+    paletteHEX() {
+      return this.palette.map(color => RGBtoHEX(color));
     }
   },
   methods: {
@@ -67,12 +68,12 @@ export default {
       this.uploadId = nanoid();
       this.source = img;
       this.$emit('image-loaded');
-      await processImage(img, {
-        onPreviewReady: this.onPreviewReady,
-        onResultReady: this.onResultReady,
-        onError: this.onError,
-        uploadId: this.uploadId
+      this.processor = new ImageProcessor({
+        onPaletteReady: this.getCallback(this.onPaletteReady.bind(this)),
+        onPreviewReady: this.getCallback(this.onPreviewReady.bind(this)),
+        onOutlineReady: this.getCallback(this.onOutlineReady.bind(this))
       });
+      this.processor.generatePalette(img);
     },
     onUploadError(error) {
       this.$emit('notify', {
@@ -81,17 +82,29 @@ export default {
         duration: 3000
       });
     },
-    async onPreviewReady({ preview, palette, uploadId }) {
-      if (!this.uploadId || this.uploadId !== uploadId) {
-        return;
-      }
-      this.preview = preview;
-      this.palette = palette;
+    getCallback(f) {
+      const uploadId = this.uploadId;
+
+      return function() {
+        if (!this.uploadId || this.uploadId !== uploadId) {
+          return;
+        }
+
+        f(...arguments);
+      }.bind(this);
     },
-    async onResultReady({ outline, uploadId }) {
-      if (!this.uploadId || this.uploadId !== uploadId) {
-        return;
-      }
+    onPaletteReady(palette) {
+      this.isPaletteReady = true;
+      this.palette = palette;
+      this.processor.generatePreview();
+    },
+    onPreviewReady(preview) {
+      this.isPreviewReady = true;
+      this.preview = preview;
+      this.setResultReady(false);
+      this.processor.generateOutline();
+    },
+    async onOutlineReady(outline) {
       this.outlineData = outline;
       await this.generateOutline();
       this.setResultReady(true);
@@ -102,6 +115,12 @@ export default {
     onError() {
       this.setPdfGenerationQueued(false);
       this.setResultReady(false);
+    },
+    regeneratePreview(palette) {
+      const newPalette = palette.map(color => HEXtoRGB(color));
+      this.palette = newPalette;
+      this.preview = null;
+      this.processor.generatePreview(newPalette);
     },
     onResetUpload() {
       this.$emit('image-removed');

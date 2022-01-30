@@ -195,7 +195,6 @@ export default {
       color: t($color);
       transition: color $theme-transition;
     }
-    user-select: none;
 
     &_flex {
       display: flex;

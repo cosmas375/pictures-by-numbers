@@ -246,7 +246,6 @@
 import Container from '@/components/layout/Container';
 import Page from '@/components/common/Page';
 import { getLayout } from '@/helpers/layoutHelper';
-import { RGBtoHEX } from '@/libs/processImage/helpers/colorTransform';
 
 export default {
   name: 'Printing',
@@ -280,7 +279,7 @@ export default {
       return getLayout(this.source);
     },
     colors() {
-      return this.palette ? this.palette.map(color => RGBtoHEX(color)) : [];
+      return this.palette || [];
     }
   },
   methods: {
